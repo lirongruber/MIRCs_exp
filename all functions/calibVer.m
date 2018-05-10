@@ -19,19 +19,21 @@ pause(1)
 while  KbCheck(mouseNum)==0 % waits for mouse click
 end
 pause(2)
-for i=1:3000
+i=0;
+while i<30/TIME_RES
+    i=i+1;
     currStepTime= GetSecs;
-    if i<=1000
+    if i>=1 && i<10/TIME_RES+1
         DrawFormattedText(w, '+','center','center',[200 100 100]);
     else
-        if i>1000 && i<=2000
+        if i>=10/TIME_RES+1 && i<20/TIME_RES+1
             if sizeCal==1
                 DrawFormattedText(w, '+',plusPlace1(1),plusPlace1(2),[200 100 100]);
             else
                 DrawFormattedText(w, '+',plusPlace2(1),plusPlace2(2),[200 100 100]);
             end
         else
-            if i>2000 && i<=3000
+            if i>=20/TIME_RES+1
                 if sizeCal==1
                     DrawFormattedText(w, '+',wW-plusPlace1(1),wH-plusPlace1(2),[200 100 100]);
                 else
@@ -40,8 +42,6 @@ for i=1:3000
             end
         end
     end
-    
-    Screen('Flip', w);
     sample = Eyelink('NewestFloatSample');
     pd_cal(i) = sample.pa(eyeused);
     gazeX_cal(i) = sample.gx(eyeused);
@@ -51,8 +51,16 @@ for i=1:3000
     DrawFormattedText(w, 'X',gazeX_cal(i)-20,gazeY_cal(i)-30,textColor);
     Screen('Flip',w);
     if  KbCheck(mouseNum)
-        Gaze(floor((i-1)/1000)+1,1:2)=[gazeX_cal(i),gazeY_cal(i)];
-        break
+        Gaze(floor((i-1)/(10/TIME_RES))+1,1:2)=[gazeX_cal(i),gazeY_cal(i)];
+        if i<=10/TIME_RES
+            i=10/TIME_RES-1;
+        end
+        if i>10/TIME_RES && i<=20/TIME_RES
+            i=20/TIME_RES-1;
+        end
+        if i>20/TIME_RES
+            break
+        end
     end
     WaitSecs(TIME_RES-(GetSecs -currStepTime)); %if every loop will be less than 0.01sec
 end

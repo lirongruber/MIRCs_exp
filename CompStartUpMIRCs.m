@@ -9,14 +9,14 @@ function [SavingPath]=CompStartUpMIRCs
 %ADD FOR EACH COMPUTER!!!
 
 if exist('C:\Users\aslab\Documents\Liron\MIRCs_exp\','dir')
-    SavingPath='C:\Users\aslab\Documents\Liron\MIRCs_exp\raw_data\';
+    SavingPath='C:\Users\aslab\Documents\Liron\MIRCs_raw_data\';
     cd C:\Users\aslab\Documents\Liron\MIRCs_exp\
-    addpath (genpath('C:\toolbox\'))
+%     addpath (genpath('C:\toolbox\'))
     addpath (genpath('C:\Users\aslab\Documents\Liron\MIRCs_exp\'))
 end
 
 if exist('C:\Users\bnapp\Documents\MIRCs_exp\','dir')
-    SavingPath='C:\Users\bnapp\Documents\MIRCs_exp\raw_data\';
+    SavingPath='C:\Users\bnapp\Documents\MIRCs_exp\MIRCs_raw_data\';
     cd C:\Users\bnapp\Documents\MIRCs_exp
     addpath (genpath('C:\Users\bnapp\Documents\MIRCs_exp\'))
 end

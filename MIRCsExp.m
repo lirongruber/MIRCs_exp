@@ -7,11 +7,11 @@ clc
 subject='AA';%name of subject % AA defult 
 domEye='r'; % r or l
 
-eyetracking =0;% 0 for mouse tracking
+eyetracking =1;% 0 for mouse tracking
 
 % expType=0;full images (3 times)
-expType=10; %MIRCs (2 times with feedback) ->  full images
-% expType=101; % MIRCS fixation -> MIRCs ->  full images
+% expType=10; %MIRCs (2 times with feedback) ->  full images
+expType=101; % MIRCS fixation -> MIRCs ->  full images
 % expType=102; % MIRCS stabilized -> MIRCs ->  full images
 % expType=103; % subMIRCS -> MIRCs ->  full images
 
@@ -20,14 +20,14 @@ PIXEL2METER=0.000264583;
 IMAGE_LENGTH_PIX=round(tand(IMAGE_SIZE_DEG/2)/PIXEL2METER*2);
 
 NUM_OF_TRIALS=1;
-TRIAL_LENGTH=0.05; %minutes
-TIME_RES=0.002; 
+TRIAL_LENGTH=3; %seconds
+TIME_RES=0.001; 
 if expType==102
     TIME_RES=0.01;
 end
 
-TOTAL_TRIAL_TIME=TRIAL_LENGTH*60;%in seconds!
-FIXATION_TIME=2/TIME_RES; %in 10msec for imax
+TOTAL_TRIAL_TIME=TRIAL_LENGTH;%in seconds!
+FIXATION_TIME=2/TIME_RES; 
 DATA_SIZE=TOTAL_TRIAL_TIME/TIME_RES+FIXATION_TIME;% total time in (10)milsec;
 
 screenNumber = 2;
@@ -60,9 +60,9 @@ if eyetracking==1
     fix=[0,0];
 end
 %empty vectors to fill:
-pd_cal= zeros(1,300000);
-gazeX_cal= zeros(1,300000);
-gazeY_cal= zeros(1,300000);
+pd_cal= zeros(1,DATA_SIZE);
+gazeX_cal= zeros(1,DATA_SIZE);
+gazeY_cal= zeros(1,DATA_SIZE);
 
 Screen('FillRect', w, backgroundcolor);
 Screen('TextSize',w,50);
@@ -158,14 +158,16 @@ for rel_set={set1 , set2 , set3}
                     Screen('DrawTexture', w, PicTex,[],[round(gazeX(i)-IMAGE_LENGTH_PIX/2),round(gazeY(i)-IMAGE_LENGTH_PIX/2),round(gazeX(i)-IMAGE_LENGTH_PIX/2)+IMAGE_LENGTH_PIX,round(gazeY(i)-IMAGE_LENGTH_PIX/2)+IMAGE_LENGTH_PIX],[]);
                     Screen('Flip', w);
                 else
-                    if i==FIXATION_TIME && expType~=101
+                    if i==FIXATION_TIME && expType~=101 
                         Screen('DrawTexture', w, PicTex,[],[],[]);
                         Screen('Flip', w);
                     end
                 end
-                if expType==101 && i==FIXATION_TIME && sessionNum==1
+                if expType==101 && i==FIXATION_TIME 
                     Screen('DrawTexture', w, PicTex,[],[],[]);
+                    if sessionNum==1
                     DrawFormattedText(w, '+','center','center',textColor);
+                    end
                     Screen('Flip', w);
                 end
             end
@@ -186,14 +188,14 @@ for rel_set={set1 , set2 , set3}
                 [el]= calibration(w,backgroundcolor,textColor,mouseNum,domEye);
                 fix=[0,0];
                 [eyeused]=ELInit(edfFile);
-                [el,pd_cal,gazeX_cal,gazeY_cal,fix]=calibVer(el,edfFile,1,w,wW,wH,backgroundcolor,mouseNum,keyboardNum,textColor,0.01,eyeused,pd_cal,gazeX_cal,gazeY_cal,fix);
+                [el,pd_cal,gazeX_cal,gazeY_cal,fix]=calibVer(el,edfFile,1,w,wW,wH,backgroundcolor,mouseNum,keyboardNum,textColor,TIME_RES,eyeused,pd_cal,gazeX_cal,gazeY_cal,fix);
             end
         end
         
         if eyetracking==1
             [error,status4,status5]=ELFinish(edfFile);
         end
-        save(SavingFile,'subject','expType','pixelSize','pd','gazeX','gazeY','pd_cal','gazeX_cal','gazeY_cal','mx','my','missedSamples','timeCompleted','trialTime','myimgfile','fix','PicName','answer');
+        save(SavingFile,'subject','expType','TIME_RES','pixelSize','pd','gazeX','gazeY','pd_cal','gazeX_cal','gazeY_cal','mx','my','missedSamples','timeCompleted','trialTime','myimgfile','fix','PicName','answer');
         
         %clear for next session
         clear(  'pd','gazeX','gazeY','missedSamples','timeCompleted','trialTime','myimgfile','PicName','answer');
