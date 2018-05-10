@@ -1,6 +1,6 @@
 function [set1,set2,set3]=imagesToUse(expType)
 
-set3=dir([pwd '\ImagesForExp\fullImages']);
+set3=dir([pwd '\codes_only_repo\ImagesForExp\fullImages']);
 set2=[];
 set1=[];
 
@@ -17,13 +17,13 @@ if expType==0
 end
 
 if expType==10 || expType==101 || expType==102
-    set2=dir([pwd '\ImagesForExp\MIRCs']);
+    set2=dir([pwd '\codes_only_repo\ImagesForExp\MIRCs']);
     set1=set2;
 end
 
 if expType==103
-    set2=dir([pwd '\ImagesForExp\MIRCs']);
-    set1=dir([pwd '\ImagesForExp\subMIRCs']);
+    set2=dir([pwd '\codes_only_repo\ImagesForExp\MIRCs']);
+    set1=dir([pwd '\codes_only_repo\ImagesForExp\subMIRCs']);
 end
 
 
