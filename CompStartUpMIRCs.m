@@ -1,0 +1,35 @@
+
+function [SavingPath]=CompStartUpMIRCs
+% looking for the experiment directory-
+% deciding on which computer Im working.
+% set the path
+% run the defaults
+% output=where to save the data.
+
+%ADD FOR EACH COMPUTER!!!
+
+if exist('C:\Users\aslab\Documents\Liron\MIRCs_exp\','dir')
+    SavingPath='C:\Users\aslab\Documents\Liron\MIRCs_exp\raw_data\';
+    cd C:\Users\aslab\Documents\Liron\MIRCs_exp\
+    addpath (genpath('C:\toolbox\'))
+    addpath (genpath('C:\Users\aslab\Documents\Liron\MIRCs_exp\'))
+end
+
+if exist('C:\Users\bnapp\Documents\MIRCs_exp\','dir')
+    SavingPath='C:\Users\bnapp\Documents\MIRCs_exp\raw_data\';
+    cd C:\Users\bnapp\Documents\MIRCs_exp
+    addpath (genpath('C:\Users\bnapp\Documents\MIRCs_exp\'))
+end
+
+set(0,'DefaultAxesFontName', 'Arial')
+set(0,'defaultTextFontName', 'Arial')
+set(0,'DefaultAxesFontSize',18)
+set(0,'defaultlinelinewidth',2)
+set(0,'DefaultLineMarkerSize',12)
+set(0,'defaultfigurecolor',[1 1 1])
+% LATEX TEXT is default:
+set(0,'DefaultTextInterpreter','Latex')
+
+end
+
+
