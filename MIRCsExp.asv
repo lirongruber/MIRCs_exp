@@ -11,31 +11,24 @@ eyetracking =0;% 0 for mouse tracking
 
 % expType=0;full images (3 times)
 % expType=10; %MIRCs (2 times with feedback) ->  full images
-% expType=101; % MIRCS fixation -> MIRCs ->  full images
+expType=101; % MIRCS fixation -> MIRCs ->  full images
 % expType=102; % MIRCS stabilized -> MIRCs ->  full images
 % expType=103; % subMIRCS -> MIRCs ->  full images
-
-expType=0; subMIRCS -> MIRCs ->  full images
-% expType=10; %  MIRCs ->  full images -> subMIRCS
-% expType=100; % full images -> subMIRCS ->  MIRCs
-% expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
-% expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
 IMAGE_SIZE_DEG=3;
 PIXEL2METER=0.000264583;
 IMAGE_LENGTH_PIX=round(tand(IMAGE_SIZE_DEG/2)/PIXEL2METER*2);
 
-NUM_OF_TRIALS=1;% should be 10
+NUM_OF_TRIALS=1;
 TRIAL_LENGTH=3; %seconds
-FIXATION_LENGTH=2; %seconds
 TIME_RES=0.001; 
-if expType==12
+if expType==102
     TIME_RES=0.01;
 end
 
-TOTAL_TRIAL_TIME=TRIAL_LENGTH/TIME_RES;
-FIXATION_TIME=FIXATION_LENGTH/TIME_RES; 
-DATA_SIZE=TOTAL_TRIAL_TIME+FIXATION_TIME;% total time ;
+TOTAL_TRIAL_TIME=TRIAL_LENGTH;%in seconds!
+FIXATION_TIME=2/TIME_RES; 
+DATA_SIZE=TOTAL_TRIAL_TIME/TIME_RES+FIXATION_TIME;% total time in (10)milsec;
 
 screenNumber = 2;
 pixelSize=32;%original 32 for 'openWindow'
@@ -54,13 +47,11 @@ black=BlackIndex(screenNumber);
 gray=GrayIndex(screenNumber); % returns as default the mean gray value of screen
 
 backgroundcolor = gray;
-
-%sometimes needed for multi-screen mode:
+%%sometimes needed for multi-screen mode:
 Screen('Preference', 'SkipSyncTests', screenNumber);
 Screen('Preference', 'SuppressAllWarnings', screenNumber);
-% avoid Psychtoolbox's welcome screen
-Screen('Preference', 'VisualDebuglevel', 3); 
 
+Screen('Preference', 'VisualDebuglevel', 3); % avoid Psychtoolbox's welcome screen
 [w, windowRect]=Screen('OpenWindow',screenNumber, 0,[],pixelSize,2);
 [wW, wH]=WindowSize(w);
 if eyetracking==1
@@ -79,6 +70,7 @@ Screen('TextSize',w,50);
 %%starting exp
 HideCursor;
 globalClock = GetSecs;
+
 
 str_expType=num2str(expType);
 [set1,set2,set3]=imagesToUse(expType);
@@ -162,16 +154,16 @@ for rel_set={set1 , set2 , set3}
             
             
             if i>=FIXATION_TIME
-                if expType==12 
+                if expType==102 && sessionNum==1
                     Screen('DrawTexture', w, PicTex,[],[round(gazeX(i)-IMAGE_LENGTH_PIX/2),round(gazeY(i)-IMAGE_LENGTH_PIX/2),round(gazeX(i)-IMAGE_LENGTH_PIX/2)+IMAGE_LENGTH_PIX,round(gazeY(i)-IMAGE_LENGTH_PIX/2)+IMAGE_LENGTH_PIX],[]);
                     Screen('Flip', w);
                 else
-                    if i==FIXATION_TIME && expType~=11 
+                    if i==FIXATION_TIME && expType~=101 
                         Screen('DrawTexture', w, PicTex,[],[],[]);
                         Screen('Flip', w);
                     end
                 end
-                if expType==11 && i==FIXATION_TIME 
+                if expType==101 && i==FIXATION_TIME 
                     Screen('DrawTexture', w, PicTex,[],[],[]);
                     if sessionNum==1
                     DrawFormattedText(w, '+','center','center',textColor);

@@ -1,30 +1,31 @@
 function [set1,set2,set3]=imagesToUse(expType)
 
-set3=dir([pwd '\ImagesForExp\fullImages']);
-set2=[];
-set1=[];
+full=dir([pwd '\codes_only_repo\ImagesForExp\fullImages']);
+mircs=dir([pwd '\codes_only_repo\ImagesForExp\MIRCs']);
+sub=dir([pwd '\codes_only_repo\ImagesForExp\subMIRCs']);
 
-% expType=0;full images (3 times)
-% expType=10; %MIRCs (2 times with feedback) ->  full images
-
-% expType=101; % MIRCS fixation
-% expType=102; % MIRCS stabilized
-% expType=103; % subMIRCS
+% expType=0; subMIRCS -> MIRCs ->  full images
+% expType=10; %  MIRCs ->  full images -> subMIRCS
+% expType=100; % full images -> subMIRCS ->  MIRCs
+% expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
+% expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
 if expType==0
-    set2=set3;
-    set1=set3;
+    set1=sub;
+    set2=mircs;
+    set3=full;
 end
 
-if expType==10 || expType==101 || expType==102
-    set2=dir([pwd '\ImagesForExp\MIRCs']);
-    set1=set2;
+if expType>=10 && expType<100
+    set1=mircs;
+    set2=full;
+    set3=sub;
 end
 
-if expType==103
-    set2=dir([pwd '\ImagesForExp\MIRCs']);
-    set1=dir([pwd '\ImagesForExp\subMIRCs']);
+if expType>=100
+    set1=full;
+    set2=sub;
+    set3=mircs;
 end
-
 
 end

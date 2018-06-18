@@ -68,14 +68,14 @@ while ~exist('answer','var')
     end
 end
 
-if exp_type==10
-    line='\_+';
-    NamePic=regexp(PicName,line,'split');
-    NamePic=NamePic{1,1};
-    DrawFormattedText(w, NamePic,'center','center',textColor);
-    Screen('Flip', w);
-    pause(2)
-end
+% if exp_type==10
+%     line='\_+';
+%     NamePic=regexp(PicName,line,'split');
+%     NamePic=NamePic{1,1};
+%     DrawFormattedText(w, NamePic,'center','center',textColor);
+%     Screen('Flip', w);
+%     pause(2)
+% end
 
 if eyetracking==0
     HideCursor;
