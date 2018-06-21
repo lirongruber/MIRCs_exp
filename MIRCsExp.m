@@ -15,9 +15,9 @@ eyetracking =0;% 0 for mouse tracking
 % expType=102; % MIRCS stabilized -> MIRCs ->  full images
 % expType=103; % subMIRCS -> MIRCs ->  full images
 
-expType=0; subMIRCS -> MIRCs ->  full images
+% expType=0; %subMIRCS -> MIRCs ->  full images
 % expType=10; %  MIRCs ->  full images -> subMIRCS
-% expType=100; % full images -> subMIRCS ->  MIRCs
+expType=100; % full images -> subMIRCS ->  MIRCs
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
@@ -25,9 +25,9 @@ IMAGE_SIZE_DEG=3;
 PIXEL2METER=0.000264583;
 IMAGE_LENGTH_PIX=round(tand(IMAGE_SIZE_DEG/2)/PIXEL2METER*2);
 
-NUM_OF_TRIALS=1;% should be 10
-TRIAL_LENGTH=3; %seconds
-FIXATION_LENGTH=2; %seconds
+NUM_OF_TRIALS=10;% should be 13
+TRIAL_LENGTH=1; % should be 3 seconds
+FIXATION_LENGTH=1; %should be 2 seconds
 TIME_RES=0.001; 
 if expType==12
     TIME_RES=0.01;
@@ -81,11 +81,11 @@ HideCursor;
 globalClock = GetSecs;
 
 str_expType=num2str(expType);
-[set1,set2,set3]=imagesToUse(expType);
+[set0,set1,set2,set3]=imagesToUse(expType);
 sessionNum=0;
-for rel_set={set1 , set2 , set3}
+for rel_set={set0, set1 , set2 , set3}
     sessionNum=sessionNum+1;
-    for i=3:12
+    for i=3:length(rel_set{1,1})
         picsNames{1,i-2}=rel_set{1,1}(i).name;
     end
     [picOrder]=Shuffle(1:NUM_OF_TRIALS);
@@ -99,7 +99,10 @@ for rel_set={set1 , set2 , set3}
         disp(numTrial)
         myimgfile= picOrder{1,trial_num}; % rellevant picture
         PicName=myimgfile;
-        myimgfile=imread(myimgfile);
+        [myimgfile,map]=imread(myimgfile);
+        if sessionNum==1
+        myimgfile=ind2gray(myimgfile,map);
+        end
         myimgfile=imresize(myimgfile,[IMAGE_LENGTH_PIX IMAGE_LENGTH_PIX]);
         %empty vectors to fill:
         pd=zeros(1,DATA_SIZE); %pupil size
