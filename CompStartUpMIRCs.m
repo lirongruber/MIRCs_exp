@@ -17,7 +17,7 @@ end
 
 if exist('C:\Users\bnapp\Documents\MIRCs_exp\','dir')
     SavingPath='C:\Users\bnapp\Documents\MIRCs_exp\MIRCs_raw_data\';
-    cd C:\Users\bnapp\Documents\MIRCs_exp
+    cd C:\Users\bnapp\Documents\MIRCs_exp\codes_only_rep
     addpath (genpath('C:\Users\bnapp\Documents\MIRCs_exp\'))
 end
 

@@ -5,10 +5,10 @@ clear
 close all
 clc
 subject='AA';%name of subject % AA defult 
-domEye='r'; % r or l
+domEye='l'; % r or l
 
-eyetracking =0;% 0 for mouse tracking
-
+eyetracking =1;% 0 for mouse tracking
+% -old- not updated
 % expType=0;full images (3 times)
 % expType=10; %MIRCs (2 times with feedback) ->  full images
 % expType=101; % MIRCS fixation -> MIRCs ->  full images
@@ -16,8 +16,8 @@ eyetracking =0;% 0 for mouse tracking
 % expType=103; % subMIRCS -> MIRCs ->  full images
 
 % expType=0; %subMIRCS -> MIRCs ->  full images
-% expType=10; %  MIRCs ->  full images -> subMIRCS
-expType=100; % full images -> subMIRCS ->  MIRCs
+expType=10; %  MIRCs ->  full images -> subMIRCS
+% expType=100; % full images -> subMIRCS ->  MIRCs
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
@@ -25,9 +25,9 @@ IMAGE_SIZE_DEG=3;
 PIXEL2METER=0.000264583;
 IMAGE_LENGTH_PIX=round(tand(IMAGE_SIZE_DEG/2)/PIXEL2METER*2);
 
-NUM_OF_TRIALS=10;% should be 13
-TRIAL_LENGTH=1; % should be 3 seconds
-FIXATION_LENGTH=1; %should be 2 seconds
+NUM_OF_TRIALS=2;% should be 13
+TRIAL_LENGTH=3; % should be 3 seconds
+FIXATION_LENGTH=2; %should be 2 seconds
 TIME_RES=0.001; 
 if expType==12
     TIME_RES=0.01;
@@ -88,8 +88,8 @@ for rel_set={set0, set1 , set2 , set3}
     for i=3:length(rel_set{1,1})
         picsNames{1,i-2}=rel_set{1,1}(i).name;
     end
-    [picOrder]=Shuffle(1:NUM_OF_TRIALS);
-    picsNames=picsNames(1:NUM_OF_TRIALS);
+    [picOrder]=Shuffle(1:min(length(picsNames),NUM_OF_TRIALS));
+    picsNames=picsNames(1:min(length(picsNames),NUM_OF_TRIALS));
     [picOrder]=picsNames(picOrder);
     
     for trial_num=1:NUM_OF_TRIALS

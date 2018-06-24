@@ -1,10 +1,10 @@
 function [set0,set1,set2,set3]=imagesToUse(expType)
 
-set0=dir([pwd '\codes_only_repo\ImagesForExp\refImages']);
+set0=dir([pwd '\ImagesForExp\refImages']);
 
-full=dir([pwd '\codes_only_repo\ImagesForExp\fullImages']);
-mircs=dir([pwd '\codes_only_repo\ImagesForExp\MIRCs']);
-sub=dir([pwd '\codes_only_repo\ImagesForExp\subMIRCs']);
+full=dir([pwd '\ImagesForExp\fullImages']);
+mircs=dir([pwd '\ImagesForExp\MIRCs']);
+sub=dir([pwd '\ImagesForExp\subMIRCs']);
 % expType=0; subMIRCS -> MIRCs ->  full images
 % expType=10; %  MIRCs ->  full images -> subMIRCS
 % expType=100; % full images -> subMIRCS ->  MIRCs
