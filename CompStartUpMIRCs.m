@@ -16,8 +16,8 @@ if exist('C:\Users\aslab\Documents\Liron\MIRCs_exp\','dir')
 end
 
 if exist('C:\Users\bnapp\Documents\MIRCs_exp\','dir')
-    SavingPath='C:\Users\bnapp\Documents\MIRCs_exp\MIRCs_raw_data\';
-    cd C:\Users\bnapp\Documents\MIRCs_exp\codes_only_rep
+    SavingPath='C:\Users\bnapp\Documents\MIRCs_exp\data\';
+    cd C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo
     addpath (genpath('C:\Users\bnapp\Documents\MIRCs_exp\'))
 end
 

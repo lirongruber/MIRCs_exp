@@ -7,7 +7,7 @@ clc
 subject='AA';%name of subject % AA defult 
 domEye='l'; % r or l
 
-eyetracking =1;% 0 for mouse tracking
+eyetracking =0;% 0 for mouse tracking
 % -old- not updated
 % expType=0;full images (3 times)
 % expType=10; %MIRCs (2 times with feedback) ->  full images
