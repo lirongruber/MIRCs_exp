@@ -4,10 +4,10 @@ CompStartUpMIRCs;
 clear
 close all
 clc
-subject='AA';%name of subject % AA defult 
+subject='HL';%name of subject % AA defult 
 domEye='l'; % r or l
 
-eyetracking =1;% 0 for mouse tracking
+eyetracking =0;% 0 for mouse tracking
 % -old- not updated
 % expType=0;full images (3 times)
 % expType=10; %MIRCs (2 times with feedback) ->  full images
@@ -15,8 +15,8 @@ eyetracking =1;% 0 for mouse tracking
 % expType=102; % MIRCS stabilized -> MIRCs ->  full images
 % expType=103; % subMIRCS -> MIRCs ->  full images
 
-% expType=0; %subMIRCS -> MIRCs ->  full images
-expType=10; %  MIRCs ->  full images -> subMIRCS
+expType=0; %subMIRCS -> MIRCs ->  full images
+% expType=10; %  MIRCs ->  full images -> subMIRCS
 % expType=100; % full images -> subMIRCS ->  MIRCs
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
@@ -25,9 +25,9 @@ IMAGE_SIZE_DEG=3;
 PIXEL2METER=0.000264583;
 IMAGE_LENGTH_PIX=round(tand(IMAGE_SIZE_DEG/2)/PIXEL2METER*2);
 
-NUM_OF_TRIALS=2;% should be 13
-TRIAL_LENGTH=3; % should be 3 seconds
-FIXATION_LENGTH=2; %should be 2 seconds
+NUM_OF_TRIALS=13;% should be 13
+TRIAL_LENGTH=1; % should be 3 seconds
+FIXATION_LENGTH=1; %should be 2 seconds
 TIME_RES=0.001; 
 if expType==12
     TIME_RES=0.01;
@@ -92,7 +92,9 @@ for rel_set={set0, set1 , set2 , set3}
     picsNames=picsNames(1:min(length(picsNames),NUM_OF_TRIALS));
     [picOrder]=picsNames(picOrder);
     
-    for trial_num=1:NUM_OF_TRIALS
+    curr_NUM_OF_TRIALS=min(length(picsNames),NUM_OF_TRIALS);
+
+    for trial_num=1:curr_NUM_OF_TRIALS
         SavingFile=[SavingPath subject '_' num2str(sessionNum) '_' num2str(trial_num)  '_' num2str(expType) '.mat'];
         numTrial=num2str(trial_num);
         disp ( 'waiting to start trial:   ' )
@@ -194,7 +196,7 @@ for rel_set={set0, set1 , set2 , set3}
         isCurve=0;
         [goodCal,answer]=getAnswer(keyboardNum,textColor,screenNumber,eyetracking,expType,PicName,w,wW,wH,eyeused);
         
-        if trial_num~=NUM_OF_TRIALS
+        if trial_num~=curr_NUM_OF_TRIALS
             if goodCal==0
                 [el]= calibration(w,backgroundcolor,textColor,mouseNum,domEye);
                 fix=[0,0];
