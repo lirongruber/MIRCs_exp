@@ -122,12 +122,12 @@ for rel_set={set0, set1 , set2 , set3}
             if trial_num==1
                 sizeCal=1;
                 [el,pd_cal,gazeX_cal,gazeY_cal,fix]=calibVer(el,edfFile,sizeCal,w,wW,wH,backgroundcolor,mouseNum,keyboardNum,textColor,TIME_RES,eyeused,pd_cal,gazeX_cal,gazeY_cal,fix);
-            end
+            end            
         end
         if sessionNum==4 && trial_num==4
             DrawFormattedText(w, 'Get ready - click mouse to START (only 10 more...) ','center','center',textColor);
         else
-            DrawFormattedText(w, 'Get ready - click mouse to START ','center','center',textColor);
+        DrawFormattedText(w, 'Get ready - click mouse to START ','center','center',textColor);
         end
         Screen('Flip', w);
         while  KbCheck(mouseNum)==0 % waits for mouse click
