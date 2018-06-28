@@ -4,9 +4,9 @@ clc
 
 savePath='C:\Users\bnapp\Documents\MIRCs_exp\data\cleanData\';
 rel_folders=dir('C:\Users\bnapp\Documents\MIRCs_exp\data\rawData\');
-for sub_i=3%:length(rel_folders)
+for sub_i=3:length(rel_folders)
     sub=rel_folders(sub_i).name;
-    sub='EM';
+%     sub='EM';
     rel_files=dir(['C:\Users\bnapp\Documents\MIRCs_exp\data\rawData\' sub '\'] );
     for trial_i=3:length(rel_files)
         t=rel_files(trial_i).name;
@@ -28,6 +28,7 @@ for sub_i=3%:length(rel_folders)
         gazeY(gazeY>1500)=nan;
         gazeY(gazeY<-500)=nan;
 %         plot(gazeX,gazeY)
+%         axis([0 1980 0 1020])
         
         if max(isnan(gazeX))>0
 %         gazeX=fillmissing(gazeX,'linear');

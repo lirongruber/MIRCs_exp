@@ -9,7 +9,7 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition=' Yes'; % ' Yes' ' No' 'Both'
+Recognition='Both'; % ' Yes' ' No' 'Both'
 OnlyFirstSession=1;
 Sub=1;
 Mirc=0;
@@ -32,14 +32,14 @@ end
 t=0;
 didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
-for subjects= {'AA'}
+for subjects= {'EM','HL','YS'}
     files = dir(['C:\Users\bnapp\Documents\MIRCs_exp\data\cleanData\' subjects{1,1}]);
     for file = files'
         if strcmp(file.name,'.')==0 && strcmp(file.name,'..')==0
             currFile = file.name;
             currFile=regexp(currFile,'\_+','split');
             expNum=currFile{4}(1:end-4);
-            sessionNum=currFile(4);
+            sessionNum=currFile{2};
             if OnlyFirstSession==0 || (OnlyFirstSession==1 && strcmp(sessionNum,'2')==1)
                 if (Sub==1 && (strcmp(expNum,'0')==1 && strcmp(sessionNum,'2')==1 ...
                         || strcmp(expNum,'10')==1 && strcmp(sessionNum,'4')==1 ...
@@ -69,25 +69,16 @@ for subjects= {'AA'}
                         
                         NamePic=regexp(currFile.PicName,'\_+','split');
                         NamePic=NamePic{1,1};
-                        %                         % SHIFTING THE GAZE BY THE FIXATION PLUS POSSITION
-                        %                             wW=1920;
-                        %                             wH=1080;
-                        %                         diffX=wW/2-currFile.gazeX(151);
-                        %                         diffY=wH/2-currFile.gazeY(151);
-                        %                         currFile.gazeX=currFile.gazeX+diffX;
-                        %                         currFile.gazeY=currFile.gazeY+diffY;
-                        %                         %
+                        
                         % WITHOUT FIXATION TIME
-                        currFile.gazeX=currFile.gazeX(151:end);
-                        currFile.gazeY=currFile.gazeY(151:end);
+                        x=currFile.gazeX(2001:end);
+                        y=currFile.gazeY(2001:end);
                         %
                         if do_plot_images==1
                             imageRGB=ind2rgb(image,gray(256));
                             figure()
                             hold on
                             h=imshow(imageRGB);
-                            x=currFile.gazeX;
-                            y=currFile.gazeY;
                             %                             x=currFile.gazeX;
                             %                             y=currFile.gazeY;
                             z = zeros(size(x));
@@ -96,22 +87,21 @@ for subjects= {'AA'}
                                 'facecol','no',...
                                 'edgecol','interp',...
                                 'linew',1);
-                            %                                 colorbar
                             zoomcenter(941,545,6)
-                            plot(wW/2,wH/2,'+m','LineWidth',1)
+                            plot(screenS(2)/2,screenS(1)/2,'+m','LineWidth',1)
+                            
+                            if ~isnan(x(1))
                             plot(x(1),y(1),'+r','LineWidth',1)
-                            plot(x(150),y(150),'+r','LineWidth',1)
-                            set(gca,'position',[0 0 1 1],'units','normalized')
-                            
-                            
-                            %                             plot(currFile.gazeX,currFile.gazeY,'color',colormap)
-                            %                             plot(1920/2,1080/2,'.r', 'markersize', 20)
-                            %                         zoom(20)
+                            else
+                                plot(x(find(isnan(x)==0,1)),y(find(isnan(x)==0,1)),'+r','LineWidth',5)
+                            end
+%                             set(gca,'position',[0 0 1 1],'units','normalized')
+
                             title(NamePic)
                         end
                         
                         %                             [imdata,chan_h_pix,chan_v_pix,chan_h, chan_v,saccade_vec, n] =sacDiffAmosPHD(NamePic,currFile.gazeX,currFile.gazeY,image,doPlot);
-                        [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(0,imdata,[currFile.gazeX ; currFile.gazeY]);
+                        [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(0,imdata,[x ; y]);
                         
                         if ~isempty(find(saccade_vec,1))
                             [row ,col]=find(saccade_vec);
@@ -125,7 +115,7 @@ for subjects= {'AA'}
                             
                             saccade_vecs{t}=saccade_vec;
                             XY_vecs_pix{t}=[chan_h_pix;chan_v_pix];
-                            XY_vecs_deg{t}=[chan_h;chan_v];
+                            XY_vecs_deg{t}=[chan_h_deg;chan_v_deg];
                             
                             XY_vec_pix=XY_vecs_pix{t};
                             XY_vec_deg=XY_vecs_deg{t};
@@ -153,7 +143,7 @@ for subjects= {'AA'}
                             end
                         else
                             XY_vecs_pix{t}=[chan_h_pix;chan_v_pix];
-                            XY_vecs_deg{t}=[chan_h;chan_v];
+                            XY_vecs_deg{t}=[chan_h_deg;chan_v_deg];
                             XY_vec_pix=XY_vecs_pix{t};
                             XY_vec_deg=XY_vecs_deg{t};
                             [saccade_vec,drift_time_ms,drift_dist_degrees,drift_amp_degrees,drift_vel_deg2sec]=driftsPHD(saccade_vec,XY_vec_deg,XY_vec_pix,res,imdata);
