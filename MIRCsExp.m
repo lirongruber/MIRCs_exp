@@ -4,10 +4,10 @@ CompStartUpMIRCs;
 clear
 close all
 clc
-subject='EM';%name of subject % AA defult 
-domEye='l'; % r or l
+subject='YS';%name of subject % AA defult 
+domEye='r'; % r or l
 
-eyetracking =0;% 0 for mouse tracking
+eyetracking =1;% 0 for mouse tracking
 % -old- not updated
 % expType=0;full images (3 times)
 % expType=10; %MIRCs (2 times with feedback) ->  full images
