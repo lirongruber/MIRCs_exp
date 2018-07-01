@@ -16,6 +16,8 @@ function [el]= calibration(w,backgroundcolor,textColor,mouseNum,domEye)
     Eyelink('command','screen_phys_coords = -260, 147, 260, -147'); %screen vpixx is 52/29.4 cm
     Eyelink('command','simulation_screen_distance = 1000');%1000= 1 meter
     Eyelink('command','calibration_type = HV9');
+%     Eyelink('command','calibration_area_proportion = 0.9');
+%     Eyelink('command','validation_area_proportion = 0.9');
     el=EyelinkInitDefaults(w);
     
     if strcmp(domEye,'r')

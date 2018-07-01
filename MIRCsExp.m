@@ -4,7 +4,7 @@ CompStartUpMIRCs;
 clear
 close all
 clc
-subject='YS';%name of subject % AA defult 
+subject='AV';%name of subject % AA defult 
 domEye='r'; % r or l
 
 eyetracking =1;% 0 for mouse tracking
