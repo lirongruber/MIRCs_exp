@@ -7,7 +7,7 @@
 %         saccade_vec = vector containg all detected saccades : first row (indexes with saccades start points)
 %                                                               second row (length of saccades in samples)
 %                                                               third row (saccades intrusion in samples)
-function [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(doPlot,imdata,gaze)
+function [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(doPlot,imdata,gaze,rate,filterFlag)
 
 if nargin<1
     doPlot=1;
@@ -22,12 +22,15 @@ load('C:\Users\bnapp\Documents\tunnelledVisionPaper\analyzing\cleanedData\LS\LS_
 gaze=[gazeX ; gazeY];
 end
 
-rate=100; % Sample-Rate in Hz of the eye-Tracker : 0.01 msec, Hz=100;
 screenDistance=1; % distance from the screen in meters
-
 %
 chan_h_pix=gaze(1,:); % in pixels
 chan_v_pix=gaze(2,:); % in pixels
+% filter
+if filterFlag==1
+    chan_h_pix=sgolayfilt(chan_h_pix,1,9);
+    chan_v_pix=sgolayfilt(chan_v_pix,1,9);
+end
 
 % translating to degrees
 mid=size(imdata)./2;
@@ -45,7 +48,7 @@ sacc_parameters.saccade_peak_velocity = 16; %8,  deg/sec
 sacc_parameters.saccade_min_duration = 2;   % in msec
 sacc_parameters.saccade_angle_threshold = 30.0; % maximun angle within saccades (in degrees)
 
-sacc_parameters.merge_overshoot = 1; % 1 - mergeovershoot
+sacc_parameters.merge_overshoot = 0; % 1 - mergeovershoot
 sacc_parameters.overshoot_min_amp=0.5; % in fraction from full saccade minimum amplitude
 
 sacc_parameters.merge_intrusions = 0; % 1 - mergeintrussions
@@ -58,6 +61,7 @@ sacc_parameters.intrusion_angle_threshold = 90.0; % mimimum change in direction 
 if doPlot==1
     figure(1)
     imshow(imdata)
+    zoomcenter(961,541,6)
     hold on
     for i=1:n-1
         % drift 
@@ -65,6 +69,9 @@ if doPlot==1
         % sacc
         plot (chan_h_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),chan_v_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),'b','LineWidth',1.5)
     end
+    %first and last drift
+        plot (chan_h_pix(1:saccade_vec(1,1)),chan_v_pix(1:saccade_vec(1,1)),'c','LineWidth',1.5)
+        plot (chan_h_pix(saccade_vec(1,end)+saccade_vec(2,end):end),chan_v_pix(saccade_vec(1,end)+saccade_vec(2,end):end),'c','LineWidth',1.5)
     % first sacc green, last red:
     plot (chan_h_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),chan_v_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),'g','LineWidth',1.5)
     plot (chan_h_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),chan_v_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),'r','LineWidth',1.5)

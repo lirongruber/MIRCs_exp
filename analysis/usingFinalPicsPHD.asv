@@ -1,15 +1,13 @@
 % after creating finalPics:
 close all
 currColormap= stermap();
-close all
-f='C:\Users\bnapp\Documents\phd-pre-proposal-data\ImagesForExp\fullImages\';
-% f='C:\Users\bnapp\Documents\phd-pre-proposal-data\ImagesForExp\MIRCs\';
-% f='C:\Users\bnapp\Documents\phd-pre-proposal-data\ImagesForExp\subMIRCs\';
-
 % currColormap= jet;
+f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\fullImages\';
+f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRC\';
+f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\fullImages\';
 
-orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane'};
-for i=1:10
+orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};
+for i=1:13
     orderPicsNames{2,i}=i;
 end
 IMAGE_SIZE_DEG=3;
@@ -62,12 +60,12 @@ tilefigs;
 
 
 
-%%saving all figures withh their titles as names
-figHandles = get(0,'Children'); % gets the handles to all open figure
-
-for f = figHandles'
-    axesHandle = get(f,'Children'); % get the axes for each figure
-    titleHandle = get(axesHandle(1),'Title'); % gets the title for the first (or only) axes)
-    text = get(titleHandle,'String'); % gets the text in the title
-    saveas(f, text, 'jpg') % save the figure with the title as the file name
-end
+% %%saving all figures withh their titles as names
+% figHandles = get(0,'Children'); % gets the handles to all open figure
+% 
+% for f = figHandles'
+%     axesHandle = get(f,'Children'); % get the axes for each figure
+%     titleHandle = get(axesHandle(1),'Title'); % gets the title for the first (or only) axes)
+%     text = get(titleHandle,'String'); % gets the text in the title
+%     saveas(f, text, 'jpg') % save the figure with the title as the file name
+% end

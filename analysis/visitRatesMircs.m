@@ -3,7 +3,6 @@ function [finalPic]=visitRatesPHD(XY_vec_pix,imdata)
 
 ms=4;%0 is counting pixel pixel
 
-
 wW=1920;
 wH=1080;
 finalPic=zeros(size(imdata));
@@ -22,8 +21,6 @@ for i=1:length(XY_vec_pix)
     x4=max(Col(1),round(myrect(3))); x4=min(x4,Col(2)); x4=min(x4,wW); x4=max(x4,1);
 
     finalPic(y1:y2,x3:x4)=finalPic(y1:y2,x3:x4)+1;
-    
-    
 end
 
 % imshow(finalPic)
