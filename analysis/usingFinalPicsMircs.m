@@ -1,17 +1,17 @@
 % after creating finalPics:
-close all
+% close all
 % currColormap= stermap();
 currColormap= jet;
 
 % f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\fullImages\';
 % f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs\';
-% f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs\';
-f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\refImages\';
+f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs\';
+% f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\refImages\';
 
-% orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};
-% line='\_+';
-orderPicsNames={'ref_boat', 'ref_butterfly' , 'ref_camera' , 'ref_chair' , 'ref_cup' , 'ref_elephant','ref_flower','ref_helicopter','ref_lamp','ref_umbrella'};
-line='\.+';
+orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};
+line='\_+';
+% orderPicsNames={'ref_boat', 'ref_butterfly' , 'ref_camera' , 'ref_chair' , 'ref_cup' , 'ref_elephant','ref_flower','ref_helicopter','ref_lamp','ref_umbrella'};
+% line='\.+';
 
 for i=1:length(orderPicsNames)
     orderPicsNames{2,i}=i;
@@ -23,9 +23,11 @@ IMAGE_LENGTH_PIX=round(tand(IMAGE_SIZE_DEG/2)/PIXEL2METER*2);
 wW=1920;
 wH=1080;
 for i=1:length(finalPics)
-    final=zeros(size(finalPics{1,1}{1,1}));
+    final=zeros(1080,1920);
     for j=1:length(finalPics{1,i})
+        if ~isempty(finalPics{1,i})
         final=final+finalPics{1,i}{1,j};
+        end
     end
     m=max(max(final));
     final=final./m;

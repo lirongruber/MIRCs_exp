@@ -1,14 +1,12 @@
-% CONVERGENCE
+% CONVERGENCE WITHIN TRIAL
 clear
 close all
 
 paths={...
-    'C:\Users\bnapp\Documents\phd-pre-proposal\analysis\processedData\exp0_123_exp12_123_exp123_123_exp122_123RecogYes.mat',...
-    %     'C:\Users\bnapp\Documents\phd-pre-proposal\analysis\processedData\exp0_123_exp12_003_exp123_003_exp122_003RecogBoth.mat',...
-    %     'C:\Users\bnapp\Documents\phd-pre-proposal\analysis\processedData\exp0_100_exp12_000_exp123_000_exp122_000RecogBoth.mat',...
-    %     'C:\Users\bnapp\Documents\phd-pre-proposal\analysis\processedData\exp0_000_exp12_120_exp123_020_exp122_020RecogYes.mat',...
-    %     'C:\Users\bnapp\Documents\phd-pre-proposal\analysis\processedData\exp0_000_exp12_100_exp123_000_exp122_000RecogYes.mat',...
+    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc0Full0Ref0_recBoth.mat',...
+    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
     };
+
 methods={'fullImage' 'Mirc' 'subMirc' 'stabMirc'};
 methods2={'fullImage' 'mean' 'Mirc' 'mean' 'subMirc' 'mean' 'stabMirc' 'mean'};
 currcolor={'b','c'};
@@ -62,7 +60,7 @@ for group=1:length(paths)
     legi={'Number of Drift per trial (STD)'};
     legend(legi,'Fontsize',12)
     title('Drift velocities (all recognaized images)','Fontsize',20)
-    xlabel('rank [#]','Fontsize',18)
+    xlabel('rank','Fontsize',18)
     ylabel('velocity [deg/sec]','Fontsize',18)
 end
 tilefigs;

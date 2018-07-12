@@ -25,6 +25,9 @@ for i =0:size(saccade_vec,2)
         end
     end
     [len,~,~] = EULength(temp);
+    if isnan(len)
+        len=0;
+    end
     drift_amp_degrees(j)=len;
     drift_time_ms(j)=length(temp)*rate/1000; % x*10 milsec
     drift_dist_degrees(j)=EUDist(temp(1,:),temp(end,:));

@@ -10,14 +10,13 @@ close all
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
 Recognition='Both'; % ' Yes' ' No' 'Both'
-OnlyFirstSession=0;
-Sub=0;
+OnlyFirstSession=1;
+Sub=1;
 Mirc=0;
 Full=0;
-Ref=1;
-oneImage=0; % 0 for all , 1-13 for specific
+Ref=0;
 
-nameOfFile=['OnlyFirstSession' num2str(OnlyFirstSession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) '_Ref' num2str(Ref)];
+nameOfFile=['OnlyFirst' num2str(OnlyFirstSession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec'Recognition];
 orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};
 
 if Ref==1
@@ -35,7 +34,7 @@ end
 t=0;
 didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
-for subjects= {'EM','HL','YS','YB'}
+for subjects= {'EM','GG','GS','HL','NA','RB','SE','SG','TT','YB','YH','YS'}
     files = dir(['C:\Users\bnapp\Documents\MIRCs_exp\data\cleanData\' subjects{1,1}]);
     for file = files'
         if strcmp(file.name,'.')==0 && strcmp(file.name,'..')==0
@@ -168,10 +167,9 @@ end
 %% saving
 
 SavingFile=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\',nameOfFile];
-% save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-%     'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-%     'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-%     'num_of_sacc_per_sec','num_of_sacc');
-% SavingFile=['C:\Users\bnapp\Documents\phd-pre-proposal\analysis\processedData\FP\',nameOfFile];
+save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+    'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+    'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+    'num_of_sacc_per_sec','num_of_sacc');
 save([SavingFile  'FP'],'finalPics','-v7.3');
 tilefigs;
