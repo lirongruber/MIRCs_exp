@@ -10,10 +10,10 @@ close all
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
 Recognition='Both'; % ' Yes' ' No' 'Both'
-OnlyFirstSession=0;
+OnlyFirstSession=1;
 Sub=0;
-Mirc=0;
-Full=1;
+Mirc=1;
+Full=0;
 Ref=0;
 
 nameOfFile=['OnlyFirst' num2str(OnlyFirstSession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition];
@@ -26,7 +26,7 @@ end
 rate=1000;% 1000 Hz
 screen_dis=1;% meter
 PIXEL2METER=0.000264583;
-do_plot_images=0;
+do_plot_images=1;
 for i=1:length(orderPicsNames)
     orderPicsNames{2,i}=i;
 end
@@ -34,7 +34,7 @@ end
 t=0;
 didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
-for subjects= {'EM','GG','GS','HL','NA','RB','SE','SG','TT','YB','YH','YS'}
+for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','NA','NG','RB','SE','SG','TT','UK','YB','YH','YM','YS'}
     files = dir(['C:\Users\bnapp\Documents\MIRCs_exp\data\cleanData\' subjects{1,1}]);
     for file = files'
         if strcmp(file.name,'.')==0 && strcmp(file.name,'..')==0
@@ -81,7 +81,7 @@ for subjects= {'EM','GG','GS','HL','NA','RB','SE','SG','TT','YB','YH','YS'}
                         %
                         if do_plot_images==1
                             imageRGB=ind2rgb(image,gray(256));
-                            figure(10)
+                            figure()
                             hold on
                             h=imshow(imageRGB);
                             z = zeros(size(x));
@@ -101,11 +101,13 @@ for subjects= {'EM','GG','GS','HL','NA','RB','SE','SG','TT','YB','YH','YS'}
                             %                             set(gca,'position',[0 0 1 1],'units','normalized')
                             
                             %                             title(NamePic)
+                            colorbar
+                            saveppt('examples.ppt',[subjects{1} '_' currFile.answer])
                         end
                         
                         %                             [imdata,chan_h_pix,chan_v_pix,chan_h, chan_v,saccade_vec, n] =sacDiffAmosPHD(NamePic,currFile.gazeX,currFile.gazeY,image,doPlot);
                         filterFlag=1;
-                        plotFlag=0;
+                        plotFlag=1;
                         [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,imdata,[x ; y],rate,filterFlag);
                         
                         % 1.number of sacc
@@ -136,7 +138,7 @@ for subjects= {'EM','GG','GS','HL','NA','RB','SE','SG','TT','YB','YH','YS'}
                         drifts_dist_degrees{t}=drift_dist_degrees;
                         
                         %visit rates
-                        [finalPic]=visitRatesPHD(XY_vec_pix,imdata);
+                        [finalPic]=visitRatesMircs(XY_vec_pix,imdata);
                         for i=1:length(orderPicsNames)
                             if strcmp(orderPicsNames{1,i},NamePic)==1
                                 finalPics{i}{t}=finalPic;

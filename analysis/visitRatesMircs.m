@@ -1,7 +1,7 @@
 
-function [finalPic]=visitRatesPHD(XY_vec_pix,imdata)
+function [finalPic]=visitRatesMircs(XY_vec_pix,imdata)
 
-ms=4;%0 is counting pixel pixel
+ms=15;%0 is counting pixel pixel
 
 wW=1920;
 wH=1080;

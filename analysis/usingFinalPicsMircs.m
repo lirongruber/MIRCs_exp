@@ -4,8 +4,8 @@
 currColormap= jet;
 
 % f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\fullImages\';
-% f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs\';
-f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs\';
+f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs\';
+% f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs\';
 % f='C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\refImages\';
 
 orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};

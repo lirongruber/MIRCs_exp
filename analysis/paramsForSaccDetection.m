@@ -59,44 +59,45 @@ sacc_parameters.intrusion_angle_threshold = 90.0; % mimimum change in direction 
 
 %ploting:
 if doPlot==1
-    figure(1)
+    figure()
     imshow(imdata)
-    zoomcenter(961,541,6)
+    zoomcenter(961,541,4)
     hold on
     for i=1:n-1
         % drift 
-        plot (chan_h_pix(saccade_vec(1,i)+saccade_vec(2,i):saccade_vec(1,i+1)),chan_v_pix(saccade_vec(2,i)+saccade_vec(1,i):saccade_vec(1,i+1)),'c','LineWidth',1.5)
+        plot (chan_h_pix(saccade_vec(1,i)+saccade_vec(2,i):saccade_vec(1,i+1)),chan_v_pix(saccade_vec(2,i)+saccade_vec(1,i):saccade_vec(1,i+1)),'c','LineWidth',1.2)
         % sacc
-        plot (chan_h_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),chan_v_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),'b','LineWidth',1.5)
+        plot (chan_h_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),chan_v_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),'b','LineWidth',1.2)
     end
     %first and last drift
         plot (chan_h_pix(1:saccade_vec(1,1)),chan_v_pix(1:saccade_vec(1,1)),'c','LineWidth',1.5)
         plot (chan_h_pix(saccade_vec(1,end)+saccade_vec(2,end):end),chan_v_pix(saccade_vec(1,end)+saccade_vec(2,end):end),'c','LineWidth',1.5)
     % first sacc green, last red:
-    plot (chan_h_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),chan_v_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),'g','LineWidth',1.5)
-    plot (chan_h_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),chan_v_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),'r','LineWidth',1.5)
+    plot (chan_h_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),chan_v_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),'b','LineWidth',1.2)%g
+    plot (chan_h_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),chan_v_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),'b','LineWidth',1.2)%r
     
-    figure(2)
-    plot(chan_h_deg,'k')
-    hold on
-    figure(3)
-    plot(chan_v_deg,'k')
-    hold on
-    for i=1:n
-        figure(2)
-        temp1=zeros(size(chan_h_deg));
-        temp1(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i))=chan_h_deg(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i));
-        temp1(temp1==0)=nan;
-        plot(temp1,'b');
-        title('Horizontal')
-        figure(3)
-        temp2=zeros(size(chan_v_deg));
-        temp2(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i))=chan_v_deg(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i));
-        temp2(temp2==0)=nan;
-        plot(temp2,'b');
-        title('Vertical')
-    end
-    tilefigs;
+%     figure(200)
+%     plot(chan_h_deg,'k')
+%     hold on
+%     figure(300)
+%     plot(chan_v_deg,'k')
+%     hold on
+%     for i=1:n
+%         figure(200)
+%         temp1=zeros(size(chan_h_deg));
+%         temp1(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i))=chan_h_deg(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i));
+%         temp1(temp1==0)=nan;
+%         plot(temp1,'b');
+%         title('Horizontal')
+%         figure(300)
+%         temp2=zeros(size(chan_v_deg));
+%         temp2(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i))=chan_v_deg(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i));
+%         temp2(temp2==0)=nan;
+%         plot(temp2,'b');
+%         title('Vertical')
+%     end
+%     tilefigs;
 %     keyboard;
+saveppt('examples.ppt')
 end
 end
