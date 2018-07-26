@@ -31,8 +31,11 @@ if filterFlag==1
     chan_h_pix=sgolayfilt(chan_h_pix,1,9);
     chan_v_pix=sgolayfilt(chan_v_pix,1,9);
 end
+% figure(1)
+% plot(gaze(1,:)); hold on ; plot(gaze(2,:));
+% plot(chan_h_pix); plot(chan_v_pix);
+% hold off
 
-% translating to degrees
 mid=size(imdata)./2;
 chan_h_deg=(chan_h_pix-mid(2));
 chan_v_deg=(chan_v_pix-mid(1));
@@ -69,16 +72,19 @@ if doPlot==1
         % sacc
         plot (chan_h_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),chan_v_pix(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)),'b','LineWidth',1.2)
     end
-    %first and last drift
+    if n>0
+        %first and last drift
         plot (chan_h_pix(1:saccade_vec(1,1)),chan_v_pix(1:saccade_vec(1,1)),'c','LineWidth',1.5)
         plot (chan_h_pix(saccade_vec(1,end)+saccade_vec(2,end):end),chan_v_pix(saccade_vec(1,end)+saccade_vec(2,end):end),'c','LineWidth',1.5)
-    % first sacc green, last red:
-    plot (chan_h_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),chan_v_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),'b','LineWidth',1.2)%g
-    plot (chan_h_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),chan_v_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),'b','LineWidth',1.2)%r
-    
-%     figure(200)
-%     plot(chan_h_deg,'k')
-%     hold on
+        % first sacc green, last red:
+        plot (chan_h_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),chan_v_pix(saccade_vec(1,1):saccade_vec(1,1)+saccade_vec(2,1)),'b','LineWidth',1.2)%g
+        plot (chan_h_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),chan_v_pix(saccade_vec(1,n):saccade_vec(1,n)+saccade_vec(2,n)),'b','LineWidth',1.2)%r
+    else
+        plot (chan_h_pix,chan_v_pix,'c','LineWidth',1.5)
+    end
+    %     figure(200)
+    %     plot(chan_h_deg,'k')
+    %     hold on
 %     figure(300)
 %     plot(chan_v_deg,'k')
 %     hold on
@@ -99,5 +105,6 @@ if doPlot==1
 %     tilefigs;
 %     keyboard;
 saveppt('examples.ppt')
+close all
 end
 end
