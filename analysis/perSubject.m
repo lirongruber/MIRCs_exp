@@ -28,7 +28,7 @@ for t=1:2
         else
             title('Full images : Number of Saccades (per second)','Fontsize',20)
         end
-        axis([0 21 0 3.5])
+        axis([0 21 0 7.5])
         %
         subplot(2,2,t+2)
         curr_drifts_vel_deg2sec=[];
@@ -41,7 +41,7 @@ for t=1:2
         errorbar(i,mean(curr_drifts_vel_deg2sec),ste(curr_drifts_vel_deg2sec),'.','Color',currcolor{1},'LineWidth',2);
         set(gca, 'XTick', 1:20, 'XTickLabel', subjects,'Fontsize',12);
         title('Drift Speed' ,'Fontsize',20)
-        axis([0 21 0 3.5])
+        axis([0 21 0 7.5])
         
         %     h=histogram(curr_drifts_vel_deg2sec{i}(curr_drifts_vel_deg2sec{i}~=0),0:0.2:30,'Normalization','probability','FaceColor',currcolor{1});
         %     hold all

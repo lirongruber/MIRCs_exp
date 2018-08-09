@@ -44,6 +44,7 @@ t=0;
 didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
 for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'}
+%     for subjects={'AK'}
     files = dir(['C:\Users\bnapp\Documents\MIRCs_exp\data\cleanData\' subjects{1,1}]);
     for file = files'
         if strcmp(file.name,'.')==0 && strcmp(file.name,'..')==0
@@ -173,13 +174,13 @@ for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
             end
         end
     end
-    %for saving per subject
-    numberOfRelevantTrials=t;
-    SavingFile=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
-    save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-        'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-        'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-        'num_of_sacc_per_sec','num_of_sacc');
+% % %     %for saving per subject
+% % %     numberOfRelevantTrials=t;
+% % %     SavingFile=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
+% % %     save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+% % %         'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+% % %         'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+% % %         'num_of_sacc_per_sec','num_of_sacc');
 end
 numberOfRelevantTrials=t;
 didRecog=didRecog(1:t);

@@ -33,7 +33,7 @@ for i =0:size(saccade_vec,2)
     drift_dist_degrees(j)=EUDist(temp(1,:),temp(end,:));
     drift_vel_deg2sec(j)=drift_amp_degrees(j)/(drift_time_ms(j)/1000);
     
-    if  drift_amp_degrees(j)<minLengthofDrift || drift_time_ms(j)< minDriftTimeMs || drift_vel_deg2sec(j)>maxDriftVel
+    if  drift_amp_degrees(j)<minLengthofDrift || drift_time_ms(j)< minDriftTimeMs || drift_vel_deg2sec(j)>maxDriftVel || max(max(isnan(temp)))>0
         drift_amp_degrees(j)=0;
         drift_vel_deg2sec(j)=0;
         drift_time_ms(j)=0;
