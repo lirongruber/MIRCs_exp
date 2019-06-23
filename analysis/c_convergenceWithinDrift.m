@@ -2,21 +2,25 @@
 clear
 close all
 
-paths={...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat',...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat',...
-    };
+% paths={...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat',...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat',...
+%     };
 % paths={...
 %     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\NG_OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat',...
 %     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\YS_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat',...
 %     };
+paths={...
+    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc1Full0Ref0_rec Yes.mat',...
+    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc1Full0Ref0_rec No.mat',...
+    };
 
 methods={'fullImage' 'Mirc' 'subMirc' 'stabMirc'};
 methods2={'fullImage' 'mean' 'Mirc' 'mean' 'subMirc' 'mean' 'stabMirc' 'mean'};
 currcolor={'b','c'};
 
-windowAvSize_forMean=5;%1
-windowAvSize_forStd=5;%3
+windowAvSize_forMean=10;%1
+windowAvSize_forStd=10;%3
 
 for group=1:length(paths)
     MeanVel=[];
@@ -122,8 +126,9 @@ for group=1:length(paths)
     hold on
     plot(nanmean(MeanVel),'k')
     legend('MIRCS','','subMIRCs','')
-    axis([0 1000 2 7])
+    axis([0 400 2 7.5])
     xlabel('Time within fixation pause [ms]','FontSize', 20)
+    ylabel('speed [deg/sec]','FontSize', 20)
     title('Inst Speed')
     
     figure(2)

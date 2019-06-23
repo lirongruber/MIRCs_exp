@@ -52,6 +52,7 @@ i = 1; % index for current sample number [ 1<= i < length(filtered_chan_h_deg-1)
 n = 0; % number of saccades
 
 while i < length(filtered_chan_h_deg) - 2
+
     if sample_speed_vec(i) < minimum_velocity % below thereshold for minimal velocity
         i = i + 1;
         continue;
@@ -226,7 +227,7 @@ if debugFlg == 1
     plot((i+j)/rate,sample_speed_vec(i+j),'m+','Markersize',5,'LineWidth',2);
     subplot(4,1,4)
     plot((i+j)/rate,sample_difangle_vec(i+j),'m+','Markersize',5,'LineWidth',2);
-    %         keyboard;
+%             keyboard;
 end
 end
 

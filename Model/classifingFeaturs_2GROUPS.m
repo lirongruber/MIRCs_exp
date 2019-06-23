@@ -1,0 +1,300 @@
+% plotting "class"... (TWO GROUPS)
+close all
+colors={[2,122,164]./256,[245,218,95]./256,[65,173,73]./256,[244,147,31]./256}; % blue yellow green orange
+folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
+% colors={[2,122,164]./256,[244,147,31]./256}; % blue yellow green orange
+
+% folders={'MIRCs Yes','subMIRCs No'};
+% class={ class{1,:} ; class{4,:} };
+
+numofSubPlot=size(folders,2)+1;
+for c=1:size(class,1)
+    numOfinfoRec=nan(size(class,2),30);
+    numOfinfoRec_rev=nan(size(class,2),30);
+    targetSpeed=nan(size(class,2),30);
+    targetSpeed_rev=nan(size(class,2),30);
+    insAct_Speed=nan(size(class,2),30);
+    insAct_Speed_rev=nan(size(class,2),30);
+    varSpeed=nan(size(class,2),30);
+    varSpeed_rev=nan(size(class,2),30);
+    infoPerRec=nan(size(class,2),30);
+    infoPerRec_rev=nan(size(class,2),30);
+    ampFixation=nan(size(class,2),30);
+    ampFixation_rev=nan(size(class,2),30);
+    distFixation=nan(size(class,2),30);
+    distFixation_rev=nan(size(class,2),30);
+    varInfoPerRec=nan(size(class,2),30);
+    varInfoPerRec_rev=nan(size(class,2),30);
+   
+    for t=1:size(class,2)
+        currT=class(c,t);
+        currT=currT{1,1};
+        if ~isempty(currT)
+            %number of info receptors
+            numOfinfoRec(t,1:size(currT.numOfinfoRec,2))=currT.numOfinfoRec;
+            numOfinfoRec_rev(t,1:size(currT.numOfinfoRec,2))=flip(currT.numOfinfoRec);
+            
+            % mean rec activations
+            infoPerRec(t,1:size(currT.meanInfoPerRec,2))=currT.meanInfoPerRec;
+            infoPerRec_rev(t,1:size(currT.meanInfoPerRec,2))=flip(currT.meanInfoPerRec);
+            
+            %speed
+            targetSpeed(t,1:size(currT.targetSpeed,2))=currT.targetSpeed;
+            targetSpeed_rev(t,1:size(currT.targetSpeed,2))=flip(currT.targetSpeed);
+            
+            % amp
+            ampFixation(t,1:size(currT.ampFixation,2))=currT.ampFixation;
+            ampFixation_rev(t,1:size(currT.ampFixation,2))=flip(currT.ampFixation);
+            
+            % dist
+            distFixation(t,1:size(currT.distFixation,2))=currT.distFixation;
+            distFixation_rev(t,1:size(currT.distFixation,2))=flip(currT.distFixation);
+            
+            %final ins_act
+            insAct_Speed(t,1:size(currT.finalInsInfoPerRec,2))=currT.finalInsInfoPerRec./currT.finalInsSpeed;
+            insAct_Speed_rev(t,1:size(currT.finalInsInfoPerRec,2))=flip(currT.finalInsInfoPerRec)./flip(currT.finalInsSpeed);
+           
+            % var activations
+            varInfoPerRec(t,1:size(currT.varInfoPerRec,2))=currT.varInfoPerRec;
+            varInfoPerRec_rev(t,1:size(currT.varInfoPerRec,2))=flip(currT.varInfoPerRec);
+            
+            % var speed
+            varSpeed(t,1:size(currT.verSpeed,2))=currT.verSpeed;
+            varSpeed_rev(t,1:size(currT.verSpeed,2))=flip(currT.verSpeed);
+           
+        end
+        
+    end
+    %1
+    %     numOfinfoRec=numOfinfoRec(sum(isnan(numOfinfoRec'))~=size(numOfinfoRec,2),:);
+    numOfinfoRec=numOfinfoRec(:,sum(isnan(numOfinfoRec))<size(numOfinfoRec,1));
+    numOfinfoRec_rev=numOfinfoRec_rev(:,sum(isnan(numOfinfoRec_rev))<size(numOfinfoRec_rev,1));
+    %2
+    infoPerRec=infoPerRec(:,sum(isnan(infoPerRec))<size(infoPerRec,1));
+    infoPerRec_rev=infoPerRec_rev(:,sum(isnan(infoPerRec_rev))<size(infoPerRec_rev,1));
+    %3
+    targetSpeed=targetSpeed(:,sum(isnan(targetSpeed))<size(targetSpeed,1));
+    targetSpeed_rev=targetSpeed_rev(:,sum(isnan(targetSpeed_rev))<size(targetSpeed_rev,1));
+    %8
+    insAct_Speed=insAct_Speed(:,sum(isnan(insAct_Speed))<size(insAct_Speed,1));
+    insAct_Speed_rev=insAct_Speed_rev(:,sum(isnan(insAct_Speed_rev))<size(insAct_Speed_rev,1));
+    %20
+    varInfoPerRec=varInfoPerRec(:,sum(isnan(varInfoPerRec))<size(varInfoPerRec,1));
+    varInfoPerRec_rev=varInfoPerRec_rev(:,sum(isnan(varInfoPerRec_rev))<size(varInfoPerRec_rev,1));
+    %30
+    varSpeed=varSpeed(:,sum(isnan(varSpeed))<size(varSpeed,1));
+    varSpeed_rev=varSpeed_rev(:,sum(isnan(varSpeed_rev))<size(varSpeed_rev,1));
+    %6
+    ampFixation=ampFixation(:,sum(isnan(ampFixation))<size(ampFixation,1));
+    ampFixation_rev=ampFixation_rev(:,sum(isnan(ampFixation_rev))<size(ampFixation_rev,1));
+    %7
+    distFixation=distFixation(:,sum(isnan(distFixation))<size(distFixation,1));
+    distFixation_rev=distFixation_rev(:,sum(isnan(distFixation_rev))<size(distFixation_rev,1));
+    
+    figure(1) %number of info receptors
+    subplot(2,numofSubPlot,c)
+    hold on
+    plot(numOfinfoRec','.','color','k')
+%     M=nanmean(numOfinfoRec);
+%     S=nanstd(numOfinfoRec).*3;
+    M=nanmean(numOfinfoRec(:));
+    S=nanstd(numOfinfoRec(:))*3;
+    numOfinfoRec(~((numOfinfoRec<= M+S)&(numOfinfoRec>= M-S)))=nan;
+    plot(numOfinfoRec','.','color',colors{c})
+    plot(nanmedian(numOfinfoRec),'color',colors{c})
+    
+    subplot(2,numofSubPlot,c+numofSubPlot)
+    hold on
+    plot(numOfinfoRec_rev','.','color','k')
+    M=nanmean(numOfinfoRec_rev(:));
+    S=nanstd(numOfinfoRec_rev(:))*3;
+    numOfinfoRec_rev(~((numOfinfoRec_rev<= M+S)&(numOfinfoRec_rev>= M-S)))=nan;
+    plot(nanmedian(numOfinfoRec_rev),'color',colors{c})
+    plot(numOfinfoRec_rev','.','color',colors{c})
+    
+    subplot(2,numofSubPlot,numofSubPlot)
+    errorbar(nanmedian(numOfinfoRec),nanstd(numOfinfoRec)./sum(~isnan(numOfinfoRec),1),'color',colors{c})
+%     errorbar(1:size(nanmedian(numOfinfoRec),2),nanmedian(numOfinfoRec),prctile(numOfinfoRec,25),prctile(numOfinfoRec,75),'color',colors{c})
+    hold on
+    xlabel('fixation number from trial start')
+    title(' median Number of informative receptors')
+    if c==numofSubPlot-1
+        legend(folders)
+    end
+    
+    subplot(2,numofSubPlot,numofSubPlot*2)
+     errorbar(nanmedian(numOfinfoRec_rev),nanstd(numOfinfoRec_rev)./sum(~isnan(numOfinfoRec_rev),1),'color',colors{c})
+%     errorbar(1:size(nanmedian(numOfinfoRec_rev),2),nanmedian(numOfinfoRec_rev),prctile(numOfinfoRec_rev,25),prctile(numOfinfoRec_rev,75),'color',colors{c})
+    hold on
+    xlabel('reversed fixation number from trial end')
+    
+    figure(2) % mean rec activations
+    subplot(2,numofSubPlot,c)
+    hold on
+    plot(infoPerRec','.','color','k')
+    M=nanmean(infoPerRec(:));
+    S=nanstd(infoPerRec(:))*3;
+    infoPerRec(~((infoPerRec<= M+S)&(infoPerRec>= M-S)))=nan;
+    plot(infoPerRec','.','color',colors{c})
+    plot(nanmean(infoPerRec),'color',colors{c})
+
+    subplot(2,numofSubPlot,c+numofSubPlot)
+    hold on
+    plot(infoPerRec_rev','.','color','k')
+    M=nanmean(infoPerRec_rev(:));
+    S=nanstd(infoPerRec_rev(:))*3;
+    infoPerRec_rev(~((infoPerRec_rev<= M+S)&(infoPerRec_rev>= M-S)))=nan;
+    plot(infoPerRec_rev','.','color',colors{c})
+    plot(nanmean(infoPerRec_rev),'color',colors{c})
+    
+    subplot(2,numofSubPlot,numofSubPlot)
+    errorbar(nanmean(infoPerRec),nanstd(infoPerRec)./sum(~isnan(infoPerRec),1),'color',colors{c})
+    hold on
+    xlabel('fixation number from trial start')
+    title('Mean receptors activation')
+    if c==numofSubPlot-1
+        legend(folders)
+    end
+    
+    subplot(2,numofSubPlot,numofSubPlot*2)
+    errorbar(nanmean(infoPerRec_rev),nanstd(infoPerRec_rev)./sum(~isnan(infoPerRec_rev),1),'color',colors{c})
+    hold on
+    xlabel('reversed fixation number from trial end')
+    
+    figure(3) %speed
+    subplot(2,numofSubPlot,c)
+    hold on
+    plot(targetSpeed','.','color','k')
+    M=nanmean(targetSpeed(:));
+    S=nanstd(targetSpeed(:))*3;
+    targetSpeed(~((targetSpeed<= M+S)&(targetSpeed>= M-S)))=nan;
+    plot(targetSpeed','.','color',colors{c})
+    plot(nanmean(targetSpeed),'color',colors{c})
+    
+    subplot(2,numofSubPlot,c+numofSubPlot)
+    hold on
+    plot(targetSpeed_rev','.','color','k')
+    M=nanmean(targetSpeed_rev(:));
+    S=nanstd(targetSpeed_rev(:))*3;
+    targetSpeed_rev(~((targetSpeed_rev<= M+S)&(targetSpeed_rev>= M-S)))=nan;
+    plot(targetSpeed_rev','.','color',colors{c})
+    plot(nanmean(targetSpeed_rev),'color',colors{c})
+    
+    subplot(2,numofSubPlot,numofSubPlot)
+    errorbar(nanmean(targetSpeed),nanstd(targetSpeed)./sum(~isnan(targetSpeed),1),'color',colors{c})
+    hold on
+    xlabel('fixation number from trial start')
+    title('Target eye-Speed')
+    if c==numofSubPlot-1
+        legend(folders)
+    end
+    
+    subplot(2,numofSubPlot,numofSubPlot*2)
+    errorbar(nanmean(targetSpeed_rev),nanstd(targetSpeed_rev)./sum(~isnan(targetSpeed_rev),1),'color',colors{c})
+    hold on
+    xlabel('reversed fixation number from trial end')
+    
+    figure(6)
+    subplot(2,numofSubPlot,c)
+    hold on
+    plot(ampFixation','.','color','k')
+    M=nanmean(ampFixation(:));
+    S=nanstd(ampFixation(:))*3;
+    ampFixation(~((ampFixation<= M+S)&(ampFixation>= M-S)))=nan;
+    plot(ampFixation','.','color',colors{c})
+    plot(nanmean(ampFixation),'color',colors{c})
+    
+    subplot(2,numofSubPlot,c+numofSubPlot)
+    hold on
+    plot(ampFixation_rev','.','color','k')
+    M=nanmean(ampFixation_rev(:));
+    S=nanstd(ampFixation_rev(:))*3;
+    ampFixation_rev(~((ampFixation_rev<= M+S)&(ampFixation_rev>= M-S)))=nan;
+    plot(ampFixation_rev','.','color',colors{c})
+    plot(nanmean(ampFixation_rev),'color',colors{c})
+    
+    subplot(2,numofSubPlot,numofSubPlot)
+    errorbar(nanmean(ampFixation),nanstd(ampFixation)./sum(~isnan(ampFixation),1),'color',colors{c})
+    hold on
+    xlabel('fixation number from trial start')
+    title('Fixation Amplitude')
+    if c==numofSubPlot-1
+        legend(folders)
+    end
+    
+    subplot(2,numofSubPlot,numofSubPlot*2)
+    errorbar(nanmean(ampFixation_rev),nanstd(ampFixation_rev)./sum(~isnan(ampFixation_rev),1),'color',colors{c})
+    hold on
+    xlabel('reversed fixation number from trial end')
+    
+    figure(7)
+    subplot(2,numofSubPlot,c)
+    hold on
+    plot(distFixation','.','color','k')
+    M=nanmean(distFixation(:));
+    S=nanstd(distFixation(:))*3;
+    distFixation(~((distFixation<= M+S)&(distFixation>= M-S)))=nan;
+    plot(distFixation','.','color',colors{c})
+    plot(nanmean(distFixation),'color',colors{c})
+    
+    subplot(2,numofSubPlot,c+numofSubPlot)
+    hold on
+    plot(distFixation_rev','.','color','k')
+    M=nanmean(distFixation_rev(:));
+    S=nanstd(distFixation_rev(:))*3;
+    distFixation_rev(~((distFixation_rev<= M+S)&(distFixation_rev>= M-S)))=nan;
+    plot(distFixation_rev','.','color',colors{c})
+    plot(nanmean(distFixation_rev),'color',colors{c})
+    
+    subplot(2,numofSubPlot,numofSubPlot)
+    errorbar(nanmean(distFixation),nanstd(distFixation)./sum(~isnan(distFixation),1),'color',colors{c})
+    hold on
+    xlabel('fixation number from trial start')
+    title('Fixation Distance')
+    if c==numofSubPlot-1
+        legend(folders)
+    end
+    
+    subplot(2,numofSubPlot,numofSubPlot*2)
+    errorbar(nanmean(distFixation_rev),nanstd(distFixation_rev)./sum(~isnan(distFixation_rev),1),'color',colors{c})
+    hold on
+    xlabel('reversed fixation number from trial end')
+    
+    figure(8)
+    subplot(2,numofSubPlot,c)
+    hold on
+    plot(insAct_Speed','.','color','k')
+    M=nanmean(insAct_Speed(:));
+    S=nanstd(insAct_Speed(:))*3;
+    insAct_Speed(~((insAct_Speed<= M+S)&(insAct_Speed>= M-S)))=nan;
+    plot(insAct_Speed','.','color',colors{c})
+    plot(nanmean(insAct_Speed),'color',colors{c})
+    
+    subplot(2,numofSubPlot,c+numofSubPlot)
+    hold on
+    plot(insAct_Speed_rev','.','color','k')
+    M=nanmean(insAct_Speed_rev(:));
+    S=nanstd(insAct_Speed_rev(:))*3;
+    insAct_Speed_rev(~((insAct_Speed_rev<= M+S)&(insAct_Speed_rev>= M-S)))=nan;
+    plot(insAct_Speed_rev','.','color',colors{c})
+    plot(nanmean(insAct_Speed_rev),'color',colors{c})
+    
+    subplot(2,numofSubPlot,numofSubPlot)
+    errorbar(nanmean(insAct_Speed),nanstd(insAct_Speed)./sum(~isnan(insAct_Speed),1),'color',colors{c})
+    hold on
+    xlabel('fixation number from trial start')
+    title('final insAct/Speed')
+    if c==numofSubPlot-1
+        legend(folders)
+    end
+    
+    subplot(2,numofSubPlot,numofSubPlot*2)
+    errorbar(nanmean(insAct_Speed_rev),nanstd(insAct_Speed_rev)./sum(~isnan(insAct_Speed_rev),1),'color',colors{c})
+    hold on
+    xlabel('reversed fixation number from trial end')
+    
+end
+
+tilefigs;
+
+

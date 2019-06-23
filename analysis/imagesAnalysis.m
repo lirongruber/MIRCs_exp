@@ -9,11 +9,11 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition='Both'; % ' Yes' ' No' 'Both'
+Recognition=' Yes'; % ' Yes' ' No' 'Both'
 OnlyFirstSession=0;
-Sub=0;
-Mirc=0;
-Full=1;
+Sub=1;
+Mirc=1;
+Full=0;
 Ref=0;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]
 onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
@@ -28,7 +28,7 @@ if ~isnan(onlyImage)
 end
 
 orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};
-if Ref==1 && isnan(onlySession) || Ref==1 && onlySession==1
+if (Ref==1 && isnan(onlySession)) || ( Ref==1 && onlySession==1)
     orderPicsNames={'ref_boat', 'ref_butterfly' , 'ref_camera' , 'ref_chair' , 'ref_cup' , 'ref_elephant','ref_flower','ref_helicopter','ref_lamp','ref_umbrella'};
 end
 %general parameters:
@@ -43,8 +43,11 @@ end
 t=0;
 didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
+%mircs: subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
+%submircs: subjects={'EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'}
 for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'}
-%     for subjects={'AK'}
+% for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
+    t_perSubject=0;
     files = dir(['C:\Users\bnapp\Documents\MIRCs_exp\data\cleanData\' subjects{1,1}]);
     for file = files'
         if strcmp(file.name,'.')==0 && strcmp(file.name,'..')==0
@@ -70,23 +73,27 @@ for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
                         
                         currFile = load(file.name);
                         NamePic=regexp(currFile.PicName,'\_+','split');
-                        if strcmp(NamePic{1,1}(1:3),'ref')
+                        if ~isempty(strfind(NamePic{1,1},'.'))
                             NamePic=regexp(currFile.PicName,'\.+','split');
+                        else
+                            if ~isempty(strfind(NamePic{1,2},'.'))
+                                NamePic=regexp(currFile.PicName,'\.+','split');
+                            end
                         end
                         NamePic=NamePic{1,1};
-                        
-                        if sum(isnan(onlyImage))==1 || strcmp(onlyImage,NamePic)
+                        % Specific image - no 3 last images
+                        if (sum(isnan(onlyImage))==1 || strcmp(onlyImage,NamePic)) && (strcmp('house',NamePic)==0 && strcmp('nose',NamePic)==0 && strcmp('mouth',NamePic)==0 )
                             
                             % Recognition
                             if strcmp(Recognition,'Both') || strcmp(Recognition,currFile.answer)
                                 t=t+1;
+                                t_perSubject=t_perSubject+1;
                                 %here come the main analysis:
                                 screenS=[1080,1920];
                                 image=currFile.myimgfile;
                                 SIZE=size(image);
                                 image=[ones(floor((screenS(1)- SIZE(1))/2),screenS(2)).*255 ; ones(SIZE(1),floor((screenS(2)-SIZE(2))/2)).*255  , image , ones(SIZE(1),ceil((screenS(2)-SIZE(2))/2)).*255  ; ones( ceil((screenS(1)- SIZE(1))/2),screenS(2)).*255 ];
                                 imdata=image;
-                                
                                 
                                 
                                 % WITHOUT FIXATION TIME
@@ -153,10 +160,13 @@ for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
                                 drifts_dist_degrees{t}=drift_dist_degrees;
                                 
                                 %visit rates
-                                [finalPic]=visitRatesMircs(XY_vec_pix,imdata);
+                                [full_finalPic,sec1_finalPic,unfull_finalPic,unsec1_finalPic]=visitRatesMircs(XY_vec_pix,imdata);
                                 for i=1:length(orderPicsNames)
                                     if strcmp(orderPicsNames{1,i},NamePic)==1
-                                        finalPics{i}{t}=finalPic;
+                                        full_finalPics{i}{t}=full_finalPic;
+                                        sec1_finalPics{i}{t}=sec1_finalPic;
+                                        unfull_finalPics{i}{t}=unfull_finalPic;
+                                        unsec1_finalPics{i}{t}=unsec1_finalPic;
                                     end
                                 end
                                 
@@ -174,20 +184,23 @@ for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
             end
         end
     end
-% % %     %for saving per subject
-% % %     numberOfRelevantTrials=t;
-% % %     SavingFile=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
-% % %     save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-% % %         'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-% % %         'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-% % %         'num_of_sacc_per_sec','num_of_sacc');
+    %     %for saving per subject
+    %     numberOfRelevantTrials=t_perSubject;
+    %     SavingFile=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
+    %     save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+    %         'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+    %         'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+    %         'num_of_sacc_per_sec','num_of_sacc');
 end
 numberOfRelevantTrials=t;
 didRecog=didRecog(1:t);
 notRecog=notRecog(1:t);
-for i=1:length(finalPics)
-    if ~isempty(finalPics{i})
-        finalPics{i}=finalPics{i}(~cellfun('isempty',finalPics{i}));
+for i=1:length(full_finalPics)
+    if ~isempty(full_finalPics{i})
+        full_finalPics{i}=full_finalPics{i}(~cellfun('isempty',full_finalPics{i}));
+        sec1_finalPics{i}=sec1_finalPics{i}(~cellfun('isempty',sec1_finalPics{i}));
+        unfull_finalPics{i}=unfull_finalPics{i}(~cellfun('isempty',unfull_finalPics{i}));
+        unsec1_finalPics{i}=unsec1_finalPics{i}(~cellfun('isempty',unsec1_finalPics{i}));
     end
 end
 %% saving
@@ -197,5 +210,8 @@ save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','X
     'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
     'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
     'num_of_sacc_per_sec','num_of_sacc');
-save([SavingFile  'FP'],'finalPics','-v7.3');
+save([SavingFile  'full_FP'],'full_finalPics','-v7.3');
+save([SavingFile  'sec_FP'],'sec1_finalPics','-v7.3');
+save([SavingFile  'unfull_FP'],'unfull_finalPics','-v7.3');
+save([SavingFile  'unsec_FP'],'unsec1_finalPics','-v7.3');
 tilefigs;

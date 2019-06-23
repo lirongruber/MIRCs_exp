@@ -1,27 +1,27 @@
 % saccades rate
 clear
-close all
+% close all
 
 currcolor={'b','m','c','k'};
-currcolor={[120 178 171]./255,[80 156 135]./255,[71 131 108]./255,[45 116 82]./255};
-currcolor={[181,8,4]./255,[234,166,18]./255,[133,134,15]./255,[131,188,195]./255};
+% currcolor={[120 178 171]./255,[80 156 135]./255,[71 131 108]./255,[45 116 82]./255};
+% currcolor={[181,8,4]./255,[234,166,18]./255,[133,134,15]./255,[131,188,195]./255};
 
 methods={'subMirc' 'Mirc' 'fullImage',  'refImage'};
-methods={'No' ,'Yes','both' ,'full' };
+% methods={'No' ,'Yes','both' ,'full' };
 % methods={'session 1' 'session 2' 'session 3','session 4' };
 
-% sub mircs per RECOGNITION
-paths={'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat',...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec Yes.mat',...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat',...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
-    };
-% mircs per RECOGNITION
-paths={'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec No.mat',...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat',...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat',...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
-    };
+% % sub mircs per RECOGNITION
+% paths={'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat',...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec Yes.mat',...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat',...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+%     };
+% % mircs per RECOGNITION
+% paths={'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec No.mat',...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat',...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat',...
+%     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+%     };
 % % First session for sub+mirc and RECOGNITION
 % paths={'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat',...
 %     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat',...
@@ -46,7 +46,14 @@ paths={'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mir
 %     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
 %     'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat',...
 %     };
-figure(1)
+% all sessionS for sub+mirc RECOGNITION 
+paths={'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc1Full0Ref0_rec Yes.mat',...
+    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc1Full0Ref0_rec No.mat',...
+    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+    'C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat',...
+    };
+%%
+figure(2)
 for i=1:4
 load(paths{i});
 %recognitions
@@ -58,14 +65,16 @@ set(gca, 'XTick', 1:4, 'XTickLabel', methods,'Fontsize',12);title('Recognition R
 %numOfSacc
 subplot(2,2,1)
 hold on
-bar(i,mean(num_of_sacc_per_sec),'FaceColor',[220 220 220]./255,'EdgeColor',[0 0 0]);
-errorbar(i,mean(num_of_sacc_per_sec),ste(num_of_sacc_per_sec),'.','Color',currcolor{i},'LineWidth',2);
+bar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'FaceColor',[220 220 220]./255,'EdgeColor',[0 0 0]);
+errorbar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),ste(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'.','Color',currcolor{i},'LineWidth',2);
 set(gca, 'XTick', 1:4, 'XTickLabel', methods,'Fontsize',12);title('Number of Saccades (per second)','Fontsize',20)
 %driftAmp
 if i==1 || i==2
 subplot(4,2,5)
+title('Drift Amplitude','Fontsize',20)
 else  
 subplot(4,2,7)
+xlabel('amp [deg]','Fontsize',20)
 end
 hold on
 curr_drifts_amp_degrees{i}=[];
@@ -75,13 +84,14 @@ end
 currmean=median(curr_drifts_amp_degrees{i}(curr_drifts_amp_degrees{i}~=0));
 h=histogram(curr_drifts_amp_degrees{i}(curr_drifts_amp_degrees{i}~=0),0:0.2:30,'Normalization','probability','FaceColor',currcolor{i});
 plot([currmean currmean],[0 0.2],'--','Color',currcolor{i})
-title('Drift Amplitude','Fontsize',20)
 axis([0 15 0 0.2])
 %driftVel
 if i==1 || i==2
 subplot(4,2,6)
+title('Drift Speed','Fontsize',20)
 else
 subplot(4,2,8)
+xlabel('speed [deg/sec]','Fontsize',20)
 end
 hold on
 curr_drifts_vel_deg2sec{i}=[];
@@ -91,7 +101,6 @@ end
 currmean=median(curr_drifts_vel_deg2sec{i}(curr_drifts_vel_deg2sec{i}~=0));
 h=histogram(curr_drifts_vel_deg2sec{i}(curr_drifts_vel_deg2sec{i}~=0),0:0.2:30,'Normalization','probability','FaceColor',currcolor{i});
 plot([currmean currmean],[0 0.2],'--','Color',currcolor{i})
-title('Drift Speed','Fontsize',20)
 axis([0 15 0 0.2])
 end
 

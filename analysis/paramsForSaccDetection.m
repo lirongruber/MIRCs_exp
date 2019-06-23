@@ -47,7 +47,7 @@ sacc_parameters.saccade_min_amp = 0.3; % 8, deg (minimal amplitude in degrees)
 sacc_parameters.saccade_max_amp = 30; % 30, deg (maximal amplitude in degrees)
 sacc_parameters.saccade_min_velocity = 8; %4,  deg/sec
 % sacc_parameters.averagevelocity = 6; % (not in use)
-sacc_parameters.saccade_peak_velocity = 16; %8,  deg/sec
+sacc_parameters.saccade_peak_velocity = 8; %8,  deg/sec
 sacc_parameters.saccade_min_duration = 2;   % in msec
 sacc_parameters.saccade_angle_threshold = 30.0; % maximun angle within saccades (in degrees)
 

@@ -1,11 +1,14 @@
 
-function [finalPic]=visitRatesMircs(XY_vec_pix,imdata)
+function [full_finalPic,sec1_finalPic,unfull_finalPic,unsec1_finalPic]=visitRatesMircs(XY_vec_pix,imdata)
 
 ms=15;%0 is counting pixel pixel
 
 wW=1920;
 wH=1080;
-finalPic=zeros(size(imdata));
+full_finalPic=zeros(size(imdata));
+sec1_finalPic=zeros(size(imdata));
+unfull_finalPic=zeros(size(imdata));
+unsec1_finalPic=zeros(size(imdata));
 [row , col]=find(imdata);
 Row= [min(row) max(row)];
 Col=[min(col) max(col)];
@@ -20,8 +23,14 @@ for i=1:length(XY_vec_pix)
     x3=max(Col(1),round(myrect(1))); x3=min(x3,Col(2)); x3=min(x3,wW); x3=max(x3,1);
     x4=max(Col(1),round(myrect(3))); x4=min(x4,Col(2)); x4=min(x4,wW); x4=max(x4,1);
 
-    finalPic(y1:y2,x3:x4)=finalPic(y1:y2,x3:x4)+1;
+    full_finalPic(y1:y2,x3:x4)=full_finalPic(y1:y2,x3:x4)+1;
+    if i<length(XY_vec_pix)/3
+       sec1_finalPic(y1:y2,x3:x4)=sec1_finalPic(y1:y2,x3:x4)+1;
+    end
 end
 
-% imshow(finalPic)
+unfull_finalPic(full_finalPic==0)=1;
+unsec1_finalPic(sec1_finalPic==0)=1;
+
+% imshow(full_finalPic)
 end
