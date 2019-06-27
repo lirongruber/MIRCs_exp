@@ -7,7 +7,6 @@ colors={[2,122,164]./256,[244,147,31]./256}; % blue yellow green orange
 folders={'MIRCs Yes','subMIRCs No'};
 % class={ class{1,:} ; class{4,:} };
 STDforOutL=2; %number of std from mean to include
-perNonNan2include=0.9;
 
 numofSubPlot=size(folders,2)+1;
 for c=1:size(class,1)
@@ -76,22 +75,22 @@ for c=1:size(class,1)
     infoPerRec_rev=infoPerRec_rev(:,sum(isnan(infoPerRec_rev))<size(infoPerRec_rev,1)*perNonNan2include);
     %3
     targetSpeed=targetSpeed(:,sum(isnan(targetSpeed))<size(targetSpeed,1)*perNonNan2include);
-    targetSpeed_rev=targetSpeed_rev(:,sum(isnan(targetSpeed_rev))<size(targetSpeed_rev,1)*perNonNan2include);
+    targetSpeed_rev=targetSpeed_rev(:,sum(isnan(targetSpeed_rev))<size(targetSpeed_rev,1));
     %8
-    insAct_Speed=insAct_Speed(:,sum(isnan(insAct_Speed))<size(insAct_Speed,1)*perNonNan2include);
-    insAct_Speed_rev=insAct_Speed_rev(:,sum(isnan(insAct_Speed_rev))<size(insAct_Speed_rev,1)*perNonNan2include);
+    insAct_Speed=insAct_Speed(:,sum(isnan(insAct_Speed))<size(insAct_Speed,1));
+    insAct_Speed_rev=insAct_Speed_rev(:,sum(isnan(insAct_Speed_rev))<size(insAct_Speed_rev,1));
     %20
     varInfoPerRec=varInfoPerRec(:,sum(isnan(varInfoPerRec))<size(varInfoPerRec,1));
-    varInfoPerRec_rev=varInfoPerRec_rev(:,sum(isnan(varInfoPerRec_rev))<size(varInfoPerRec_rev,1)*perNonNan2include);
+    varInfoPerRec_rev=varInfoPerRec_rev(:,sum(isnan(varInfoPerRec_rev))<size(varInfoPerRec_rev,1));
     %30
-    varSpeed=varSpeed(:,sum(isnan(varSpeed))<size(varSpeed,1)*perNonNan2include);
-    varSpeed_rev=varSpeed_rev(:,sum(isnan(varSpeed_rev))<size(varSpeed_rev,1)*perNonNan2include);
+    varSpeed=varSpeed(:,sum(isnan(varSpeed))<size(varSpeed,1));
+    varSpeed_rev=varSpeed_rev(:,sum(isnan(varSpeed_rev))<size(varSpeed_rev,1));
     %6
-    ampFixation=ampFixation(:,sum(isnan(ampFixation))<size(ampFixation,1)*perNonNan2include);
-    ampFixation_rev=ampFixation_rev(:,sum(isnan(ampFixation_rev))<size(ampFixation_rev,1)*perNonNan2include);
+    ampFixation=ampFixation(:,sum(isnan(ampFixation))<size(ampFixation,1));
+    ampFixation_rev=ampFixation_rev(:,sum(isnan(ampFixation_rev))<size(ampFixation_rev,1));
     %7
-    distFixation=distFixation(:,sum(isnan(distFixation))<size(distFixation,1)*perNonNan2include);
-    distFixation_rev=distFixation_rev(:,sum(isnan(distFixation_rev))<size(distFixation_rev,1)*perNonNan2include);
+    distFixation=distFixation(:,sum(isnan(distFixation))<size(distFixation,1));
+    distFixation_rev=distFixation_rev(:,sum(isnan(distFixation_rev))<size(distFixation_rev,1));
     
     figure(1) %number of info receptors
     subplot(2,numofSubPlot,c)
@@ -305,7 +304,7 @@ end
 
 tilefigs;
 
-n=8;
+n=9;
 [r,p]=corr(activation(1).act(1:n)',activation(2).act(1:n)')
 [r,p]=corr(activation(1).final(1:n)',activation(2).final(1:n)')
 

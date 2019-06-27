@@ -81,35 +81,35 @@ for fixation_num=1:size(filt_movie,2)
             figure(2)
             subplot(2,ceil(size(filt_movie,2)/2),fixation_num)
             hold all
-            plot(time(1:L),v.*100)
+            plot(time(1:L),v)
             ylabel('speed [deg/sec]')
             xlabel('time [ms] ')
             axis([0 time(L) 0 12])
         end
         
-% % %         %Autocorr and FFT of activations +xcorrs speed and activations
-% % %         r_auto_all=zeros(1,L);
+        %Autocorr and FFT of activations +xcorrs speed and activations
+        r_auto_all=zeros(1,L);
 % % %         r_SA_all=zeros(1,L);
-% % %         P1_act_final=zeros(1,L/2);
+        P1_act_final=zeros(1,L/2);
 % % %         r_ffts_all=zeros(1,L/2);
 % % %         
-% % %         for t=1:size(activations,1)
-% % %             [r_auto,lags_auto] = xcorr(activations(t,:),'coeff');
-% % %             r_auto_all(t,:)=r_auto(lags_auto>=0);
+        for t=1:size(activations,1)
+            [r_auto,lags_auto] = xcorr(activations(t,:),'coeff');
+            r_auto_all(t,:)=r_auto(lags_auto>=0);
 % % %             
 % % %             [r_SA,lags_SA] = xcorr(v,activations(t,:),'coeff');
 % % %             r_SA_all(t,:)=r_SA(lags_SA>=0);
 % % %             
-% % %             fft_act=fft(activations(t,:));
-% % %             P2_act = abs(fft_act/L);
-% % %             P1_act = P2_act(1:(L/2)+1);
-% % %             P1_act(2:end) = 2*P1_act(2:end);
-% % %             P1_act=P1_act(2:end);
-% % %             P1_act_final(t,:)=P1_act;
+            fft_act=fft(activations(t,:));
+            P2_act = abs(fft_act/L);
+            P1_act = P2_act(1:(L/2)+1);
+            P1_act(2:end) = 2*P1_act(2:end);
+            P1_act=P1_act(2:end);
+            P1_act_final(t,:)=P1_act;
 % % %             
 % % %             [r_ffts,lags_ffts] = xcorr(P1_v,P1_act,'coeff');
 % % %             r_ffts_all(t,:)=r_ffts(lags_ffts>=0);
-% % %         end
+        end
 % % %         M_SA=mean(r_SA_all,1);
 % % %         E_SA=ste(r_SA_all,1);
 % % %         diffM_SA=find(diff(M_SA)>0);
@@ -125,8 +125,8 @@ for fixation_num=1:size(filt_movie,2)
 % % %         end
 % % %         maxT_SA=time(maxT_SA);
 % % %         
-% % %         M2=mean(P1_act_final,1);
-% % %         E2=ste(P1_act_final,1);
+        M2=mean(P1_act_final,1);
+        E2=ste(P1_act_final,1);
 % % %         
 % % %         M_SAfft=mean(r_ffts_all,1);
 % % %         E_SAfft=ste(r_ffts_all,1);
@@ -144,21 +144,21 @@ for fixation_num=1:size(filt_movie,2)
 % % %         maxF_SAfft=(maxF_SAfft);
         
         if plotFlag==1
-            figure(3)
-            subplot(2,ceil(size(filt_movie,2)/2),fixation_num)
-            hold all
-            imagesc(r_SA_all,[-1 1])
-            colormap('jet')
-            %         colorbar
-            set(gca,'XTick',0:10:1000)
-            set(gca,'XTickLabel',0:100:10000)
-            xlabel('time lag [ms]')
-            ylabel('speed-activation xcorr')
-            set(gca,'YTickLabel',[])
-            yyaxis right
-            
-            errorbar(M_SA,E_SA,'k')
-            axis([0 time(L)./10 0 1])
+% % %             figure(3)
+% % %             subplot(2,ceil(size(filt_movie,2)/2),fixation_num)
+% % %             hold all
+% % %             imagesc(r_SA_all,[-1 1])
+% % %             colormap('jet')
+% % %             %         colorbar
+% % %             set(gca,'XTick',0:10:1000)
+% % %             set(gca,'XTickLabel',0:100:10000)
+% % %             xlabel('time lag [ms]')
+% % %             ylabel('speed-activation xcorr')
+% % %             set(gca,'YTickLabel',[])
+% % %             yyaxis right
+% % %             
+% % %             errorbar(M_SA,E_SA,'k')
+% % %             axis([0 time(L)./10 0 1])
             
             figure(4)
             subplot(2,ceil(size(filt_movie,2)/2),fixation_num)
@@ -181,50 +181,50 @@ for fixation_num=1:size(filt_movie,2)
             xlabel('freq [Hz]')
             set(gca,'YTickLabel',[])
             
-            yyaxis right
-            plot(1:size(f,2)-1,P1_v)
-            ylabel('speed - fft power')
-            errorbar(M2.*mean(P1_v)/mean(M2),E2.*P1_v(1)/M2(1),'-k')
+%             yyaxis right
+%             plot(1:size(f,2)-1,P1_v)
+%             ylabel('speed - fft power')
+%             errorbar(M2.*mean(P1_v)/mean(M2),E2.*P1_v(1)/M2(1),'-k')
             xlim([0 size(M2,2)])
             
-            figure(6)
-            subplot(2,ceil(size(filt_movie,2)/2),fixation_num)
-            hold all
-            imagesc(r_ffts_all,[-1 1])
-            set(gca,'XTick',0:5:size(r_ffts_all,2))
-            set(gca,'XTickLabel',round(f(1:5:size(f,2))))
-            colormap('jet')
-            xlabel('freq lags[ms]')
-            ylabel('S fft - A fft xcorr')
-            set(gca,'YTickLabel',[])
+% % %             figure(6)
+% % %             subplot(2,ceil(size(filt_movie,2)/2),fixation_num)
+% % %             hold all
+% % %             imagesc(r_ffts_all,[-1 1])
+% % %             set(gca,'XTick',0:5:size(r_ffts_all,2))
+% % %             set(gca,'XTickLabel',round(f(1:5:size(f,2))))
+% % %             colormap('jet')
+% % %             xlabel('freq lags[ms]')
+% % %             ylabel('S fft - A fft xcorr')
+% % %             set(gca,'YTickLabel',[])
+% % %             
+% % %             yyaxis right
+% % %             
+% % %             errorbar(M_SAfft,E_SAfft,'k')
+% % %             xlim([0 size(M_SAfft,2)])
             
-            yyaxis right
-            
-            errorbar(M_SAfft,E_SAfft,'k')
-            xlim([0 size(M_SAfft,2)])
-            
-            colors={[212,237,255]/255,[182,224,255]/255,[148,204,255]/255,[90,174,255]/255,[0,122,255]/255,[2,82,198]/255,[8,62,127]/255,[0,41,81]/255,[0,28,61]/255};
-            colors{size(filt_movie,2)}='k';
-            for i=1:100:size(activations,1)
-                figure(10)
-                subplot(1,3,1)
-                hold on
-                plot3(v.*100,activations(i,:),flip(time(1:L)),'color',colors{fixation_num})
-                zlabel('time before next sacc')
-                xlabel('speed [M]')
-                ylabel('activations [S]')
-                view(80,30)
-                subplot(1,3,2)
-                hold on
-                plot(v(end).*100,activations(i,end),'.','color',colors{fixation_num})
-                xlabel('speed end [M]')
-                ylabel('activations end [S]')
-            end
-            subplot(1,3,3)
-            plot(fixation_num,infoRec,'*','color',colors{fixation_num})
-            xlabel('fixation number')
-            ylabel('number of info receptors')
-            hold on
+%             colors={[212,237,255]/255,[182,224,255]/255,[148,204,255]/255,[90,174,255]/255,[0,122,255]/255,[2,82,198]/255,[8,62,127]/255,[0,41,81]/255,[0,28,61]/255};
+%             colors{size(filt_movie,2)}='k';
+%             for i=1:100:size(activations,1)
+%                 figure(10)
+%                 subplot(1,3,1)
+%                 hold on
+%                 plot3(v.*100,activations(i,:),flip(time(1:L)),'color',colors{fixation_num})
+%                 zlabel('time before next sacc')
+%                 xlabel('speed [M]')
+%                 ylabel('activations [S]')
+%                 view(80,30)
+%                 subplot(1,3,2)
+%                 hold on
+%                 plot(v(end).*100,activations(i,end),'.','color',colors{fixation_num})
+%                 xlabel('speed end [M]')
+%                 ylabel('activations end [S]')
+%             end
+%             subplot(1,3,3)
+%             plot(fixation_num,infoRec,'*','color',colors{fixation_num})
+%             xlabel('fixation number')
+%             ylabel('number of info receptors')
+%             hold on
         end
         
         classfeatures.numOfinfoRec(fixation_num)=infoRec;
@@ -235,7 +235,11 @@ for fixation_num=1:size(filt_movie,2)
         classfeatures.actCorrelations{fixation_num}=r;
         
         classfeatures.meanSpeed(fixation_num)=mean(v);
+         if size(v,2)>9
         classfeatures.targetSpeed(fixation_num)=mean(v(10:end));
+        else
+        classfeatures.targetSpeed(fixation_num)=mean(v(end)); 
+        end
         classfeatures.finalInsSpeed(fixation_num)=mean(v(end-3:end));
         classfeatures.verSpeed(fixation_num)=var(v);
         
@@ -244,6 +248,68 @@ for fixation_num=1:size(filt_movie,2)
         
 %         classfeatures.xcorrSA_max{fixation_num}=maxT_SA;
 %         classfeatures.xcorrSAfft_max{fixation_num}=maxF_SAfft;
+    
+%pca and classtering
+[~,score,~,~,explained,~] = pca(activations);
+c80=find(cumsum(explained)>=80,1);
+
+kmeans_options=[];
+if size(score,2)>2
+    for i=1:min(15,size(activations,1))
+        kmeans_options(:,i)=kmeans(score(:,1:c80),i);
+    end
+    eva1 = evalclusters(score(:,1:c80),kmeans_options, 'silhouette'); %The silhouette value for each point is a measure of how similar that point is to points in its own cluster, when compared to points in other clusters.
+    eva2 = evalclusters(score(:,1:c80),kmeans_options, 'DaviesBouldin'); %The Davies-Bouldin criterion is based on a ratio of within-cluster and between-cluster distances.
+    [no_opt,FVE]=tryingFPCA(activations,plotFlag);
+    
+    classfeatures.optNumClass_silhouette(fixation_num)=eva1.OptimalK;
+    classfeatures.optNumClass_DaviesBouldin(fixation_num)=eva2.OptimalK;
+    classfeatures.optNumClass_FPCA(fixation_num)=no_opt;
+    classfeatures.PCA_explained(fixation_num)=sum(explained(1:c80));
+    classfeatures.FPCA_explained(fixation_num)=FVE;
+    classfeatures.PCA_Cnumber(fixation_num)=c80;
+else
+    classfeatures.optNumClass_silhouette(fixation_num)=0;
+    classfeatures.optNumClass_DaviesBouldin(fixation_num)=0;
+    classfeatures.optNumClass_FPCA(fixation_num)=0;
+    classfeatures.PCA_explained(fixation_num)=0;
+    classfeatures.FPCA_explained(fixation_num)=0;
+    classfeatures.PCA_Cnumber(fixation_num)=0;
+end
+
+if plotFlag==1
+    a1=kmeans_options(:,eva1.OptimalK);
+    a2=kmeans_options(:,eva2.OptimalK);
+    colors = [ 255,138,134 ; 255,255,162 ; 57,218,150 ; 200,235,255 ; 198,167,211 ; 234,175,102 ; 29,137,13 ; 193,55,173 ; 114,0,86 ; 40,206,68 ]./255;
+    figure(100)
+    if eva1.OptimalK<11
+        subplot(2,2,1)
+        % plot(score(:,1),score(:,2),'.')
+        plot3(score(:,1),score(:,2),score(:,3),'.')
+        % scatter(score(:,1),score(:,2),[],colors(a,:))
+        scatter3(score(:,1),score(:,2),score(:,3),[],colors(a1,:))
+        title(['number of classes=' num2str(eva1.OptimalK) ' PCA80=' num2str(c80)])
+        subplot(2,2,2)
+        for i=1:size(activations,1)
+            plot(activations(i,:),'color',colors(a1(i),:))
+            hold on
+        end
+    end
+    if eva2.OptimalK<11
+        subplot(2,2,3)
+        % plot(score(:,1),score(:,2),'.')
+        plot3(score(:,1),score(:,2),score(:,3),'.')
+        % scatter(score(:,1),score(:,2),[],colors(a,:))
+        scatter3(score(:,1),score(:,2),score(:,3),[],colors(a2,:))
+        title(['number of classes=' num2str(eva2.OptimalK)])
+        subplot(2,2,4)
+        for i=1:size(activations,1)
+            plot(activations(i,:),'color',colors(a2(i),:))
+            hold on
+        end
+    end
+end
+    
     else
         classfeatures.numOfinfoRec(fixation_num)=0;
         classfeatures.meanInfoPerRec(fixation_num)=0;
@@ -253,15 +319,25 @@ for fixation_num=1:size(filt_movie,2)
         classfeatures.actCorrelations{fixation_num}=[];
         
         classfeatures.meanSpeed(fixation_num)=mean(v);
+        if size(v,2)>9
         classfeatures.targetSpeed(fixation_num)=mean(v(10:end));
+        else
+        classfeatures.targetSpeed(fixation_num)=mean(v(end)); 
+        end
         classfeatures.finalInsSpeed(fixation_num)=0;
         classfeatures.verSpeed(fixation_num)=var(v);
         
         classfeatures.ampFixation(fixation_num)=amp;
         classfeatures.distFixation(fixation_num)=dist;
+        
+        classfeatures.optNumClass_silhouette(fixation_num)=0;
+        classfeatures.optNumClass_DaviesBouldin(fixation_num)=0;
+        classfeatures.PCA3_explained(fixation_num)=0;
        
     end
     toc
 end
 % tilefigs;
+
+
 end
