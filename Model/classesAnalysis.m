@@ -5,7 +5,7 @@ close all
 colors={[2,122,164]./256,[244,147,31]./256}; % blue yellow green orange
 folders={'MIRCs Yes','subMIRCs No'};
 % class={ class{1,:} ; class{4,:} };
-STDforOutL=2; %number of std from mean to include
+STDforOutL=5; %number of std from mean to include
 perNonNan2include=0.9;
 
 numofSubPlot=size(folders,2)+1;
@@ -16,6 +16,10 @@ for c=1:size(class,1)
     optNum_sil_rev=nan(size(class,2),30);
     optNum_fpca=nan(size(class,2),30);
     optNum_fpca_rev=nan(size(class,2),30);
+    
+    %Time fixation
+    TimeFixation=nan(size(class,2),30);
+    TimeFixation_rev=nan(size(class,2),30);
     
     for t=1:size(class,2)
         currT=class(c,t);
@@ -30,6 +34,11 @@ for c=1:size(class,1)
             
             optNum_fpca(t,1:size(currT.optNumClass_FPCA,2))=currT.optNumClass_FPCA;
             optNum_fpca_rev(t,1:size(currT.optNumClass_FPCA,2))=flip(currT.optNumClass_FPCA);
+            
+            %Tume length
+            TimeFixation(t,1:size(currT.timeFixation,2))=currT.timeFixation;
+            TimeFixation_rev(t,1:size(currT.timeFixation,2))=flip(currT.timeFixation);
+            
         end
         
     end
@@ -46,61 +55,123 @@ for c=1:size(class,1)
     optNum_fpca(optNum_fpca==0)=nan;
     optNum_fpca_rev=optNum_fpca_rev(:,sum(isnan(optNum_fpca_rev))<size(optNum_fpca_rev,1)*perNonNan2include);
     optNum_fpca_rev(optNum_fpca_rev==0)=nan;
+    TimeFixation=TimeFixation(:,sum(isnan(TimeFixation))<size(TimeFixation,1)*perNonNan2include);
+    TimeFixation_rev=TimeFixation_rev(:,sum(isnan(TimeFixation_rev))<size(TimeFixation_rev,1)*perNonNan2include);
     
-    for i=1:min(9,size(optNum_fpca,2))
-        figure(1)
-        %         figure(i)
-        subplot(2,3,1)
-        hold on
-        errorbar(nanmean(optNum_sil),nanstd(optNum_sil)./sum(~isnan(optNum_sil),1),'color',colors{c})
-        %         histogram(optNum_sil(:,i),'FaceColor',colors{c},'normalization','probability')
-        %                 xlabel('fixation number from trial start')
-        title('silhouette')
-        subplot(2,3,2)
-        hold on
-        errorbar(nanmean(optNum_dav),nanstd(optNum_dav)./sum(~isnan(optNum_dav),1),'color',colors{c})
-        %         histogram(optNum_dav(:,i),'FaceColor',colors{c},'normalization','probability')
-        xlabel('fixation number from trial start')
-        title('DaviesBouldin')
-        subplot(2,3,3)
-        hold on
-        errorbar(nanmean(optNum_fpca),nanstd(optNum_fpca)./sum(~isnan(optNum_fpca),1),'color',colors{c})
-        %         histogram(optNum_fpca(:,i),'FaceColor',colors{c},'normalization','probability')
-        xlabel('fixation number from trial start')
-        ylabel('optimal number of classes')
-        title('FPCA')
-        text (7,3,'MIRCs','color',colors{1})
-        text (7,2.8,'subMIRCs','color',colors{2})
-        subplot(2,3,4)
-        hold on
-        errorbar(nanmean(optNum_sil_rev),nanstd(optNum_sil_rev)./sum(~isnan(optNum_sil_rev),1),'color',colors{c})
-        %         histogram(optNum_sil_rev(:,i),'FaceColor',colors{c},'normalization','probability')
-        %         xlabel('reversed fixation number from trial end')
-        subplot(2,3,5)
-        hold on
-        errorbar(nanmean(optNum_dav_rev),nanstd(optNum_dav_rev)./sum(~isnan(optNum_dav_rev),1),'color',colors{c})
-        %         histogram(optNum_dav_rev(:,i),'FaceColor',colors{c},'normalization','probability')
-        %         xlabel('reversed fixation number from trial end')
-        subplot(2,3,6)
-        hold on
-        errorbar(nanmean(optNum_fpca_rev),nanstd(optNum_fpca_rev)./sum(~isnan(optNum_fpca_rev),1),'color',colors{c})
-        %         histogram(optNum_fpca_rev(:,i),'FaceColor',colors{c},'normalization','probability')
-        %         xlabel('reversed fixation number from trial end')
-        
-    end
+    
+    
+    figure(1)
+    subplot(2,3,c)
+    hold on
+    plot(optNum_sil','.','color','k')
+    M=nanmean(optNum_sil(:));
+    S=nanstd(optNum_sil(:))*STDforOutL;
+    optNum_sil(~((optNum_sil<= M+S)&(optNum_sil>= M-S)))=nan;
+    plot(optNum_sil','color',colors{c})
+    plot(nanmean(optNum_sil),'color',colors{c})
+    xlabel('fixation number from trial start')
+    subplot(2,3,3)
+    hold on
+    errorbar(nanmean(optNum_sil),nanstd(optNum_sil)./sum(~isnan(optNum_sil),1),'color',colors{c})
+    title('silhouette')
+    
+    
+    subplot(2,3,c+3)
+    hold on
+    plot(optNum_sil_rev','.','color','k')
+    M=nanmean(optNum_sil_rev(:));
+    S=nanstd(optNum_sil_rev(:))*STDforOutL;
+    optNum_sil_rev(~((optNum_sil_rev<= M+S)&(optNum_sil_rev>= M-S)))=nan;
+    plot(optNum_sil_rev','color',colors{c})
+    plot(nanmean(optNum_sil_rev),'color',colors{c})
+    xlabel('reversed fixation number from trial end')
+    subplot(2,3,6)
+    hold on
+    errorbar(nanmean(optNum_sil_rev),nanstd(optNum_sil_rev)./sum(~isnan(optNum_sil_rev),1),'color',colors{c})
+    
     figure(2)
+    subplot(2,3,c)
+    hold on
+    plot(optNum_dav','.','color','k')
+    M=nanmean(optNum_dav(:));
+    S=nanstd(optNum_dav(:))*STDforOutL;
+    optNum_dav(~((optNum_dav<= M+S)&(optNum_dav>= M-S)))=nan;
+    plot(optNum_dav','color',colors{c})
+    plot(nanmean(optNum_dav),'color',colors{c})
+    xlabel('fixation number from trial start')
+    subplot(2,3,3)
+    hold on
+    errorbar(nanmean(optNum_dav),nanstd(optNum_dav)./sum(~isnan(optNum_dav),1),'color',colors{c})
+    title('DaviesBouldin')
+    
+    subplot(2,3,c+3)
+    hold on
+    plot(optNum_dav_rev','.','color','k')
+    M=nanmean(optNum_dav_rev(:));
+    S=nanstd(optNum_dav_rev(:))*STDforOutL;
+    optNum_dav_rev(~((optNum_dav_rev<= M+S)&(optNum_dav_rev>= M-S)))=nan;
+    plot(optNum_dav_rev','color',colors{c})
+    plot(nanmean(optNum_dav_rev),'color',colors{c})
+    xlabel('reversed fixation number from trial end')
+    subplot(2,3,6)
+    hold on
+    errorbar(nanmean(optNum_dav_rev),nanstd(optNum_dav_rev)./sum(~isnan(optNum_dav_rev),1),'color',colors{c})
+    
+    figure(3)
+    subplot(2,3,c)
+    hold on
+    plot(optNum_fpca','.','color','k')
+    M=nanmean(optNum_fpca(:));
+    S=nanstd(optNum_fpca(:))*STDforOutL;
+    optNum_fpca(~((optNum_fpca<= M+S)&(optNum_fpca>= M-S)))=nan;
+    plot(optNum_fpca','.','color',colors{c})
+    plot(optNum_fpca','color',colors{c})
+    plot(nanmean(optNum_fpca),'color',colors{c})
+    xlabel('fixation number from trial start')
+    subplot(2,3,3)
+    hold on
+    errorbar(nanmean(optNum_fpca),nanstd(optNum_fpca)./sum(~isnan(optNum_fpca),1),'color',colors{c})
+    title('FPCA')
+    
+    subplot(2,3,c+3)
+    hold on
+    plot(optNum_fpca_rev','.','color','k')
+    M=nanmean(optNum_fpca_rev(:));
+    S=nanstd(optNum_fpca_rev(:))*STDforOutL;
+    optNum_fpca_rev(~((optNum_fpca_rev<= M+S)&(optNum_fpca_rev>= M-S)))=nan;
+    plot(optNum_fpca_rev','color',colors{c})
+    plot(nanmean(optNum_fpca_rev),'color',colors{c})
+    xlabel('reversed fixation number from trial end')
+    subplot(2,3,6)
+    hold on
+    errorbar(nanmean(optNum_fpca_rev),nanstd(optNum_fpca_rev)./sum(~isnan(optNum_fpca_rev),1),'color',colors{c})
+    
+    figure(4)
     subplot(1,3,1)
     hold on
     histogram(optNum_sil,'FaceColor',colors{c},'normalization','probability')
-    plot(nanmean(optNum_sil(:)),0.3,'*','color',colors{c})
+    plot([nanmean(optNum_sil(:)) nanmean(optNum_sil(:))],[0,0.4],'color',colors{c})
+    title('silhouette')
+    xlabel('optNum of classes')
     subplot(1,3,2)
     hold on
     histogram(optNum_dav,'FaceColor',colors{c},'normalization','probability')
-    plot(nanmean(optNum_dav(:)),0.3,'*','color',colors{c})
+    plot([nanmean(optNum_dav(:)) nanmean(optNum_dav(:))],[0,0.4],'color',colors{c})
+    title('DaviesBouldin')
+    xlabel('optNum of classes')
     subplot(1,3,3)
     hold on
     histogram(optNum_fpca,'FaceColor',colors{c},'normalization','probability')
-    plot(nanmean(optNum_fpca(:)),0.3,'*','color',colors{c})
+    plot([nanmean(optNum_fpca(:)) nanmean(optNum_fpca(:))],[0,0.4],'color',colors{c})
+    title('FPCA')
+    xlabel('optNum of classes')
+    
+    figure(5)
+    hold on
+    histogram (TimeFixation,'FaceColor',colors{c},'BinEdges',0:100:3000,'normalization','probability')
+    plot([nanmean(TimeFixation(:)) nanmean(TimeFixation(:))],[0,0.4],'color',colors{c})
+    title('Fixation Duration')
+    
 end
 
 tilefigs;

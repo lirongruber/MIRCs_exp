@@ -5,7 +5,7 @@ close all
 
 colors={[2,122,164]./256,[244,147,31]./256}; % blue yellow green orange
 folders={'MIRCs Yes','subMIRCs No'};
-% class={ class{1,:} ; class{4,:} };
+% class={ class2{1,:} ; class2{4,:} };
 STDforOutL=2; %number of std from mean to include
 perNonNan2include=0.9;
 
@@ -15,14 +15,16 @@ for c=1:size(class,1)
     numOfinfoRec_rev=nan(size(class,2),30);
     targetSpeed=nan(size(class,2),30);
     targetSpeed_rev=nan(size(class,2),30);
-    insAct_Speed=nan(size(class,2),30);
-    insAct_Speed_rev=nan(size(class,2),30);
+%     insAct_Speed=nan(size(class,2),30);
+%     insAct_Speed_rev=nan(size(class,2),30);
     varSpeed=nan(size(class,2),30);
     varSpeed_rev=nan(size(class,2),30);
     infoPerRec=nan(size(class,2),30);
     infoPerRec_rev=nan(size(class,2),30);
     ampFixation=nan(size(class,2),30);
     ampFixation_rev=nan(size(class,2),30);
+    TimeFixation=nan(size(class,2),30);
+    TimeFixation_rev=nan(size(class,2),30);
     distFixation=nan(size(class,2),30);
     distFixation_rev=nan(size(class,2),30);
     varInfoPerRec=nan(size(class,2),30);
@@ -52,17 +54,21 @@ for c=1:size(class,1)
             distFixation(t,1:size(currT.distFixation,2))=currT.distFixation;
             distFixation_rev(t,1:size(currT.distFixation,2))=flip(currT.distFixation);
             
-            %final ins_act
-            insAct_Speed(t,1:size(currT.finalInsInfoPerRec,2))=currT.finalInsInfoPerRec./currT.finalInsSpeed;
-            insAct_Speed_rev(t,1:size(currT.finalInsInfoPerRec,2))=flip(currT.finalInsInfoPerRec)./flip(currT.finalInsSpeed);
+            %time
+            TimeFixation(t,1:size(currT.timeFixation,2))=currT.timeFixation;
+            TimeFixation_rev(t,1:size(currT.timeFixation,2))=flip(currT.timeFixation);
+            
+%             %final ins_act
+%             insAct_Speed(t,1:size(currT.finalInsInfoPerRec,2))=currT.finalInsInfoPerRec./currT.finalInsSpeed;
+%             insAct_Speed_rev(t,1:size(currT.finalInsInfoPerRec,2))=flip(currT.finalInsInfoPerRec)./flip(currT.finalInsSpeed);
            
             % var activations
             varInfoPerRec(t,1:size(currT.varInfoPerRec,2))=currT.varInfoPerRec;
             varInfoPerRec_rev(t,1:size(currT.varInfoPerRec,2))=flip(currT.varInfoPerRec);
             
             % var speed
-            varSpeed(t,1:size(currT.verSpeed,2))=currT.verSpeed;
-            varSpeed_rev(t,1:size(currT.verSpeed,2))=flip(currT.verSpeed);
+            varSpeed(t,1:size(currT.varSpeed,2))=currT.varSpeed;
+            varSpeed_rev(t,1:size(currT.varSpeed,2))=flip(currT.varSpeed);
            
         end
         
@@ -78,8 +84,8 @@ for c=1:size(class,1)
     targetSpeed=targetSpeed(:,sum(isnan(targetSpeed))<size(targetSpeed,1)*perNonNan2include);
     targetSpeed_rev=targetSpeed_rev(:,sum(isnan(targetSpeed_rev))<size(targetSpeed_rev,1)*perNonNan2include);
     %8
-    insAct_Speed=insAct_Speed(:,sum(isnan(insAct_Speed))<size(insAct_Speed,1)*perNonNan2include);
-    insAct_Speed_rev=insAct_Speed_rev(:,sum(isnan(insAct_Speed_rev))<size(insAct_Speed_rev,1)*perNonNan2include);
+    TimeFixation=TimeFixation(:,sum(isnan(TimeFixation))<size(TimeFixation,1)*perNonNan2include);
+    TimeFixation_rev=TimeFixation_rev(:,sum(isnan(TimeFixation_rev))<size(TimeFixation_rev,1)*perNonNan2include);
     %20
     varInfoPerRec=varInfoPerRec(:,sum(isnan(varInfoPerRec))<size(varInfoPerRec,1));
     varInfoPerRec_rev=varInfoPerRec_rev(:,sum(isnan(varInfoPerRec_rev))<size(varInfoPerRec_rev,1)*perNonNan2include);
@@ -269,43 +275,41 @@ for c=1:size(class,1)
     figure(8)
     subplot(2,numofSubPlot,c)
     hold on
-    plot(insAct_Speed','.','color','k')
-    M=nanmean(insAct_Speed(:));
-    S=nanstd(insAct_Speed(:))*STDforOutL;
-    insAct_Speed(~((insAct_Speed<= M+S)&(insAct_Speed>= M-S)))=nan;
-    plot(insAct_Speed','.','color',colors{c})
-    plot(nanmean(insAct_Speed),'color',colors{c})
+    plot(TimeFixation','.','color','k')
+    M=nanmean(TimeFixation(:));
+    S=nanstd(TimeFixation(:))*STDforOutL;
+    TimeFixation(~((TimeFixation<= M+S)&(TimeFixation>= M-S)))=nan;
+    plot(TimeFixation','.','color',colors{c})
+    plot(nanmean(TimeFixation),'color',colors{c})
     
     subplot(2,numofSubPlot,c+numofSubPlot)
     hold on
-    plot(insAct_Speed_rev','.','color','k')
-    M=nanmean(insAct_Speed_rev(:));
-    S=nanstd(insAct_Speed_rev(:))*STDforOutL;
-    insAct_Speed_rev(~((insAct_Speed_rev<= M+S)&(insAct_Speed_rev>= M-S)))=nan;
-    plot(insAct_Speed_rev','.','color',colors{c})
-    plot(nanmean(insAct_Speed_rev),'color',colors{c})
+    plot(TimeFixation_rev','.','color','k')
+    M=nanmean(TimeFixation_rev(:));
+    S=nanstd(TimeFixation_rev(:))*STDforOutL;
+    TimeFixation_rev(~((TimeFixation_rev<= M+S)&(TimeFixation_rev>= M-S)))=nan;
+    plot(TimeFixation_rev','.','color',colors{c})
+    plot(nanmean(TimeFixation_rev),'color',colors{c})
     
     subplot(2,numofSubPlot,numofSubPlot)
-    errorbar(nanmean(insAct_Speed),nanstd(insAct_Speed)./sum(~isnan(insAct_Speed),1),'color',colors{c})
+    errorbar(nanmean(TimeFixation),nanstd(TimeFixation)./sum(~isnan(TimeFixation),1),'color',colors{c})
     hold on
     xlabel('fixation number from trial start')
-    title('final insAct/Speed')
+    title('Fixation Duration')
     if c==numofSubPlot-1
         legend(folders)
     end
     
     subplot(2,numofSubPlot,numofSubPlot*2)
-    errorbar(nanmean(insAct_Speed_rev),nanstd(insAct_Speed_rev)./sum(~isnan(insAct_Speed_rev),1),'color',colors{c})
+    errorbar(nanmean(TimeFixation_rev),nanstd(TimeFixation_rev)./sum(~isnan(TimeFixation_rev),1),'color',colors{c})
     hold on
     xlabel('reversed fixation number from trial end')
     
     activation(c).act=nanmean(infoPerRec);
-    activation(c).final=nanmean(insAct_Speed);
 end
 
 tilefigs;
 
-n=8;
-[r,p]=corr(activation(1).act(1:n)',activation(2).act(1:n)')
-[r,p]=corr(activation(1).final(1:n)',activation(2).final(1:n)')
+% n=8;
+% [r,p]=corr(activation(1).act(1:n)',activation(2).act(1:n)')
 

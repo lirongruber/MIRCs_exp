@@ -33,7 +33,7 @@ for fixation_num=1:size(filt_movie,2)
     rel_movie_act_notCorr=rel_movie_act(r<0.5,:);
     activations=rel_movie_act_notCorr;
 %     activations=activations-rel_movie_act_MEAN;
-    activations=abs(activations-rel_movie_act_MEAN);
+    activations=abs(activations-rel_movie_act_MEAN;
 
     %speed
     vx=diff(details.XYdeg(1,filt_movie{2,fixation_num}(1):filt_movie{2,fixation_num}(2))).*Fs;

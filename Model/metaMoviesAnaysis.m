@@ -4,7 +4,7 @@ clear
 movies_path='C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\videos';
 folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes','subMIRCs_no'};
 
-class={};
+class2={};
 class_num=0;
 for folder=folders
     class_num=class_num+1;
@@ -16,8 +16,8 @@ for folder=folders
             load([movies_path '\' folder{1,1} '\' currMov.name]);
             plotFlag=0;
             [classfeatures]=features(filt_movie,details,plotFlag);
-            class{class_num,mov_nom}=classfeatures;
+            class2{class_num,mov_nom}=classfeatures;
         end
     end
 end
-save('C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\class','class')
+save('C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\class','class2')
