@@ -9,6 +9,7 @@ folders={'MIRCs Yes','subMIRCs No'};
 STDforOutL=2; %number of std from mean to include
 perNonNan2include=0.9;
 
+forSVM={};
 numofSubPlot=size(folders,2)+1;
 for c=1:size(class,1)
     numOfinfoRec=nan(size(class,2),30);
@@ -179,6 +180,8 @@ for c=1:size(class,1)
     targetSpeed(~((targetSpeed<= M+S)&(targetSpeed>= M-S)))=nan;
     plot(targetSpeed','.','color',colors{c})
     plot(nanmean(targetSpeed),'color',colors{c})
+    
+    forSVM{c}=targetSpeed;
     
     subplot(2,numofSubPlot,c+numofSubPlot)
     hold on
