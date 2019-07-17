@@ -32,8 +32,8 @@ for fixation_num=1:size(filt_movie,2)
     end
     rel_movie_act_notCorr=rel_movie_act(r<0.5,:);
     activations=rel_movie_act_notCorr;
-%     activations=activations-rel_movie_act_MEAN;
-    activations=abs(activations-rel_movie_act_MEAN);
+    activations=activations-rel_movie_act_MEAN;
+%     activations=abs(activations-rel_movie_act_MEAN);
 
     %speed
     vx=diff(details.XYdeg(1,filt_movie{2,fixation_num}(1):filt_movie{2,fixation_num}(2))).*Fs;
@@ -49,6 +49,7 @@ for fixation_num=1:size(filt_movie,2)
     timeLength=time(end);
     
     % savings:
+    classfeatures.Speed{fixation_num}=v;
     classfeatures.meanSpeed(fixation_num)=mean(v);
     if size(v,2)>9
         classfeatures.targetSpeed(fixation_num)=mean(v(10:end));
@@ -63,6 +64,7 @@ for fixation_num=1:size(filt_movie,2)
     % init more savings
     classfeatures.numOfinfoRec(fixation_num)=0;
     classfeatures.meanInfoPerRec(fixation_num)=0;
+    classfeatures.meanRecActivation{fixation_num}=0;
     classfeatures.varInfoPerRec(fixation_num)=0;
     classfeatures.movvarmeanInfoPerRec{fixation_num}=[];
     classfeatures.actCorrelations{fixation_num}=[];
@@ -105,31 +107,32 @@ for fixation_num=1:size(filt_movie,2)
         
         classfeatures.numOfinfoRec(fixation_num)=infoRec;
         classfeatures.meanInfoPerRec(fixation_num)=sum(meanActivation);
+        classfeatures.meanRecActivation{fixation_num}=meanActivation;
         classfeatures.varInfoPerRec(fixation_num)=varRec;
         classfeatures.movvarmeanInfoPerRec{fixation_num}=movvar(meanActivation,10);
         classfeatures.actCorrelations{fixation_num}=r;
         
         %pca and classtering
-        [~,score,~,~,explained,~] = pca(activations);
-        c80=find(cumsum(explained)>=80,1);
+%         [~,score,~,~,explained,~] = pca(activations);
+%         c80=find(cumsum(explained)>=80,1);
         
-        kmeans_options=[];
-        if size(score,2)>2
-            for i=1:min(15,size(activations,1))
-                kmeans_options(:,i)=kmeans(score(:,1:c80),i);
-            end
-            eva1 = evalclusters(score(:,1:c80),kmeans_options, 'silhouette'); %The silhouette value for each point is a measure of how similar that point is to points in its own cluster, when compared to points in other clusters.
-            eva2 = evalclusters(score(:,1:c80),kmeans_options, 'DaviesBouldin'); %The Davies-Bouldin criterion is based on a ratio of within-cluster and between-cluster distances.
+%         kmeans_options=[];
+%         if size(score,2)>2
+%             for i=1:min(15,size(activations,1))
+%                 kmeans_options(:,i)=kmeans(score(:,1:c80),i);
+%             end
+%             eva1 = evalclusters(score(:,1:c80),kmeans_options, 'silhouette'); %The silhouette value for each point is a measure of how similar that point is to points in its own cluster, when compared to points in other clusters.
+%             eva2 = evalclusters(score(:,1:c80),kmeans_options, 'DaviesBouldin'); %The Davies-Bouldin criterion is based on a ratio of within-cluster and between-cluster distances.
             [no_opt,phi,FVE]=tryingFPCA(activations,plotFlag);%plotFlag);
             
-            classfeatures.optNumClass_silhouette(fixation_num)=eva1.OptimalK;
-            classfeatures.optNumClass_DaviesBouldin(fixation_num)=eva2.OptimalK;
+%             classfeatures.optNumClass_silhouette(fixation_num)=eva1.OptimalK;
+%             classfeatures.optNumClass_DaviesBouldin(fixation_num)=eva2.OptimalK;
             classfeatures.optNumClass_FPCA(fixation_num)=no_opt;
-            classfeatures.PCA_explained(fixation_num)=sum(explained(1:c80));
+%             classfeatures.PCA_explained(fixation_num)=sum(explained(1:c80));
             classfeatures.FPCA_explained(fixation_num)=FVE;
-            classfeatures.PCA_Cnumber(fixation_num)=c80;
+%             classfeatures.PCA_Cnumber(fixation_num)=c80;
             classfeatures.FPCA_functions{fixation_num}=phi;
-        end
+%         end
         
         if plotFlag==1
             a1=kmeans_options(:,eva1.OptimalK);

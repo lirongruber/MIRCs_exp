@@ -10,10 +10,10 @@ perNonNan2include=0.9;
 
 forSVM={};
 for c=1:size(class,1)
-    optNum_dav=nan(size(class,2),30);
-    optNum_dav_rev=nan(size(class,2),30);
-    optNum_sil=nan(size(class,2),30);
-    optNum_sil_rev=nan(size(class,2),30);
+%     optNum_dav=nan(size(class,2),30);
+%     optNum_dav_rev=nan(size(class,2),30);
+%     optNum_sil=nan(size(class,2),30);
+%     optNum_sil_rev=nan(size(class,2),30);
     optNum_fpca=nan(size(class,2),30);
     optNum_fpca_rev=nan(size(class,2),30);
    
@@ -30,11 +30,11 @@ for c=1:size(class,1)
         currT=currT{1,1};
         if ~isempty(currT)
             
-            optNum_sil(t,1:size(currT.optNumClass_silhouette,2))=currT.optNumClass_silhouette;
-            optNum_sil_rev(t,1:size(currT.optNumClass_silhouette,2))=flip(currT.optNumClass_silhouette);
-            
-            optNum_dav(t,1:size(currT.optNumClass_DaviesBouldin,2))=currT.optNumClass_DaviesBouldin;
-            optNum_dav_rev(t,1:size(currT.optNumClass_DaviesBouldin,2))=flip(currT.optNumClass_DaviesBouldin);
+%             optNum_sil(t,1:size(currT.optNumClass_silhouette,2))=currT.optNumClass_silhouette;
+%             optNum_sil_rev(t,1:size(currT.optNumClass_silhouette,2))=flip(currT.optNumClass_silhouette);
+%             
+%             optNum_dav(t,1:size(currT.optNumClass_DaviesBouldin,2))=currT.optNumClass_DaviesBouldin;
+%             optNum_dav_rev(t,1:size(currT.optNumClass_DaviesBouldin,2))=flip(currT.optNumClass_DaviesBouldin);
             
             optNum_fpca(t,1:size(currT.optNumClass_FPCA,2))=currT.optNumClass_FPCA;
             optNum_fpca_rev(t,1:size(currT.optNumClass_FPCA,2))=flip(currT.optNumClass_FPCA);
@@ -50,14 +50,14 @@ for c=1:size(class,1)
         
     end
     
-    optNum_sil=optNum_sil(:,sum(isnan(optNum_sil))<size(optNum_sil,1)*perNonNan2include);
-    optNum_sil(optNum_sil==0)=nan;
-    optNum_sil_rev=optNum_sil_rev(:,sum(isnan(optNum_sil_rev))<size(optNum_sil_rev,1)*perNonNan2include);
-    optNum_sil_rev(optNum_sil_rev==0)=nan;
-    optNum_dav=optNum_dav(:,sum(isnan(optNum_dav))<size(optNum_dav,1)*perNonNan2include);
-    optNum_dav(optNum_dav==0)=nan;
-    optNum_dav_rev=optNum_dav_rev(:,sum(isnan(optNum_dav_rev))<size(optNum_dav_rev,1)*perNonNan2include);
-    optNum_dav_rev(optNum_dav_rev==0)=nan;
+%     optNum_sil=optNum_sil(:,sum(isnan(optNum_sil))<size(optNum_sil,1)*perNonNan2include);
+%     optNum_sil(optNum_sil==0)=nan;
+%     optNum_sil_rev=optNum_sil_rev(:,sum(isnan(optNum_sil_rev))<size(optNum_sil_rev,1)*perNonNan2include);
+%     optNum_sil_rev(optNum_sil_rev==0)=nan;
+%     optNum_dav=optNum_dav(:,sum(isnan(optNum_dav))<size(optNum_dav,1)*perNonNan2include);
+%     optNum_dav(optNum_dav==0)=nan;
+%     optNum_dav_rev=optNum_dav_rev(:,sum(isnan(optNum_dav_rev))<size(optNum_dav_rev,1)*perNonNan2include);
+%     optNum_dav_rev(optNum_dav_rev==0)=nan;
     optNum_fpca=optNum_fpca(:,sum(isnan(optNum_fpca))<size(optNum_fpca,1)*perNonNan2include);
     optNum_fpca(optNum_fpca==0)=nan;
     optNum_fpca_rev=optNum_fpca_rev(:,sum(isnan(optNum_fpca_rev))<size(optNum_fpca_rev,1)*perNonNan2include);
@@ -160,18 +160,18 @@ for c=1:size(class,1)
     errorbar(nanmean(optNum_fpca_rev),nanstd(optNum_fpca_rev)./sum(~isnan(optNum_fpca_rev),1),'color',colors{c})
     
     figure(4)
-    subplot(1,3,1)
-    hold on
-    histogram(optNum_sil,'FaceColor',colors{c},'normalization','probability')
-    plot([nanmean(optNum_sil(:)) nanmean(optNum_sil(:))],[0,0.4],'color',colors{c})
-    title('silhouette')
-    xlabel('optNum of classes')
-    subplot(1,3,2)
-    hold on
-    histogram(optNum_dav,'FaceColor',colors{c},'normalization','probability')
-    plot([nanmean(optNum_dav(:)) nanmean(optNum_dav(:))],[0,0.4],'color',colors{c})
-    title('DaviesBouldin')
-    xlabel('optNum of classes')
+%     subplot(1,3,1)
+%     hold on
+%     histogram(optNum_sil,'FaceColor',colors{c},'normalization','probability')
+%     plot([nanmean(optNum_sil(:)) nanmean(optNum_sil(:))],[0,0.4],'color',colors{c})
+%     title('silhouette')
+%     xlabel('optNum of classes')
+%     subplot(1,3,2)
+%     hold on
+%     histogram(optNum_dav,'FaceColor',colors{c},'normalization','probability')
+%     plot([nanmean(optNum_dav(:)) nanmean(optNum_dav(:))],[0,0.4],'color',colors{c})
+%     title('DaviesBouldin')
+%     xlabel('optNum of classes')
     subplot(1,3,3)
     hold on
     histogram(optNum_fpca,'FaceColor',colors{c},'normalization','probability')

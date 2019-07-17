@@ -2,6 +2,7 @@
 close all
 
 tic
+count=0;
 figure('units','normalized','outerposition',[0 0 1 1])
 for i=1:size(filt_movie,2)
     subplot(1,size(filt_movie,2),i)
