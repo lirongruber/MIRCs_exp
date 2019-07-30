@@ -5,6 +5,8 @@ close all
 colors={[2,122,164]./256,[244,147,31]./256}; % blue yellow green orange
 folders={'MIRCs Yes','subMIRCs No'};
 % class={ class{1,:} ; class{4,:} };
+% class=one_class;
+% class=control_class;
 STDforOutL=5; %number of std from mean to include
 perNonNan2include=0.9;
 
@@ -130,7 +132,7 @@ for c=1:size(class,1)
 %     errorbar(nanmean(optNum_dav_rev),nanstd(optNum_dav_rev)./sum(~isnan(optNum_dav_rev),1),'color',colors{c})
     
     figure(3)
-    subplot(2,3,c)
+    subplot(2,4,c)
     hold all
     plot(optNum_fpca','.','color','k')
     M=nanmean(optNum_fpca(:));
@@ -140,13 +142,13 @@ for c=1:size(class,1)
     plot(optNum_fpca')%,'color',colors{c})
     plot(nanmean(optNum_fpca),'color',colors{c})
     xlabel('fixation number from trial start')
-    subplot(2,3,3)
+    subplot(2,4,3)
     hold on
     errorbar(nanmean(optNum_fpca),nanstd(optNum_fpca)./sum(~isnan(optNum_fpca),1),'color',colors{c})
     title('FPCA')
     forSVM{c}=optNum_fpca;
     
-    subplot(2,3,c+3)
+    subplot(2,4,c+4)
     hold on
     plot(optNum_fpca_rev','.','color','k')
     M=nanmean(optNum_fpca_rev(:));
@@ -155,9 +157,16 @@ for c=1:size(class,1)
     plot(optNum_fpca_rev','color',colors{c})
     plot(nanmean(optNum_fpca_rev),'color',colors{c})
     xlabel('reversed fixation number from trial end')
-    subplot(2,3,6)
+    subplot(2,4,7)
     hold on
     errorbar(nanmean(optNum_fpca_rev),nanstd(optNum_fpca_rev)./sum(~isnan(optNum_fpca_rev),1),'color',colors{c})
+    
+    subplot(2,4,4)
+    hold on
+    histogram(optNum_fpca,'FaceColor',colors{c},'normalization','probability')
+    plot([nanmean(optNum_fpca(:)) nanmean(optNum_fpca(:))],[0,0.4],'color',colors{c})
+    title('FPCA')
+    xlabel('optNum of classes')
     
     figure(4)
 %     subplot(1,3,1)
