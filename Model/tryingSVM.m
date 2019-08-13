@@ -1,4 +1,4 @@
-close all
+% close all
 % colors={[2,122,164]./256,[245,218,95]./256,[65,173,73]./256,[244,147,31]./256}; % blue yellow green orange
 % folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
 
@@ -21,22 +21,22 @@ for c=1:size(class,1)
         if ~isempty(currT)
             curr=currT.FPCA_functions;
             concat=[];
-            for row=1:size(curr,2)
-                                functions(rel:rel+size(curr{1,row},2)-1,1:size(curr{1,row},1))=curr{1,row}';
-                                rel=rel+size(curr{1,row},2);
+            for row=1 %1:size(curr,2)
+%                                 functions(rel:rel+size(curr{1,row},2)-1,1:size(curr{1,row},1))=curr{1,row}';
+%                                 rel=rel+size(curr{1,row},2);
                 
-%                                                 functions(rel,1:size(curr{1,row}(:),1))=curr{1,row}(:)';
-%                                                 rel=rel+1;
+%                                 functions(rel,1:size(curr{1,row}(:),1))=curr{1,row}(:)';
+%                                 rel=rel+1;
                 
-%                                 if ~isempty(curr{1,row})
-%                                     functions(rel,1:size(curr{1,row},1))=curr{1,row}(:,1)';
-%                                     rel=rel+1;
-%                                 end
+                if ~isempty(curr{1,row})
+                    functions(rel,1:size(curr{1,row},1))=curr{1,row}(:,1)';
+                    rel=rel+1;
+                end
                 
-%                 concat=[concat curr{1,row}(:)'];
+%                                 concat=[concat curr{1,row}(:)'];
             end
-%             functions(rel,1:size(concat,2))=concat;
-%             rel=rel+1;
+%                         functions(rel,1:size(concat,2))=concat;
+%                         rel=rel+1;
         end
     end
     functions(functions==0)=nan;
@@ -60,12 +60,14 @@ YY=Y;%(nansum(X,2)~=0);
 XX_kmeans=XX;
 XX_kmeans(isnan(XX_kmeans))=0;
 kmeans_idx = kmeans(XX_kmeans,2);
-        
-for b=1:10
+
+perCorrect=[];
+for b=1 %1:10
     n=0;
     label={};
     correct=[];
-    idx=randi([2 size(XX,1)],1,100);
+%     idx=randi([2 size(XX,1)],1,100);
+    idx=2:size(XX,1);
     for i=idx
         n=n+1;
         X_train=XX([1:i-1 i+1:end],:);
@@ -93,3 +95,6 @@ figure
 plot(XX(size(forSVM{1}(:,1:rel),1)+1:end,:)')
 hold on
 plot(nanmean(XX(size(forSVM{1}(:,1:rel),1)+1:end,:)),'k')
+
+perCorrect
+mean(perCorrect)
