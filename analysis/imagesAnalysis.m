@@ -9,7 +9,7 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition=' Yes'; % ' Yes' ' No' 'Both'
+Recognition='Both'; % ' Yes' ' No' 'Both'
 OnlyFirstSession=0;
 Sub=1;
 Mirc=1;
