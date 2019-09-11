@@ -15,7 +15,7 @@ Sub=1;
 Mirc=1;
 Full=0;
 Ref=0;
-onlySession=nan; % to control for order effects [nan 1 2 3 4]
+onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
 onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
 
 if isnan(onlySession)
