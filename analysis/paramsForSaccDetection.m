@@ -18,7 +18,7 @@ if nargin<2
 end
 if nargin<3
 % getting "gaze" from somewhere
-load('C:\Users\bnapp\Documents\tunnelledVisionPaper\analyzing\cleanedData\LS\LS_B1_4.mat')
+load('C:\Users\lirongr\Documents\tunnelledVisionPaper\analyzing\cleanedData\LS\LS_B1_4.mat')
 gaze=[gazeX ; gazeY];
 end
 

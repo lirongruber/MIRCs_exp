@@ -14,7 +14,7 @@ close all
 % 'OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat';
 % 'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_SUBMIRC_GROUP.mat';
 
-path='C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\';
+path='C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\';
 paths={[path...
     'OnlyFirst0_Sub1Mirc1Full1Ref1_recBoth']
 %     [path ...

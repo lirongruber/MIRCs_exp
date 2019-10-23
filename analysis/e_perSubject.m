@@ -13,19 +13,19 @@ currcolor={'b','m','c','k'};
 p=[0,0];
 subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM','EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'};
 for i=1:length(subjects)
-    refe(i)=load(['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat']);
-    full(i)=load(['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat']);
-    if exist(['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat'],'file')
+    refe(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat']);
+    full(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat']);
+    if exist(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat'],'file')
         type=1;
         p(type)=p(type)+1;
         name='subMIRCs';
-        trial(i)=load(['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat']);
+        trial(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat']);
         types(i)=type;
     else
         type=2;
         p(type)=p(type)+1;
         name='MIRCs';
-        trial(i)=load(['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat']);
+        trial(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat']);
         types(i)=type;
     end
     

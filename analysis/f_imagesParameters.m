@@ -5,8 +5,8 @@ paramNames = {'luminance - mean(im)','global contrast - std(im)','local contrast
 groupTitle={'MIRCs', 'subMIRCs'};
 % paramNames2 ={'lower freq','high freq'};
 
-mircsIm=dir('C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs');
-subIm=dir('C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs');
+mircsIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs');
+subIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs');
 for group=1:2
     for i=1:size(mircsIm,1)-2
         if group==1

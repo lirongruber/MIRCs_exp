@@ -2,8 +2,8 @@
 clear
 clc
 
-savePath='C:\Users\bnapp\Documents\MIRCs_exp\data\cleanData\';
-rel_folders=dir('C:\Users\bnapp\Documents\MIRCs_exp\data\rawData\');
+savePath='C:\Users\lirongr\Documents\MIRCs_exp\data\cleanData\';
+rel_folders=dir('C:\Users\lirongr\Documents\MIRCs_exp\data\rawData\');
 for sub_i=3:length(rel_folders)
     disp(sub_i)
     sub=rel_folders(sub_i).name;

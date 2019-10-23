@@ -9,15 +9,15 @@ methods={'subMirc' 'Mirc'};
 % methods={'No' ,'Yes','both' };
 
 orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};
-mircsIm=dir('C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs');
-subIm=dir('C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs');
+mircsIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs');
+subIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs');
 
 % sub mircs
 for i=1:length(orderPicsNames)
-    sub_paths{1,i}=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat'];
+    sub_paths{1,i}=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat'];
 end
 for i=1:length(orderPicsNames)
-    mirc_paths{1,i}=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat'];
+    mirc_paths{1,i}=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat'];
 end
 
 for image=1:13
@@ -163,9 +163,9 @@ for image=1:13
         if strcmp(orderPicsNames{1,image},curr_m(1:length(orderPicsNames{1,image})))
             subplot(2,2,1)
             axes('pos',[.2 .8 .1 .1])
-            imshow(['C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs\' curr_m])
+            imshow(['C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs\' curr_m])
             axes('pos',[.12 .8 .1 .1])
-            imshow(['C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs\' curr_s])
+            imshow(['C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs\' curr_s])
             %             set(gcf, 'Position', get(0, 'Screensize'));
             %             saveppt('perImage.ppt')
         end
