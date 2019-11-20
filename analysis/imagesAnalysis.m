@@ -9,19 +9,19 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition='Both'; % ' Yes' ' No' 'Both'
-OnlyFirstSession=0;
+Recognition=' No'; % ' Yes' ' No' 'Both'
+OnlyFirstSession=1;
 Sub=1;
-Mirc=1;
+Mirc=0;
 Full=0;
 Ref=0;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
 onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
 
 if isnan(onlySession)
-    nameOfFile=['OnlyFirst' num2str(OnlyFirstSession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition];
+    nameOfFile=['OnlyFirst' num2str(OnlyFirstSession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition '_fixation'];
 else
-    nameOfFile=['onlySession' num2str(onlySession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition];
+    nameOfFile=['onlySession' num2str(onlySession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition '_fixation'];
 end
 if ~isnan(onlyImage)
     nameOfFile=[ onlyImage '_' nameOfFile];
@@ -45,7 +45,7 @@ didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
 %mircs: subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
 %submircs: subjects={'EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'}
-for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'}
+for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'}
 % for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
     t_perSubject=0;
     files = dir(['C:\Users\lirongr\Documents\MIRCs_exp\data\cleanData\' subjects{1,1}]);
@@ -99,6 +99,10 @@ for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
                                 % WITHOUT FIXATION TIME
                                 x=currFile.gazeX(2001:end);
                                 y=currFile.gazeY(2001:end);
+                                % ONLY FIXATION TIME
+                                x=currFile.gazeX(1:2000);
+                                y=currFile.gazeY(1:2000);
+                                
                                 %
                                 if do_plot_images==1
                                     imageRGB=ind2rgb(image,gray(256));
@@ -184,13 +188,13 @@ for subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
             end
         end
     end
-    %     %for saving per subject
-    %     numberOfRelevantTrials=t_perSubject;
-    %     SavingFile=['C:\Users\bnapp\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
-    %     save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-    %         'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-    %         'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-    %         'num_of_sacc_per_sec','num_of_sacc');
+%         %for saving per subject
+%         numberOfRelevantTrials=t_perSubject;
+%         SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
+%         save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+%             'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+%             'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+%             'num_of_sacc_per_sec','num_of_sacc');
 end
 numberOfRelevantTrials=t;
 didRecog=didRecog(1:t);

@@ -50,30 +50,28 @@ for i=1:length(subjects)
     end
     full(i).drifts_vel_deg2sec=f_curr_drifts_vel_deg2sec;
     
+    
     r_curr_drifts_vel_deg2sec=[];
     for ii=1:length(refe(i).drifts_vel_deg2sec)
         r_curr_drifts_vel_deg2sec=[r_curr_drifts_vel_deg2sec refe(i).drifts_vel_deg2sec{1,ii}];
     end
     refe(i).drifts_vel_deg2sec=r_curr_drifts_vel_deg2sec;
+    currmean=mean(r_curr_drifts_vel_deg2sec(r_curr_drifts_vel_deg2sec~=0));
+    bar(i*2-1,currmean,'FaceColor',[0 0 0]./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
+    errorbar(i*2-1,currmean,ste(r_curr_drifts_vel_deg2sec),'.','Color','k','LineWidth',2);
+    set(gca, 'XTick', 1:2:40, 'XTickLabel', subjects,'Fontsize',12);
+    title('Drift Speed' ,'Fontsize',20)
+    axis([0 41 0 10])
     
     t_curr_drifts_vel_deg2sec=[];
     for ii=1:trial(i).numberOfRelevantTrials
         t_curr_drifts_vel_deg2sec=[t_curr_drifts_vel_deg2sec trial(i).drifts_vel_deg2sec{1,length(trial(i).drifts_vel_deg2sec)-ii+1}];
     end
     trial(i).drifts_vel_deg2sec=t_curr_drifts_vel_deg2sec;
-    
-    currmean=mean(f_curr_drifts_vel_deg2sec(f_curr_drifts_vel_deg2sec~=0));
-    bar(i*2-1,currmean,'FaceColor',[0 0 0]./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
-    hold on
-    errorbar(i*2-1,currmean,ste(f_curr_drifts_vel_deg2sec),'.','Color','k','LineWidth',2);
-    set(gca, 'XTick', 1:2:40, 'XTickLabel', subjects,'Fontsize',12);
-    title('Drift Speed' ,'Fontsize',20)
-    axis([0 41 0 10])
-    
     currmean=mean(t_curr_drifts_vel_deg2sec(t_curr_drifts_vel_deg2sec~=0));
     bar(i*2,currmean,'FaceColor',color./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
     hold on
-    errorbar(i*2,currmean,ste(t_curr_drifts_vel_deg2sec),'.','Color','b','LineWidth',2);
+    errorbar(i*2,currmean,ste(f_curr_drifts_vel_deg2sec),'.','Color','b','LineWidth',2);
     
     figure(type+9)
     subplot(2,10,p(type))
