@@ -7,7 +7,7 @@ clc
 subject='DE';%name of subject % AA defult 
 domEye='r'; % r or l
 
-eyetracking =1;% 0 for mouse tracking
+eyetracking =0;% 0 for mouse tracking
 % -old- not updated
 % expType=0;full images (3 times)
 % expType=10; %MIRCs (2 times with feedback) ->  full images
@@ -25,7 +25,7 @@ IMAGE_SIZE_DEG=3;
 PIXEL2METER=0.000264583;
 IMAGE_LENGTH_PIX=round(tand(IMAGE_SIZE_DEG/2)/PIXEL2METER*2);
 
-NUM_OF_TRIALS=13;% should be 13
+NUM_OF_TRIALS=1;% should be 13
 TRIAL_LENGTH=3; % should be 3 seconds
 FIXATION_LENGTH=2; %should be 2 seconds
 TIME_RES=0.001; 

@@ -1,5 +1,5 @@
 
-function [SavingPath]=CompStartUpMIRCs
+function [SavingPath]=CompStartUpMIRCs 
 % looking for the experiment directory-
 % deciding on which computer Im working.
 % set the path
@@ -15,10 +15,11 @@ if exist('C:\Users\aslab\Documents\Liron\MIRCs_exp\','dir')
     addpath (genpath('C:\Users\aslab\Documents\Liron\MIRCs_exp\'))
 end
 
-if exist('C:\Users\bnapp\Documents\MIRCs_exp\','dir')
-    SavingPath='C:\Users\bnapp\Documents\MIRCs_exp\data\';
-    cd C:\Users\bnapp\Documents\MIRCs_exp\codes_only_repo
-    addpath (genpath('C:\Users\bnapp\Documents\MIRCs_exp\'))
+if exist('C:\Users\lirongr\Documents\MIRCs_exp\','dir')
+    SavingPath='C:\Users\lirongr\Documents\MIRCs_exp\data\';
+    cd C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo
+    addpath (genpath('C:\Users\lirongr\Documents\MIRCs_exp\'))
+    addpath (genpath('C:\Users\lirongr\Documents\MATLAB\UTIL\'))
 end
 
 set(0,'DefaultAxesFontName', 'Arial')

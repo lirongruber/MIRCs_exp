@@ -24,20 +24,21 @@ chan_v_deg_flg = 1; % there is data in chan_v_deg
 if(min(chan_h_deg) == max(chan_h_deg)), chan_h_deg_flg = 0; end
 if(min(chan_v_deg) == max(chan_v_deg)), chan_v_deg_flg = 0; end
 
-% Low pass Filter data:
-FilterFlg = 1;
-filter_order = 4; % filter order=4
-filter_cutoff = 120; % low pass < 120Hz
 filtered_chan_h_deg=chan_h_deg;
 filtered_chan_v_deg=chan_v_deg;
 
-if(FilterFlg == 1)
-    if filter_cutoff<rate
-        [b, a] = butter( filter_order, filter_cutoff/(rate/2),'low' );
-        if(chan_h_deg_flg == 1), filtered_chan_h_deg = filtfilt(b, a,double(chan_h_deg)); end
-        if(chan_v_deg_flg == 1), filtered_chan_v_deg = filtfilt(b, a,double(chan_v_deg)); end
-    end
-end
+% Amos's old filter
+% Low pass Filter data:
+% FilterFlg = 1;
+% filter_order = 4; % filter order=4
+% filter_cutoff = 120; % low pass < 120Hz
+% if(FilterFlg == 1)
+%     if filter_cutoff<rate
+%         [b, a] = butter( filter_order, filter_cutoff/(rate/2),'low' );
+%         if(chan_h_deg_flg == 1), filtered_chan_h_deg = filtfilt(b, a,double(chan_h_deg)); end
+%         if(chan_v_deg_flg == 1), filtered_chan_v_deg = filtfilt(b, a,double(chan_v_deg)); end
+%     end
+% end
 
 % Tangental Velocity, Speed & angle diff
 velocity_h = diff( filtered_chan_h_deg);
@@ -51,6 +52,7 @@ i = 1; % index for current sample number [ 1<= i < length(filtered_chan_h_deg-1)
 n = 0; % number of saccades
 
 while i < length(filtered_chan_h_deg) - 2
+
     if sample_speed_vec(i) < minimum_velocity % below thereshold for minimal velocity
         i = i + 1;
         continue;
@@ -136,7 +138,11 @@ while i < length(filtered_chan_h_deg) - 2
     end
 end
 numOfSacc=find(saccade_vec(1,:));
+if isempty(numOfSacc)
+    numOfSacc=0;
+else
 numOfSacc=numOfSacc(end);
+end
 saccade_vec=saccade_vec(:,1:numOfSacc); % cutting the extra zeros of saccade_vec
 end
 
@@ -221,7 +227,7 @@ if debugFlg == 1
     plot((i+j)/rate,sample_speed_vec(i+j),'m+','Markersize',5,'LineWidth',2);
     subplot(4,1,4)
     plot((i+j)/rate,sample_difangle_vec(i+j),'m+','Markersize',5,'LineWidth',2);
-    %         keyboard;
+%             keyboard;
 end
 end
 
