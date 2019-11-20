@@ -4,8 +4,8 @@ CompStartUpMIRCs;
 clear
 close all
 clc
-subject='YH';%name of subject % AA defult 
-domEye='l'; % r or l
+subject='DE';%name of subject % AA defult 
+domEye='r'; % r or l
 
 eyetracking =1;% 0 for mouse tracking
 % -old- not updated
@@ -15,9 +15,9 @@ eyetracking =1;% 0 for mouse tracking
 % expType=102; % MIRCS stabilized -> MIRCs ->  full images
 % expType=103; % subMIRCS -> MIRCs ->  full images
 
-expType=0; %subMIRCS -> MIRCs ->  full images
+% expType=0; %subMIRCS -> MIRCs ->  full images
 % expType=10; %  MIRCs ->  full images -> subMIRCS
-% expType=100; % full images -> subMIRCS ->  MIRCs
+expType=100; % full images -> subMIRCS ->  MIRCs
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
