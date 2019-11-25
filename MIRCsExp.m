@@ -7,7 +7,7 @@ clc
 subject='DE';%name of subject % AA defult 
 domEye='r'; % r or l
 
-eyetracking =0;% 0 for mouse tracking
+eyetracking = 1;% 0 for mouse tracking
 % -old- not updated
 % expType=0;full images (3 times)
 % expType=10; %MIRCs (2 times with feedback) ->  full images
@@ -64,8 +64,9 @@ Screen('Preference', 'VisualDebuglevel', 3);
 [w, windowRect]=Screen('OpenWindow',screenNumber, 0,[],pixelSize,2);
 [wW, wH]=WindowSize(w);
 if eyetracking==1
-    Eyelink('initialize');
-    [el]= calibration(w,backgroundcolor,textColor,mouseNum,domEye);
+%     Eyelink('initialize','PsychEyelinkDispatchCallback');
+    Eyelink('initialize','PsychEyelinkDispatchCallback');
+    [el]=calibration(w,backgroundcolor,textColor,mouseNum,domEye);
     fix=[0,0];
 end
 %empty vectors to fill:
