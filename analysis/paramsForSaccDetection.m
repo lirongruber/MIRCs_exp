@@ -105,6 +105,6 @@ if doPlot==1
 %     tilefigs;
 %     keyboard;
 saveppt('examples.ppt')
-close all
+% close all
 end
 end
