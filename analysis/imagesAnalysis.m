@@ -9,19 +9,19 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition=' No'; % ' Yes' ' No' 'Both'
-OnlyFirstSession=1;
-Sub=1;
+Recognition='Both'; % ' Yes' ' No' 'Both'
+OnlyFirstSession=0;
+Sub=0;
 Mirc=0;
 Full=0;
-Ref=0;
+Ref=1;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
 onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
 
 if isnan(onlySession)
-    nameOfFile=['OnlyFirst' num2str(OnlyFirstSession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition '_fixation'];
+    nameOfFile=['OnlyFirst' num2str(OnlyFirstSession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition]; % '_fixation'];
 else
-    nameOfFile=['onlySession' num2str(onlySession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition '_fixation'];
+    nameOfFile=['onlySession' num2str(onlySession) '_Sub' num2str(Sub) 'Mirc' num2str(Mirc) 'Full' num2str(Full) 'Ref' num2str(Ref) '_rec' Recognition]; % '_fixation'];
 end
 if ~isnan(onlyImage)
     nameOfFile=[ onlyImage '_' nameOfFile];
@@ -32,7 +32,7 @@ if (Ref==1 && isnan(onlySession)) || ( Ref==1 && onlySession==1)
     orderPicsNames={'ref_boat', 'ref_butterfly' , 'ref_camera' , 'ref_chair' , 'ref_cup' , 'ref_elephant','ref_flower','ref_helicopter','ref_lamp','ref_umbrella'};
 end
 %general parameters:
-rate=1000;% 1000 Hz
+rate=250;% 250 Hz
 screen_dis=1;% meter
 PIXEL2METER=0.000264583;
 do_plot_images=0;
@@ -97,11 +97,11 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
                                 
                                 
                                 % WITHOUT FIXATION TIME
-                                x=currFile.gazeX(2001:end);
-                                y=currFile.gazeY(2001:end);
-                                % ONLY FIXATION TIME
-                                x=currFile.gazeX(1:2000);
-                                y=currFile.gazeY(1:2000);
+                                x=currFile.gazeX(rate*2+1:end);
+                                y=currFile.gazeY(rate*2+1:end);
+%                                 % ONLY FIXATION TIME
+%                                 x=currFile.gazeX(1:rate*2);
+%                                 y=currFile.gazeY(1:rate*2);
                                 
                                 %
                                 if do_plot_images==1
@@ -163,16 +163,16 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
                                 drifts_vel_deg2sec{t}=drift_vel_deg2sec;
                                 drifts_dist_degrees{t}=drift_dist_degrees;
                                 
-                                %visit rates
-                                [full_finalPic,sec1_finalPic,unfull_finalPic,unsec1_finalPic]=visitRatesMircs(XY_vec_pix,imdata);
-                                for i=1:length(orderPicsNames)
-                                    if strcmp(orderPicsNames{1,i},NamePic)==1
-                                        full_finalPics{i}{t}=full_finalPic;
-                                        sec1_finalPics{i}{t}=sec1_finalPic;
-                                        unfull_finalPics{i}{t}=unfull_finalPic;
-                                        unsec1_finalPics{i}{t}=unsec1_finalPic;
-                                    end
-                                end
+%                                 %visit rates
+%                                 [full_finalPic,sec1_finalPic,unfull_finalPic,unsec1_finalPic]=visitRatesMircs(XY_vec_pix,imdata);
+%                                 for i=1:length(orderPicsNames)
+%                                     if strcmp(orderPicsNames{1,i},NamePic)==1
+%                                         full_finalPics{i}{t}=full_finalPic;
+%                                         sec1_finalPics{i}{t}=sec1_finalPic;
+%                                         unfull_finalPics{i}{t}=unfull_finalPic;
+%                                         unsec1_finalPics{i}{t}=unsec1_finalPic;
+%                                     end
+%                                 end
                                 
                                 % answers
                                 if strcmp(currFile.answer,' Yes')
@@ -199,14 +199,14 @@ end
 numberOfRelevantTrials=t;
 didRecog=didRecog(1:t);
 notRecog=notRecog(1:t);
-for i=1:length(full_finalPics)
-    if ~isempty(full_finalPics{i})
-        full_finalPics{i}=full_finalPics{i}(~cellfun('isempty',full_finalPics{i}));
-        sec1_finalPics{i}=sec1_finalPics{i}(~cellfun('isempty',sec1_finalPics{i}));
-        unfull_finalPics{i}=unfull_finalPics{i}(~cellfun('isempty',unfull_finalPics{i}));
-        unsec1_finalPics{i}=unsec1_finalPics{i}(~cellfun('isempty',unsec1_finalPics{i}));
-    end
-end
+% for i=1:length(full_finalPics)
+%     if ~isempty(full_finalPics{i})
+%         full_finalPics{i}=full_finalPics{i}(~cellfun('isempty',full_finalPics{i}));
+%         sec1_finalPics{i}=sec1_finalPics{i}(~cellfun('isempty',sec1_finalPics{i}));
+%         unfull_finalPics{i}=unfull_finalPics{i}(~cellfun('isempty',unfull_finalPics{i}));
+%         unsec1_finalPics{i}=unsec1_finalPics{i}(~cellfun('isempty',unsec1_finalPics{i}));
+%     end
+% end
 %% saving
 
 SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\',nameOfFile];
@@ -214,8 +214,8 @@ save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','X
     'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
     'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
     'num_of_sacc_per_sec','num_of_sacc');
-save([SavingFile  'full_FP'],'full_finalPics','-v7.3');
-save([SavingFile  'sec_FP'],'sec1_finalPics','-v7.3');
-save([SavingFile  'unfull_FP'],'unfull_finalPics','-v7.3');
-save([SavingFile  'unsec_FP'],'unsec1_finalPics','-v7.3');
+% save([SavingFile  'full_FP'],'full_finalPics','-v7.3');
+% save([SavingFile  'sec_FP'],'sec1_finalPics','-v7.3');
+% save([SavingFile  'unfull_FP'],'unfull_finalPics','-v7.3');
+% save([SavingFile  'unsec_FP'],'unsec1_finalPics','-v7.3');
 tilefigs;

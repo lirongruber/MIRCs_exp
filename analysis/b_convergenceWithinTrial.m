@@ -33,11 +33,11 @@ currcolor={[133,134,15]./255,[234,166,18]./255,[181,8,4]./255,[131,188,195]./255
 for group=1:length(paths)
     load(paths{group});
     for var=1:4
-        meansPerRank{group}=zeros(1,23);
+        meansPerRank{group}=zeros(1,25);
         switch var
             case 2
                 for i=1:length(drifts_vel_deg2sec)
-                    meansPerRank{group}=[meansPerRank{group} ; [drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0) zeros(1,23-length(drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0) zeros(1,25-length(drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0)))]];
                 end
                 rel_title='Drift Speed';
                 rel_y='speed [deg/sec]';
@@ -45,7 +45,7 @@ for group=1:length(paths)
                 rel_max=6;
             case 3
                 for i=1:length(drifts_amp_degrees)
-                    meansPerRank{group}=[meansPerRank{group} ; [drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0) zeros(1,23-length(drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0) zeros(1,25-length(drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0)))]];
                 end
                 rel_title='Drift Amplitudes';
                 rel_y='amplitude[deg]';
@@ -53,7 +53,7 @@ for group=1:length(paths)
                 rel_max=4;
             case 4
                 for i=1:length(saccs_amp_degrees)
-                    meansPerRank{group}=[meansPerRank{group} ; [saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0) zeros(1,23-length(saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0) zeros(1,25-length(saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0)))]];
                 end
                 rel_title='Saccades Amplitudes';
                 rel_y='amplitude[deg]';
@@ -61,7 +61,7 @@ for group=1:length(paths)
                 rel_max=2;
 %             case 4
 %                 for i=1:length(saccs_vel_deg2sec)
-%                     meansPerRank{group}=[meansPerRank{group} ; [saccs_vel_deg2sec{1,i}(saccs_vel_deg2sec{1,i}~=0) zeros(1,23-length(saccs_vel_deg2sec{1,i}(saccs_vel_deg2sec{1,i}~=0)))]];
+%                     meansPerRank{group}=[meansPerRank{group} ; [saccs_vel_deg2sec{1,i}(saccs_vel_deg2sec{1,i}~=0) zeros(1,25-length(saccs_vel_deg2sec{1,i}(saccs_vel_deg2sec{1,i}~=0)))]];
 %                 end
 %                 rel_title='Saccades Speed';
 %                 rel_y='mean speed [deg/sec]';
@@ -69,7 +69,7 @@ for group=1:length(paths)
 %                 rel_max=60;
             case 1
                 for i=1:length(drifts_time_ms)
-                    meansPerRank{group}=[meansPerRank{group} ; [drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0) zeros(1,23-length(drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0) zeros(1,25-length(drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0)))]];
                 end
                 rel_title='ISI';
                 rel_y='Drift duration [ms]';

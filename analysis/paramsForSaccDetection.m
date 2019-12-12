@@ -28,8 +28,8 @@ chan_h_pix=gaze(1,:); % in pixels
 chan_v_pix=gaze(2,:); % in pixels
 % filter
 if filterFlag==1
-    chan_h_pix=sgolayfilt(chan_h_pix,1,9);
-    chan_v_pix=sgolayfilt(chan_v_pix,1,9);
+    chan_h_pix=sgolayfilt(chan_h_pix,1,3);
+    chan_v_pix=sgolayfilt(chan_v_pix,1,3);
 end
 % figure(1)
 % plot(gaze(1,:)); hold on ; plot(gaze(2,:));
@@ -104,7 +104,7 @@ if doPlot==1
 %     end
 %     tilefigs;
 %     keyboard;
-saveppt('examples.ppt')
+% saveppt('examples.ppt')
 % close all
 end
 end
