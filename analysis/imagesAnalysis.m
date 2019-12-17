@@ -9,12 +9,12 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition='Both'; % ' Yes' ' No' 'Both'
-OnlyFirstSession=0;
+Recognition=' Yes'; % ' Yes' ' No' 'Both'
+OnlyFirstSession=1;
 Sub=0;
-Mirc=0;
+Mirc=1;
 Full=0;
-Ref=1;
+Ref=0;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
 onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
 
@@ -45,8 +45,8 @@ didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
 %mircs: subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
 %submircs: subjects={'EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'}
-for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'}
-% for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
+% for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'}
+for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
     t_perSubject=0;
     files = dir(['C:\Users\lirongr\Documents\MIRCs_exp\data\cleanData\' subjects{1,1}]);
     for file = files'
@@ -188,13 +188,21 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','
             end
         end
     end
-%         %for saving per subject
-%         numberOfRelevantTrials=t_perSubject;
-%         SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
-%         save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-%             'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-%             'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-%             'num_of_sacc_per_sec','num_of_sacc');
+        %for saving per subject
+        numberOfRelevantTrials=t_perSubject;
+        SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
+        save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+            'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+            'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+            'num_of_sacc_per_sec','num_of_sacc');
+        clearvars 'labeled_saccade_vecs' 'saccs_time_ms' 'saccs_amp_degrees' 'saccs_maxvel_deg2sec'...
+            'saccs_vel_deg2sec' 'drifts_amp_degrees' 'drifts_time_ms' 'drifts_vel_deg2sec' 'drifts_dist_degrees'...
+            'XY_vecs_pix' 'XY_vecs_deg' 'num_of_sacc_per_sec' 'num_of_sacc'
+        didRecog=zeros(1,1000);
+        notRecog=zeros(1,1000);
+        t=0;
+        %%%
+        
 end
 numberOfRelevantTrials=t;
 didRecog=didRecog(1:t);
