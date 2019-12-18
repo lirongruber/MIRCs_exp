@@ -17,18 +17,23 @@ close all
 path='C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\';
 paths={
     [path ...
-    'OnlyFirst1_Sub1Mirc0Full0Ref0_rec No']
+    'OnlyFirst1_Sub1Mirc0Full0Ref0_rec No_subMIRCGROUP']
     [path...
-    'OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes']
+    'OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes_MIRCGROUP']
+%     [path ...
+%     'OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_subMIRCGROUP']
+%     [path ...
+%     'OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_MIRCGROUP']
     [path ...
-    'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth']
+    'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_subMIRCGROUP']
     [path ...
-    'OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth']
+    'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_MIRCGROUP']
     };
 paths=paths';
 % currcolor={[181,8,4]./255,[133,134,15]./255,[181,8,4]./255,[133,134,15]./255};
 % currcolor={[181,8,4]./255,'k',[181,8,4]./255,'k'};
 currcolor={[133,134,15]./255,[234,166,18]./255,[181,8,4]./255,[131,188,195]./255};
+currcolor={'b','m','k','k','c','c'};
 
 for group=1:length(paths)
     load(paths{group});
@@ -88,13 +93,13 @@ for group=1:length(paths)
         for r=1:20
             currCol=meansPerRank{group}(:,r);
             num_rel_trial(r)=length(currCol(currCol~=0));
-            if num_rel_trial> 0.2*length(currCol)
+            if num_rel_trial(r)> 0.2*length(currCol)
                 relmeans(r)=mean(currCol(currCol~=0));
                 relstes(r)=ste(currCol(currCol~=0));
             end
         end
         figure(1)
-        if group>2
+        if group>2 %group==2 || group==4 || group==6 %
             subplot(2,4,var+4)
         else
             subplot(2,4,var)

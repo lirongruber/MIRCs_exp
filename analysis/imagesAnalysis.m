@@ -9,12 +9,12 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition=' Yes'; % ' Yes' ' No' 'Both'
-OnlyFirstSession=1;
+Recognition='Both'; % ' Yes' ' No' 'Both'
+OnlyFirstSession=0;
 Sub=0;
-Mirc=1;
+Mirc=0;
 Full=0;
-Ref=0;
+Ref=1;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
 onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
 
@@ -36,7 +36,7 @@ rate=250;% 250 Hz
 screen_dis=1;% meter
 PIXEL2METER=0.000264583;
 do_plot_images=0;
-for i=1:length(orderPicsNames)
+for i=1:size(orderPicsNames,2)
     orderPicsNames{2,i}=i;
 end
 
@@ -44,7 +44,9 @@ t=0;
 didRecog=zeros(1,1000);
 notRecog=zeros(1,1000);
 %mircs: subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
+nameOfFile=[nameOfFile '_MIRCGROUP'];
 %submircs: subjects={'EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'}
+% nameOfFile=[nameOfFile '_subMIRCGROUP'];
 % for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'}
 for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
     t_perSubject=0;
@@ -110,7 +112,7 @@ for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
                                     hold on
                                     h=imshow(imageRGB);
                                     z = zeros(size(x));
-                                    col = 1:length(x);  % This is the color.
+                                    col = 1:size(x,2);  % This is the color.
                                     ho=surface([x;x],[y;y],[z;z],[col;col],...
                                         'facecol','no',...
                                         'edgecol','interp',...
@@ -137,7 +139,7 @@ for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
                                 [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,imdata,[x ; y],rate,filterFlag);
                                 
                                 % 1.number of sacc
-                                num_of_sacc(t)=length(saccade_vec);
+                                num_of_sacc(t)=size(saccade_vec,2);
                                 % 2. number of saccedes per sec
                                 trialTime=3; %sec
                                 num_of_sacc_per_sec(t)=num_of_sacc(t)./ trialTime;
@@ -165,7 +167,7 @@ for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
                                 
 %                                 %visit rates
 %                                 [full_finalPic,sec1_finalPic,unfull_finalPic,unsec1_finalPic]=visitRatesMircs(XY_vec_pix,imdata);
-%                                 for i=1:length(orderPicsNames)
+%                                 for i=1:size(orderPicsNames,2)
 %                                     if strcmp(orderPicsNames{1,i},NamePic)==1
 %                                         full_finalPics{i}{t}=full_finalPic;
 %                                         sec1_finalPics{i}{t}=sec1_finalPic;
@@ -188,26 +190,26 @@ for subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
             end
         end
     end
-        %for saving per subject
-        numberOfRelevantTrials=t_perSubject;
-        SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
-        save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-            'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-            'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-            'num_of_sacc_per_sec','num_of_sacc');
-        clearvars 'labeled_saccade_vecs' 'saccs_time_ms' 'saccs_amp_degrees' 'saccs_maxvel_deg2sec'...
-            'saccs_vel_deg2sec' 'drifts_amp_degrees' 'drifts_time_ms' 'drifts_vel_deg2sec' 'drifts_dist_degrees'...
-            'XY_vecs_pix' 'XY_vecs_deg' 'num_of_sacc_per_sec' 'num_of_sacc'
-        didRecog=zeros(1,1000);
-        notRecog=zeros(1,1000);
-        t=0;
-        %%%
+%         %for saving per subject
+%         numberOfRelevantTrials=t_perSubject;
+%         SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
+%         save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+%             'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+%             'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+%             'num_of_sacc_per_sec','num_of_sacc');
+%         clearvars 'labeled_saccade_vecs' 'saccs_time_ms' 'saccs_amp_degrees' 'saccs_maxvel_deg2sec'...
+%             'saccs_vel_deg2sec' 'drifts_amp_degrees' 'drifts_time_ms' 'drifts_vel_deg2sec' 'drifts_dist_degrees'...
+%             'XY_vecs_pix' 'XY_vecs_deg' 'num_of_sacc_per_sec' 'num_of_sacc'
+%         didRecog=zeros(1,1000);
+%         notRecog=zeros(1,1000);
+%         t=0;
+%         %%%
         
 end
 numberOfRelevantTrials=t;
 didRecog=didRecog(1:t);
 notRecog=notRecog(1:t);
-% for i=1:length(full_finalPics)
+% for i=1:size(full_finalPics,2)
 %     if ~isempty(full_finalPics{i})
 %         full_finalPics{i}=full_finalPics{i}(~cellfun('isempty',full_finalPics{i}));
 %         sec1_finalPics{i}=sec1_finalPics{i}(~cellfun('isempty',sec1_finalPics{i}));

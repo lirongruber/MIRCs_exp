@@ -2,11 +2,12 @@
 clear
 % close all
 
-currcolor={'b','m','c','k'};
+currcolor={'b','m','k','k'};
 % currcolor={[120 178 171]./255,[80 156 135]./255,[71 131 108]./255,[45 116 82]./255};
 % currcolor={[181,8,4]./255,[234,166,18]./255,[133,134,15]./255,[131,188,195]./255};
 
 methods={'subMirc' 'Mirc' 'fullImage',  'refImage'};
+methods={'subMirc' 'Mirc' 'refSub',  'refMIRC'};
 % methods={'No' ,'Yes','both' ,'full' };
 % methods={'session 1' 'session 2' 'session 3','session 4' };
 
@@ -23,10 +24,10 @@ methods={'subMirc' 'Mirc' 'fullImage',  'refImage'};
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
 %     };
 % First session for sub+mirc and RECOGNITION
-paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat',...
+paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_rec No_subMIRCGROUP.mat',...
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes_MIRCGROUP.mat',...
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_subMIRCGROUP.mat',...
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_MIRCGROUP.mat',...
     };
 % per session order 1-4 
 % paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\onlySession1_Sub1Mirc1Full1Ref1_recBoth.mat',...
@@ -53,7 +54,7 @@ paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1M
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat',...
 %     };
 %%
-figure(2)
+figure(1)
 for i=1:4
 load(paths{i});
 %recognitions
@@ -68,12 +69,30 @@ hold on
 bar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'FaceColor',[220 220 220]./255,'EdgeColor',[0 0 0]);
 errorbar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),ste(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'.','Color',currcolor{i},'LineWidth',2);
 set(gca, 'XTick', 1:4, 'XTickLabel', methods,'Fontsize',12);title('Number of Saccades (per second)','Fontsize',20)
+%driftTime - ISI
+if i==1 || i==2
+subplot(4,3,7)
+title('Drift Duration','Fontsize',20)
+else  
+subplot(4,3,10)
+xlabel('Time [ms]','Fontsize',20)
+end
+hold on
+curr_drifts_time_ms{i}=[];
+for ii=1:length(drifts_time_ms)
+    curr_drifts_time_ms{i}=[curr_drifts_time_ms{i} drifts_time_ms{1,ii}];
+end
+currmean=median(curr_drifts_time_ms{i}(curr_drifts_time_ms{i}~=0));
+h=histogram(curr_drifts_time_ms{i}(curr_drifts_time_ms{i}~=0),0:50:1000,'Normalization','probability','FaceColor',currcolor{i});
+hold on
+plot([currmean currmean],[0 0.2],'--','Color',currcolor{i})
+axis([0 1000 0 0.2])
 %driftAmp
 if i==1 || i==2
-subplot(4,2,5)
+subplot(4,3,8)
 title('Drift Amplitude','Fontsize',20)
 else  
-subplot(4,2,7)
+subplot(4,3,11)
 xlabel('amp [deg]','Fontsize',20)
 end
 hold on
@@ -82,15 +101,15 @@ for ii=1:length(drifts_amp_degrees)
     curr_drifts_amp_degrees{i}=[curr_drifts_amp_degrees{i} drifts_amp_degrees{1,ii}];
 end
 currmean=median(curr_drifts_amp_degrees{i}(curr_drifts_amp_degrees{i}~=0));
-h=histogram(curr_drifts_amp_degrees{i}(curr_drifts_amp_degrees{i}~=0),0:0.2:30,'Normalization','probability','FaceColor',currcolor{i});
+h=histogram(curr_drifts_amp_degrees{i}(curr_drifts_amp_degrees{i}~=0),0:0.2:15,'Normalization','probability','FaceColor',currcolor{i});
 plot([currmean currmean],[0 0.2],'--','Color',currcolor{i})
-axis([0 15 0 0.2])
+axis([0 5 0 0.2])
 %driftVel
 if i==1 || i==2
-subplot(4,2,6)
+subplot(4,3,9)
 title('Drift Speed','Fontsize',20)
 else
-subplot(4,2,8)
+subplot(4,3,12)
 xlabel('speed [deg/sec]','Fontsize',20)
 end
 hold on
@@ -99,9 +118,9 @@ for ii=1:length(drifts_vel_deg2sec)
     curr_drifts_vel_deg2sec{i}=[curr_drifts_vel_deg2sec{i} drifts_vel_deg2sec{1,ii}];
 end
 currmean=median(curr_drifts_vel_deg2sec{i}(curr_drifts_vel_deg2sec{i}~=0));
-h=histogram(curr_drifts_vel_deg2sec{i}(curr_drifts_vel_deg2sec{i}~=0),0:0.2:30,'Normalization','probability','FaceColor',currcolor{i});
+h=histogram(curr_drifts_vel_deg2sec{i}(curr_drifts_vel_deg2sec{i}~=0),0:0.3:15,'Normalization','probability','FaceColor',currcolor{i});
 plot([currmean currmean],[0 0.2],'--','Color',currcolor{i})
-axis([0 15 0 0.2])
+axis([0 10 0 0.2])
 end
 
 

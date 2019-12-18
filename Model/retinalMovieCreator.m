@@ -34,7 +34,7 @@ if movieFlag==1
         if sum(ismember(sacc_t,i))
             hold on
             plot(201,201,'b*','MarkerSize',1)
-            pause(0.01)
+            pause(0.008)
             hold off
         end
         pause(0.0001)

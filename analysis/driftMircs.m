@@ -6,8 +6,10 @@ drift_amp_degrees=[];
 drift_vel_deg2sec=[];
 
 minDriftTimeMs=40; % in milsec
+maxDriftTimeMs=1000; % in milsec
 minLengthofDrift=0.15;% in degrees!
-maxDriftVel=100; %in deg/sec
+maxLengthofDrift=15;% in degrees!
+maxDriftVel=15; %in deg/sec
 
 for i =0:size(saccade_vec,2)
     j=i+1;
@@ -29,11 +31,11 @@ for i =0:size(saccade_vec,2)
         len=0;
     end
     drift_amp_degrees(j)=len;
-    drift_time_ms(j)=length(temp)/rate*1000; %  milsec
+    drift_time_ms(j)=size(temp,2)/rate*1000; %  milsec
     drift_dist_degrees(j)=EUDist(temp(1,:),temp(end,:));
     drift_vel_deg2sec(j)=drift_amp_degrees(j)/(drift_time_ms(j)/1000);
     
-    if  drift_amp_degrees(j)<minLengthofDrift || drift_time_ms(j)< minDriftTimeMs || drift_vel_deg2sec(j)>maxDriftVel || max(max(isnan(temp)))>0
+    if  drift_amp_degrees(j)<minLengthofDrift || drift_amp_degrees(j)>maxLengthofDrift ||drift_time_ms(j)< minDriftTimeMs || drift_time_ms(j)> maxDriftTimeMs || drift_vel_deg2sec(j)>maxDriftVel || max(max(isnan(temp)))>0
         drift_amp_degrees(j)=0;
         drift_vel_deg2sec(j)=0;
         drift_time_ms(j)=0;

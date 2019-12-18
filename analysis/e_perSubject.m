@@ -11,37 +11,40 @@ currcolor={'b','m','c','k'};
 %submircs: subjects={'EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'}
 %all: subjects={'AK','FS','EM','GG','GH','GS','HL','IN','LS','NA','NG','RB','SE','SG','SS','TT','UK','YB','YM','YS'};
 p=[0,0];
-subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM','EM','HL','NA','RB','SG','SS','YB','YS'}; %,'SE','GS'
+subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM','EM','HL','NA','RB','SG','SS','YB','YS','SE','GS'}; %,'SE','GS'
 for i=1:length(subjects)
-    refe(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat']);
-    full(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat']);
-    if exist(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat'],'file')
+    
+    if exist(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No_subMIRCGROUP.mat'],'file')
         type=1;
         p(type)=p(type)+1;
         name='subMIRCs';
-        trial(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No.mat']);
+        trial(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No_subMIRCGROUP.mat']);
+        refe(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_subMIRCGROUP.mat']);
+        full(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_subMIRCGROUP.mat']);
         types(i)=type;
         color=[0 0 255];
     else
         type=2;
         p(type)=p(type)+1;
         name='MIRCs';
-        trial(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat']);
+        trial(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes_MIRCGROUP.mat']);
+        refe(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_MIRCGROUP.mat']);
+        full(i)=load(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,i} '_OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_MIRCGROUP.mat']);
         types(i)=type;
         color=[255 0 255];
     end
     
     figure(2)
     subplot(2,1,1)
-    bar(i*2,mean(trial(i).num_of_sacc_per_sec)/mean(refe(i).num_of_sacc_per_sec),'FaceColor',color./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
-%     bar(i*2-1,mean(refe(i).num_of_sacc_per_sec),'FaceColor',[0 0 0]./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
+    bar(i*2,mean(trial(i).num_of_sacc_per_sec),'FaceColor',color./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
+    bar(i*2-1,mean(refe(i).num_of_sacc_per_sec),'FaceColor',[0 0 0]./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
     hold on
 %     bar(i*2,mean(trial(i).num_of_sacc_per_sec),'FaceColor',color./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
-    errorbar(i*2,mean(trial(i).num_of_sacc_per_sec)/mean(refe(i).num_of_sacc_per_sec),max(ste(trial(i).num_of_sacc_per_sec),ste(refe(i).num_of_sacc_per_sec)),'.','Color','k','LineWidth',2);
-%     errorbar(i*2-1,mean(refe(i).num_of_sacc_per_sec),ste(refe(i).num_of_sacc_per_sec),'.','Color','k','LineWidth',2);
+    errorbar(i*2,mean(trial(i).num_of_sacc_per_sec),ste(refe(i).num_of_sacc_per_sec),'.','Color','k','LineWidth',2);
+    errorbar(i*2-1,mean(refe(i).num_of_sacc_per_sec),ste(refe(i).num_of_sacc_per_sec),'.','Color','k','LineWidth',2);
 %     errorbar(i*2,mean(trial(i).num_of_sacc_per_sec),ste(trial(i).num_of_sacc_per_sec),'.','Color','b','LineWidth',2);
     set(gca, 'XTick', 1:2:40, 'XTickLabel', subjects,'Fontsize',12);
-    legend('reference','trial')
+%     legend('reference','trial')
     title(' Number of Saccades (per second)','Fontsize',20)
     axis([0 41 0 5])
     %
@@ -64,15 +67,15 @@ for i=1:length(subjects)
     end
     trial(i).drifts_vel_deg2sec=t_curr_drifts_vel_deg2sec;
     
-%     currmean=mean(r_curr_drifts_vel_deg2sec(r_curr_drifts_vel_deg2sec~=0));
-%     bar(i*2-1,currmean,'FaceColor',[0 0 0]./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
-%     hold on
-%     errorbar(i*2-1,currmean,ste(r_curr_drifts_vel_deg2sec),'.','Color','k','LineWidth',2);
-%     set(gca, 'XTick', 1:2:40, 'XTickLabel', subjects,'Fontsize',12);
-%     title('Drift Speed' ,'Fontsize',20)
-%     axis([0 41 0 10])
+    currmean=mean(r_curr_drifts_vel_deg2sec(r_curr_drifts_vel_deg2sec~=0));
+    bar(i*2-1,currmean,'FaceColor',[0 0 0]./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
+    hold on
+    errorbar(i*2-1,currmean,ste(r_curr_drifts_vel_deg2sec),'.','Color','k','LineWidth',2);
+    set(gca, 'XTick', 1:2:40, 'XTickLabel', subjects,'Fontsize',12);
+    title('Drift Speed' ,'Fontsize',20)
+    axis([0 41 0 10])
     
-    currmean=mean(t_curr_drifts_vel_deg2sec(t_curr_drifts_vel_deg2sec~=0))/mean(r_curr_drifts_vel_deg2sec(r_curr_drifts_vel_deg2sec~=0));
+    currmean=mean(t_curr_drifts_vel_deg2sec(t_curr_drifts_vel_deg2sec~=0));
     bar(i*2,currmean,'FaceColor',color./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
     hold on
     errorbar(i*2,currmean,ste(t_curr_drifts_vel_deg2sec),'.','Color','b','LineWidth',2);

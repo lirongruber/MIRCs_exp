@@ -57,10 +57,10 @@ t_filter=t_filter./max(t_filter);
 % plot([0 100],[0 0])
 % xlabel('time [ms]')
 paths={...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\MIRCs_yes';
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\MIRCs_no';
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\subMIRCs_yes';
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\subMIRCs_no';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_yes';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_no';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_yes';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_no';
     };
 paths=paths';
 
@@ -87,7 +87,7 @@ for cond=1:4
 % %          tempX_filtered = sgolayfilt(gazeX,1,11);
 % %          tempY_filtered = sgolayfilt(gazeY,1,11);
          % sacc removel
-         rate=1000;% 1000 Hz
+         rate=250;% 250 Hz
          filterFlag=1; % !!!
          plotFlag=0;
          [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,im,[gazeX ; gazeY],rate,filterFlag);
@@ -100,10 +100,11 @@ for cond=1:4
          chan_h_deg(isnan(tempX_filtered))=nan;
          chan_v_deg(isnan(tempY_filtered))=nan;
          
-         final_rate=100;
-         ALLcurrXY_deg=[chan_h_deg(2000:rate/final_rate:end) ; chan_v_deg(2000:rate/final_rate:end)];
-         ALLcurrXY=[ tempX_filtered(2000:rate/final_rate:end) ; tempY_filtered(2000:rate/final_rate:end) ];
-         DS_t_filter=t_filter(1:rate/final_rate:end);
+         final_rate=125;
+         ALLcurrXY_deg=[chan_h_deg(500:rate/final_rate:end) ; chan_v_deg(500:rate/final_rate:end)];
+         ALLcurrXY=[ tempX_filtered(500:rate/final_rate:end) ; tempY_filtered(500:rate/final_rate:end) ];
+         DS_t_filter=t_filter(1:1000/rate:end);
+         DS_t_filter=DS_t_filter(1:rate/final_rate:end);
          DS_t_filter=DS_t_filter./max(DS_t_filter);
          movieFlag=0;
          [movie,filt_movie]=retinalMovieCreator(im,ALLcurrXY,retinal_locations_Xpix,retinal_locations_Ypix,retinal_RFs_pix,DS_t_filter,movieFlag);
@@ -114,6 +115,6 @@ for cond=1:4
          details.XYdeg=ALLcurrXY_deg;
          details.category=folders{cond};
          details.imageName=PicName;
-         save(['C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\videos\' folders{cond} '\mov' num2str(movNum) ], 'movie','filt_movie','details');
+         save(['C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos\' folders{cond} '\mov' num2str(movNum) ], 'movie','filt_movie','details');
     end
 end
