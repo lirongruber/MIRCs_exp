@@ -70,7 +70,7 @@ for i=1:length(subjects)
         
         t_curr_drifts_vel_deg2sec=[];
         for ii=1:trial(i).numberOfRelevantTrials
-            t_curr_drifts_vel_deg2sec=[t_curr_drifts_vel_deg2sec trial(i).drifts_vel_deg2sec{1,length(trial(i).drifts_vel_deg2sec)-ii+1}]; %
+            t_curr_drifts_vel_deg2sec=[t_curr_drifts_vel_deg2sec trial(i).drifts_vel_deg2sec{1,length(trial(i).drifts_vel_deg2sec)-ii+1}];
         end
         trial(i).drifts_vel_deg2sec=t_curr_drifts_vel_deg2sec;
         
@@ -86,23 +86,18 @@ for i=1:length(subjects)
         end
         trial(i).drifts_time_ms=t_curr_drifts_time_ms;
         
-%         currmean=mean(r_curr_drifts_vel_deg2sec(r_curr_drifts_vel_deg2sec~=0));
-        currmean=mean(r_curr_drifts_amp_degrees(r_curr_drifts_amp_degrees~=0));
+        currmean=mean(r_curr_drifts_vel_deg2sec(r_curr_drifts_vel_deg2sec~=0));
         bar(i*2-1,currmean,'FaceColor',[0 0 0]./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
         hold on
-%         errorbar(i*2-1,currmean,ste(r_curr_drifts_vel_deg2sec),'.','Color','k','LineWidth',2);
-        errorbar(i*2-1,currmean,ste(r_curr_drifts_amp_degrees),'.','Color','k','LineWidth',2);
+        errorbar(i*2-1,currmean,ste(r_curr_drifts_vel_deg2sec),'.','Color','k','LineWidth',2);
         set(gca, 'XTick', 1:2:40, 'XTickLabel', subjects,'Fontsize',12);
-%         title('Drift Speed' ,'Fontsize',20)
-title('Drift Amp' ,'Fontsize',20)
+        title('Drift Speed' ,'Fontsize',20)
         axis([0 41 0 10])
         
-%         currmean=mean(t_curr_drifts_vel_deg2sec(t_curr_drifts_vel_deg2sec~=0));
-        currmean=mean(t_curr_drifts_amp_degrees(t_curr_drifts_amp_degrees~=0));
+        currmean=mean(t_curr_drifts_vel_deg2sec(t_curr_drifts_vel_deg2sec~=0));
         bar(i*2,currmean,'FaceColor',color./255,'EdgeColor',[0 0 0],'FaceAlpha',.5);
         hold on
-%         errorbar(i*2,currmean,ste(t_curr_drifts_vel_deg2sec),'.','Color','b','LineWidth',2);
-        errorbar(i*2,currmean,ste(t_curr_drifts_amp_degrees),'.','Color','b','LineWidth',2);
+        errorbar(i*2,currmean,ste(t_curr_drifts_vel_deg2sec),'.','Color','b','LineWidth',2);
         
         figure(type+9)
         subplot(2,10,p(type))
@@ -228,30 +223,6 @@ end
     title('Drift speed')
     
     figure(5)
-    hold on
-    subplot(1,2,1)
-    hold on
-    h=histogram(refSub_driftDur(refSub_driftDur~=0),0:50:1000,'Normalization','probability','FaceColor','k');
-    hold on
-    plot([median(refSub_driftDur(refSub_driftDur~=0)) median(refSub_driftDur(refSub_driftDur~=0))],[0 0.2],'--','Color','k')
-    h=histogram(Sub_driftDur(Sub_driftDur~=0),0:50:1000,'Normalization','probability','FaceColor','b');
-    plot([median(Sub_driftDur(Sub_driftDur~=0)) median(Sub_driftDur(Sub_driftDur~=0))],[0 0.2],'--','Color','b')
-    % h=histogram(fullSub_driftSpeed(fullSub_driftSpeed~=0),0:0.2:30,'Normalization','probability','FaceColor','c');
-    % plot([median(fullSub_driftSpeed(fullSub_driftSpeed~=0)) median(fullSub_driftSpeed(fullSub_driftSpeed~=0))],[0 0.2],'--','Color','c')
-%     axis([0 15 0 0.2])
-    
-    subplot(1,2,2)
-    hold on
-    h=histogram(refMirc_driftDur(refMirc_driftDur~=0),0:50:1000,'Normalization','probability','FaceColor','k');
-    plot([median(refMirc_driftDur(refMirc_driftDur~=0)) median(refMirc_driftDur(refMirc_driftDur~=0))],[0 0.2],'--','Color','k')
-    h=histogram(Mirc_driftDur(Mirc_driftDur~=0),0:50:1000,'Normalization','probability','FaceColor','m');
-    plot([median(Mirc_driftDur(Mirc_driftDur~=0)) median(Mirc_driftDur(Mirc_driftDur~=0))],[0 0.2],'--','Color','m')
-    % h=histogram(fullMirc_driftSpeed(fullMirc_driftSpeed~=0),0:0.2:30,'Normalization','probability','FaceColor','c');
-    % plot([median(fullMirc_driftSpeed(fullMirc_driftSpeed~=0)) median(fullMirc_driftSpeed(fullMirc_driftSpeed~=0))],[0 0.2],'--','Color','c')
-%     axis([0 15 0 0.2])
-    title('Drift Dur')
-    
-    figure(6)
     hold on
     plot(1,mean(refSub_saccRate),'.k')
     errorbar(1,mean(refSub_saccRate),ste(refSub_saccRate),'k')

@@ -1,6 +1,6 @@
 % CONVERGENCE WITHIN TRIAL
 clear
-close all
+% close all
 % 'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat'
 % 'OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes.mat';
 % 'OnlyFirst1_Sub1Mirc1Full0Ref0_rec No.mat';
@@ -17,23 +17,33 @@ close all
 path='C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\';
 paths={
     [path ...
-    'OnlyFirst1_Sub1Mirc0Full0Ref0_rec No_subMIRCGROUP']
-    [path...
-    'OnlyFirst1_Sub0Mirc1Full0Ref0_rec Yes_MIRCGROUP']
-%     [path ...
-%     'OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_subMIRCGROUP']
-%     [path ...
-%     'OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_MIRCGROUP']
+    'OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat']
     [path ...
-    'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_subMIRCGROUP']
+    'OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat']
     [path ...
-    'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_MIRCGROUP']
+    'OnlyFirst0_Sub0Mirc0Full1Ref1_recBoth.mat']
+%     [path ...
+%     'OnlyFirst0_Sub1Mirc1Full0Ref0_rec No_subMIRCGROUP.mat']
+%     [path ...
+%     'OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes_subMIRCGROUP.mat']
+%     [path ...
+%     'OnlyFirst0_Sub1Mirc1Full0Ref0_rec No_MIRCGROUP.mat']
+%     [path ...
+%     'OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes_MIRCGROUP.mat']
+    %     [path ...
+    %     'OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_subMIRCGROUP']
+    %     [path ...
+    %     'OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth_MIRCGROUP']
+%     [path ...
+%     'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_subMIRCGROUP']
+%     [path ...
+%     'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth_MIRCGROUP']
     };
-paths=paths';
+    paths=paths';
 % currcolor={[181,8,4]./255,[133,134,15]./255,[181,8,4]./255,[133,134,15]./255};
 % currcolor={[181,8,4]./255,'k',[181,8,4]./255,'k'};
 currcolor={[133,134,15]./255,[234,166,18]./255,[181,8,4]./255,[131,188,195]./255};
-currcolor={'b','m','k','k','c','c'};
+currcolor={'b','m','k','c','m','k'};
 
 for group=1:length(paths)
     load(paths{group});
@@ -46,16 +56,16 @@ for group=1:length(paths)
                 end
                 rel_title='Drift Speed';
                 rel_y='speed [deg/sec]';
-                rel_min=3;
-                rel_max=6;
+                rel_min=2.5;
+                rel_max=5;
             case 3
                 for i=1:length(drifts_amp_degrees)
                     meansPerRank{group}=[meansPerRank{group} ; [drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0) zeros(1,25-length(drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0)))]];
                 end
                 rel_title='Drift Amplitudes';
                 rel_y='amplitude[deg]';
-                rel_min=0;
-                rel_max=4;
+                rel_min=0.5;
+                rel_max=2.5;
             case 4
                 for i=1:length(saccs_amp_degrees)
                     meansPerRank{group}=[meansPerRank{group} ; [saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0) zeros(1,25-length(saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0)))]];
@@ -79,7 +89,7 @@ for group=1:length(paths)
                 rel_title='ISI';
                 rel_y='Drift duration [ms]';
                 rel_min=100;
-                rel_max=900;
+                rel_max=600;
         end
         for d=1:size(meansPerRank{group},1)
             currd=meansPerRank{group}(d,:);
@@ -98,8 +108,8 @@ for group=1:length(paths)
                 relstes(r)=ste(currCol(currCol~=0));
             end
         end
-        figure(1)
-        if group>2 %group==2 || group==4 || group==6 %
+        figure(2)
+        if group>3 %group==2 || group==4 || group==6 %
             subplot(2,4,var+4)
         else
             subplot(2,4,var)
