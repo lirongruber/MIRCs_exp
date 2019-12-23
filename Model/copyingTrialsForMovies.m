@@ -13,13 +13,13 @@ for sub={'EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'}
     rel_files=dir(rel_folder );
     for trial_i=3:length(rel_files)
         t=rel_files(trial_i).name;
-        if strcmp(t(4),'2')
+        if strcmp(t(4),'3')
             load([rel_folder '\' t]);
             if ~strcmp(PicName(1:5),'house') && ~strcmp(PicName(1:4),'nose') && ~strcmp(PicName(1:5),'mouth') 
                 if strcmp(answer,' Yes')
-                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_yes');
+                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_yes');
                 else
-                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_no');
+                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_no');
                 end
             end
         end
@@ -31,13 +31,13 @@ for sub={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
     rel_files=dir(rel_folder );
     for trial_i=3:length(rel_files)
         t=rel_files(trial_i).name;
-        if strcmp(t(4),'2')
+        if strcmp(t(4),'3')
             load([rel_folder '\' t]);
             if ~strcmp(PicName(1:5),'house') && ~strcmp(PicName(1:4),'nose') && ~strcmp(PicName(1:5),'mouth') 
                 if strcmp(answer,' Yes')
-                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_yes');
+                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_yes');
                 else
-                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_no');
+                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_no');
                 end
             end
         end

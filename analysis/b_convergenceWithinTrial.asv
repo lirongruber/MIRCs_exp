@@ -49,11 +49,11 @@ currcolor={'b','m','k','c','m','k'};
 for var=1:5
     for group=1:length(paths)
         load(paths{group});
-        meansPerRank{1,group}=zeros(1,25);
+        meansPerRank{group}=zeros(1,25);
         switch var
             case 2
                 for i=1:length(drifts_vel_deg2sec)
-                    meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0) zeros(1,25-length(drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0) zeros(1,25-length(drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0)))]];
                 end
                 rel_title='Drift Speed';
                 rel_y='speed [deg/sec]';
@@ -61,7 +61,7 @@ for var=1:5
                 rel_max=5;
             case 3
                 for i=1:length(drifts_amp_degrees)
-                    meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0) zeros(1,25-length(drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0) zeros(1,25-length(drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0)))]];
                 end
                 rel_title='Drift Amplitudes';
                 rel_y='amplitude[deg]';
@@ -69,7 +69,7 @@ for var=1:5
                 rel_max=2.5;
             case 4
                 for i=1:length(saccs_amp_degrees)
-                    meansPerRank{1,group}=[meansPerRank{1,group} ; [saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0) zeros(1,25-length(saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0) zeros(1,25-length(saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0)))]];
                 end
                 rel_title='Saccades Amplitudes';
                 rel_y='amplitude[deg]';
@@ -77,7 +77,7 @@ for var=1:5
                 rel_max=2;
             case 5
                 for i=1:length(drifts_curve_CI)
-                    meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_curve_CI{1,i}(drifts_curve_CI{1,i}~=0) zeros(1,25-length(drifts_curve_CI{1,i}(drifts_curve_CI{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [drifts_curve_CI{1,i}(drifts_curve_CI{1,i}~=0) zeros(1,25-length(drifts_curve_CI{1,i}(drifts_curve_CI{1,i}~=0)))]];
                 end
                 rel_title='Drift Curvature';
                 rel_y='CI [AU]';
@@ -85,15 +85,15 @@ for var=1:5
                 rel_max=0.8;
             case 1
                 for i=1:length(drifts_time_ms)
-                    meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0) zeros(1,25-length(drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0)))]];
+                    meansPerRank{group}=[meansPerRank{group} ; [drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0) zeros(1,25-length(drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0)))]];
                 end
                 rel_title='ISI';
                 rel_y='Drift duration [ms]';
                 rel_min=100;
                 rel_max=600;
         end
-        for d=1:size(meansPerRank{1,group},1)
-            currd=meansPerRank{1,group}(d,:);
+        for d=1:size(meansPerRank{group},1)
+            currd=meansPerRank{group}(d,:);
             numberOfDrift(d)=length(currd(currd~=0));
         end
         avNumofD=mean(numberOfDrift);
@@ -139,11 +139,7 @@ for var=1:5
             plot(r,(rel_max-rel_min)*0.6+rel_min,'*k')
         end
     end
-    [hh,pp] = kstest2(meansPerRank{2,1},meansPerRank{2,2});
-    if hh==1
-        subplot(2,4,var)
-        text(4,(rel_max-rel_min)*0.2+rel_min,'* KS','Fontsize',22)
-    end
+    [h,p] = kstest2(___)
 end
 
 
