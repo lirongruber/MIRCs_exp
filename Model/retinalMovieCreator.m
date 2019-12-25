@@ -13,7 +13,7 @@ for f=1:size(ALLcurrXY,2)
     retinal_image=0.5.*ones(size(retinal_locations_Xpix));
     currXLocations=(currXY(1)+retinal_locations_Xpix);
     currYLocations=(currXY(2)+retinal_locations_Ypix);
-    if ~isnan(currXY(1)) && max(currXLocations(:))<1980 && max(currYLocations(:))<1020
+    if ~isnan(currXY(1)) && max(currXLocations(:))<1980 && max(currYLocations(:))<1020 && min(currXLocations(:))<1 && min(currYLocations(:))<1
         idx = sub2ind(size(im), currYLocations, currXLocations);
         for j = 1:length(N)
             retinal_image = retinal_image + M{N(j)}(idx).*((retinal_RFs_pix)==N(j));

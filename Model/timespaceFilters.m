@@ -70,7 +70,7 @@ folders={...
     'subMIRCs_yes';
     'subMIRCs_no';
     };
-for cond=1:4
+for cond=4%1:4
     currpath=paths{cond};
     movNum=0;
     files = dir(currpath);

@@ -1,7 +1,7 @@
 % retinal movies meta-analysis - saves "class" for later analysis
 clear
 
-movies_path='C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\videos';
+movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos';
 folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes','subMIRCs_no'};
 
 class={};
@@ -20,4 +20,4 @@ for folder=folders
         end
     end
 end
-save('C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\class','class')
+save('C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\class','class')

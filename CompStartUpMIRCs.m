@@ -19,7 +19,7 @@ if exist('C:\Users\lirongr\Documents\MIRCs_exp\','dir')
     SavingPath='C:\Users\lirongr\Documents\MIRCs_exp\data\';
     cd C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo
     addpath (genpath('C:\Users\lirongr\Documents\MIRCs_exp\'))
-    addpath (genpath('C:\Users\lirongr\Documents\MATLAB\UTIL\'))
+    addpath (genpath('C:\Users\lirongr\Documents\MATLAB\'))
 end
 
 set(0,'DefaultAxesFontName', 'Arial')
