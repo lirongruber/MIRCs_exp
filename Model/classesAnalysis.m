@@ -1,9 +1,9 @@
 close all
-% colors={[2,122,164]./256,[245,218,95]./256,[65,173,73]./256,[244,147,31]./256}; % blue yellow green orange
-% folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
+colors={[2,122,164]./256,[245,218,95]./256,[65,173,73]./256,[244,147,31]./256}; % blue yellow green orange
+folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
 
-colors={[2,122,164]./256,[244,147,31]./256}; % blue yellow green orange
-folders={'MIRCs Yes','subMIRCs No'};
+% colors={[2,122,164]./256,[244,147,31]./256}; % blue yellow green orange
+% folders={'MIRCs Yes','subMIRCs No'};
 % class={ class{1,:} ; class{4,:} };
 % class=one_class;
 % class=control_class;
