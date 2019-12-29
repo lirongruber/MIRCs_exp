@@ -123,7 +123,7 @@ for fixation_num=1:size(filt_movie,2)
 %             end
 %             eva1 = evalclusters(score(:,1:c80),kmeans_options, 'silhouette'); %The silhouette value for each point is a measure of how similar that point is to points in its own cluster, when compared to points in other clusters.
 %             eva2 = evalclusters(score(:,1:c80),kmeans_options, 'DaviesBouldin'); %The Davies-Bouldin criterion is based on a ratio of within-cluster and between-cluster distances.
-            [no_opt,phi,FVE]=tryingFPCA(activations,plotFlag);%plotFlag);
+            [no_opt,phi,FVE]=tryingFPCA(rel_movie_act,plotFlag);%plotFlag);
             
 %             classfeatures.optNumClass_silhouette(fixation_num)=eva1.OptimalK;
 %             classfeatures.optNumClass_DaviesBouldin(fixation_num)=eva2.OptimalK;

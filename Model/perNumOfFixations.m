@@ -1,5 +1,6 @@
 % % % separating analysis for different number of fixations
 
+% class={ class{1,:} class{3,:} ; class{2,:}  class{4,:} };
 % class={ class{1,:} ; class{4,:} };
 for n=1:12
     one_class={};

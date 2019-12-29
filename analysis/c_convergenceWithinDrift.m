@@ -10,29 +10,25 @@ paths={...
 type=1;
 s=11;
 
-methods2={'fullImage' 'mean' 'Mirc' 'mean' 'subMirc' 'mean' 'stabMirc' 'mean'};
-currcolor={'b','m','k','k'};
+currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
 
 windowAvSize_forMean=3;%1
 windowAvSize_forStd=3;%3
 
-% subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM','EM','HL','NA','RB','SG','SS','YB','YS','SE','GS'}; %,'SE','GS'
-% for s=1:length(subjects)
-%     if exist(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,s} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No_subMIRCGROUP.mat'],'file')
-%         type=1;
-%         types(s)=type;
-% %         currcolor={'b','k','c'};
-%     else
-%         type=2;
-%         types(s)=type;
-% %         currcolor={'m','k','c'};
-%     end
-%     %
-%     paths= {...
-%             ['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,s} '_OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat'],...
-%             ['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,s} '_OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat']
-%             };
-%         currcolor={'b','m'};
+subjects={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM','EM','HL','NA','RB','SG','SS','YB','YS','SE','GS'}; %,'SE','GS'
+for s=1:length(subjects)
+    if exist(['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,s} '_OnlyFirst1_Sub1Mirc0Full0Ref0_rec No_subMIRCGROUP.mat'],'file')
+        type=1;
+        types(s)=type;
+    else
+        type=2;
+        types(s)=type;
+    end
+    paths= {...
+            ['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,s} '_OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat'],...
+            ['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,s} '_OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat']
+            };
+        currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
     
     for group=1:length(paths)
         MeanVel=[];
@@ -90,7 +86,7 @@ windowAvSize_forStd=3;%3
         %                 if group==max(1:length(group))
         if type==1
             figure(3)
-%             subplot(2,5,s-10)
+            subplot(2,5,s-10)
         else
             figure(4)
             subplot(2,5,s)
@@ -116,7 +112,7 @@ windowAvSize_forStd=3;%3
     if s==1
         text(60,2.5,'* KS','Fontsize',22)
     end
-    [s,t]=kstest2(all{2}(15:50),all{3}(15:50));
+%     [s,t]=kstest2(all{2}(15:50),all{3}(15:50));
     
-% end
+end
 % tilefigs

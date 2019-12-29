@@ -1,35 +1,36 @@
 % saccades rate
 clear
-% close all
+close all
 
-currcolor={'b','m','k','k'};
-% currcolor={[120 178 171]./255,[80 156 135]./255,[71 131 108]./255,[45 116 82]./255};
-% currcolor={[181,8,4]./255,[234,166,18]./255,[133,134,15]./255,[131,188,195]./255};
-
-methods={'subMirc', 'Mirc' ,'fullImage'};
-% methods={'subMirc', 'Mirc' ,'refSub',  'refMIRC'};
 methods={'Not Recog', 'Recog', 'Full Images' };
+currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
+
+% methods={'subMirc', 'Mirc' ,'fullImage'};
+% currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
+
+% methods={'subMirc', 'Mirc' ,'refSub',  'refMIRC'};
+% currcolor={[246,75,75]./255,[74,77,255]./255,'k','k'};
+
 % methods={'No' ,'Yes','both' ,'full' };
 % methods={'session 1' 'session 2' 'session 3','session 4' };
 
-% % First session for sub+mirc and RECOGNITION
+% % First session for sub+mirc and full
 % paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat',...
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat',...
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
 %     };
+% All sessions for both (sub+mirc) RECOGNITION VS NO RECOGNITION
+paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+%                 'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat',...
+    };
 
 % % % All sessions for sub+mirc and RECOGNITION
 % paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc0Full0Ref0_recBoth.mat',...
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc1Full0Ref0_recBoth.mat',...
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
 %     };
-% % All sessions for both (sub+mirc) RECOGNITION VS NO RECOGNITION
-paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
-    %             'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat',...
-    };
-
 
 % per session order 1-4
 % paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\onlySession1_Sub1Mirc1Full1Ref1_recBoth.mat',...
@@ -65,13 +66,13 @@ for i=1:size(paths,2)
     hold on
     bar(i,mean(didRecog),'FaceColor',[220 220 220]./255,'EdgeColor',[0 .0 0]);
     errorbar(i,mean(didRecog),ste(didRecog),'Color',currcolor{i},'LineWidth',2);
-    set(gca, 'XTick', 1:4, 'XTickLabel', methods,'Fontsize',12);title('Recognition Rates','Fontsize',20)
+    set(gca, 'XTick', 1:3, 'XTickLabel', methods,'Fontsize',12);title('Recognition Rates','Fontsize',20)
     %numOfSacc
     subplot(2,2,1)
     hold on
     bar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'FaceColor',[220 220 220]./255,'EdgeColor',[0 0 0]);
     errorbar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),ste(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'.','Color',currcolor{i},'LineWidth',2);
-    set(gca, 'XTick', 1:4, 'XTickLabel', methods,'Fontsize',12);title('Number of Saccades (per second)','Fontsize',20)
+    set(gca, 'XTick', 1:3, 'XTickLabel', methods,'Fontsize',12);title('Number of Saccades (per second)','Fontsize',20)
     %driftTime - ISI
     if i==1 || i==2
         subplot(4,4,9)

@@ -1,10 +1,12 @@
-% close all
+close all
 
 % class={ class{1,:} class{3,:} ; class{2,:}  class{4,:} };
 
 % colors={[74,77,255]./255,[246,75,75]./255,[74,77,255]./255,[246,75,75]./255}; % blue yellow green orange
+% folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
 
-colors={[74,77,255]./255,[246,75,75]./255};
+colors={[246,75,75]./255,[74,77,255]./255};
+folders={'MIRCs Yes','subMIRCs No'};
 
 % class={ class{1,:} ; class{4,:} };
 % class=one_class;
@@ -148,9 +150,6 @@ for c=1:size(class,1)
     errorbar(nanmean(optNum_fpca),nanstd(optNum_fpca)./sum(~isnan(optNum_fpca),1),'color',colors{c})
     title('FPCA')
     xlabel('fixation number from trial start')
-    ylabel('optNum of classes')
-    axis([0 10 2 3])
-    
     forSVM{c}=optNum_fpca;
     
     subplot(2,4,c+4)

@@ -9,11 +9,11 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition=' No'; % ' Yes' ' No' 'Both'
+Recognition='Both'; % ' Yes' ' No' 'Both'
 OnlyFirstSession=0;
-Sub=1;
-Mirc=1;
-Full=0;
+Sub=0;
+Mirc=0;
+Full=1;
 Ref=0;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
 onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
@@ -197,22 +197,22 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SG','
             end
         end
     end
-    %for saving per subject
-    if exist('labeled_saccade_vecs')
-        numberOfRelevantTrials=t_perSubject;
-        SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
-        save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-            'drifts_curve_CI','drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-            'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-            'num_of_sacc_per_sec','num_of_sacc');
-        clearvars 'labeled_saccade_vecs' 'saccs_time_ms' 'saccs_amp_degrees' 'saccs_maxvel_deg2sec'...
-            'saccs_vel_deg2sec' 'drifts_amp_degrees' 'drifts_time_ms' 'drifts_curve_CI' 'drifts_vel_deg2sec' 'drifts_dist_degrees'...
-            'XY_vecs_pix' 'XY_vecs_deg' 'num_of_sacc_per_sec' 'num_of_sacc'
-        didRecog=zeros(1,1000);
-        notRecog=zeros(1,1000);
-        t=0;
-    end
-    %%%
+%     %for saving per subject
+%     if exist('labeled_saccade_vecs')
+%         numberOfRelevantTrials=t_perSubject;
+%         SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\perSubject\' subjects{1,1} '_'  nameOfFile];
+%         save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+%             'drifts_curve_CI','drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+%             'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+%             'num_of_sacc_per_sec','num_of_sacc');
+%         clearvars 'labeled_saccade_vecs' 'saccs_time_ms' 'saccs_amp_degrees' 'saccs_maxvel_deg2sec'...
+%             'saccs_vel_deg2sec' 'drifts_amp_degrees' 'drifts_time_ms' 'drifts_curve_CI' 'drifts_vel_deg2sec' 'drifts_dist_degrees'...
+%             'XY_vecs_pix' 'XY_vecs_deg' 'num_of_sacc_per_sec' 'num_of_sacc'
+%         didRecog=zeros(1,1000);
+%         notRecog=zeros(1,1000);
+%         t=0;
+%     end
+%     %%%
     
 end
 numberOfRelevantTrials=t;
@@ -230,13 +230,13 @@ notRecog=notRecog(1:t);
 
 %% saving
 
-% SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\',nameOfFile];
-% save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
-%     'drifts_curve_CI', 'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
-%     'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
-%     'num_of_sacc_per_sec','num_of_sacc');
-% % save([SavingFile  'full_FP'],'full_finalPics','-v7.3');
-% % save([SavingFile  'sec_FP'],'sec1_finalPics','-v7.3');
-% % save([SavingFile  'unfull_FP'],'unfull_finalPics','-v7.3');
-% % save([SavingFile  'unsec_FP'],'unsec1_finalPics','-v7.3');
-% tilefigs;
+SavingFile=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\',nameOfFile];
+save(SavingFile,'numberOfRelevantTrials','labeled_saccade_vecs','XY_vecs_pix','XY_vecs_deg','didRecog','notRecog',...
+    'drifts_curve_CI', 'drifts_vel_deg2sec','drifts_dist_degrees','drifts_amp_degrees','drifts_time_ms',...
+    'saccs_maxvel_deg2sec','saccs_vel_deg2sec','saccs_amp_degrees','saccs_time_ms',...
+    'num_of_sacc_per_sec','num_of_sacc');
+% save([SavingFile  'full_FP'],'full_finalPics','-v7.3');
+% save([SavingFile  'sec_FP'],'sec1_finalPics','-v7.3');
+% save([SavingFile  'unfull_FP'],'unfull_finalPics','-v7.3');
+% save([SavingFile  'unsec_FP'],'unsec1_finalPics','-v7.3');
+tilefigs;

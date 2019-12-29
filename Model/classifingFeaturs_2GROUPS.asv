@@ -2,7 +2,7 @@
 close all
 % class={ class{1,:} class{3,:} ; class{2,:}  class{4,:} };
 
-% colors={[74,77,255]./255,[246,75,75]./255,[74,77,255]./255,[246,75,75]./255};
+% colors={[74,77,255]./255,[246,75,75]./255,[74,77,255]./255,[246,75,75]./255}; 
 % folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
 
 colors={[74,77,255]./255,[246,75,75]./255};
@@ -24,8 +24,8 @@ for c=1:size(class,1)
     numOfinfoRec_rev=nan(size(class,2),30);
     targetSpeed=nan(size(class,2),30);
     targetSpeed_rev=nan(size(class,2),30);
-    %     insAct_Speed=nan(size(class,2),30);
-    %     insAct_Speed_rev=nan(size(class,2),30);
+%     insAct_Speed=nan(size(class,2),30);
+%     insAct_Speed_rev=nan(size(class,2),30);
     varSpeed=nan(size(class,2),30);
     varSpeed_rev=nan(size(class,2),30);
     infoPerRec=nan(size(class,2),30);
@@ -38,7 +38,7 @@ for c=1:size(class,1)
     distFixation_rev=nan(size(class,2),30);
     varInfoPerRec=nan(size(class,2),30);
     varInfoPerRec_rev=nan(size(class,2),30);
-    
+   
     for t=1:size(class,2)
         currT=class(c,t);
         currT=currT{1,1};
@@ -67,10 +67,10 @@ for c=1:size(class,1)
             TimeFixation(t,1:size(currT.timeFixation,2))=currT.timeFixation;
             TimeFixation_rev(t,1:size(currT.timeFixation,2))=flip(currT.timeFixation);
             
-            %             %final ins_act
-            %             insAct_Speed(t,1:size(currT.finalInsInfoPerRec,2))=currT.finalInsInfoPerRec./currT.finalInsSpeed;
-            %             insAct_Speed_rev(t,1:size(currT.finalInsInfoPerRec,2))=flip(currT.finalInsInfoPerRec)./flip(currT.finalInsSpeed);
-            
+%             %final ins_act
+%             insAct_Speed(t,1:size(currT.finalInsInfoPerRec,2))=currT.finalInsInfoPerRec./currT.finalInsSpeed;
+%             insAct_Speed_rev(t,1:size(currT.finalInsInfoPerRec,2))=flip(currT.finalInsInfoPerRec)./flip(currT.finalInsSpeed);
+           
             % var activations
             varInfoPerRec(t,1:size(currT.varInfoPerRec,2))=currT.varInfoPerRec;
             varInfoPerRec_rev(t,1:size(currT.varInfoPerRec,2))=flip(currT.varInfoPerRec);
@@ -78,11 +78,12 @@ for c=1:size(class,1)
             % var speed
             varSpeed(t,1:size(currT.varSpeed,2))=currT.varSpeed;
             varSpeed_rev(t,1:size(currT.varSpeed,2))=flip(currT.varSpeed);
-            
+           
         end
     end
     
     %1
+    %     numOfinfoRec=numOfinfoRec(sum(isnan(numOfinfoRec'))~=size(numOfinfoRec,2),:);
     numOfinfoRec=numOfinfoRec(:,sum(isnan(numOfinfoRec))<size(numOfinfoRec,1)*perNonNan2include);
     numOfinfoRec_rev=numOfinfoRec_rev(:,sum(isnan(numOfinfoRec_rev))<size(numOfinfoRec_rev,1)*perNonNan2include);
     %2
@@ -111,8 +112,8 @@ for c=1:size(class,1)
     subplot(2,numofSubPlot+1,c)
     hold on
     plot(numOfinfoRec','.','color','k')
-    %     M=nanmean(numOfinfoRec);
-    %     S=nanstd(numOfinfoRec).*3;
+%     M=nanmean(numOfinfoRec);
+%     S=nanstd(numOfinfoRec).*3;
     M=nanmean(numOfinfoRec(:));
     S=nanstd(numOfinfoRec(:))*STDforOutL;
     numOfinfoRec(~((numOfinfoRec<= M+S)&(numOfinfoRec>= M-S)))=nan;
@@ -129,8 +130,8 @@ for c=1:size(class,1)
     plot(numOfinfoRec_rev','.','color',colors{c})
     
     subplot(2,numofSubPlot+1,numofSubPlot)
-    numOfinfoRec(numOfinfoRec==0)=nan;
     errorbar(nanmedian(numOfinfoRec),nanstd(numOfinfoRec)./sum(~isnan(numOfinfoRec),1),'color',colors{c})
+%     errorbar(1:size(nanmedian(numOfinfoRec),2),nanmedian(numOfinfoRec),prctile(numOfinfoRec,25),prctile(numOfinfoRec,75),'color',colors{c})
     hold on
     xlabel('fixation number from trial start')
     title(' median Number of informative receptors')
@@ -139,26 +140,26 @@ for c=1:size(class,1)
     end
     
     subplot(2,numofSubPlot+1,numofSubPlot*2+1)
-    numOfinfoRec_rev(numOfinfoRec_rev==0)=nan;
-    errorbar(nanmedian(numOfinfoRec_rev),nanstd(numOfinfoRec_rev)./sum(~isnan(numOfinfoRec_rev),1),'color',colors{c})
+     errorbar(nanmedian(numOfinfoRec_rev),nanstd(numOfinfoRec_rev)./sum(~isnan(numOfinfoRec_rev),1),'color',colors{c})
+%     errorbar(1:size(nanmedian(numOfinfoRec_rev),2),nanmedian(numOfinfoRec_rev),prctile(numOfinfoRec_rev,25),prctile(numOfinfoRec_rev,75),'color',colors{c})
     hold on
     xlabel('reversed fixation number from trial end')
     
     subplot(2,numofSubPlot+1,numofSubPlot+1)
-    histogram(numOfinfoRec(~isnan(numOfinfoRec)),'FaceColor',colors{c},'BinEdges',0:200:4000,'normalization','probability')
+    histogram(numOfinfoRec(~isnan(numOfinfoRec)),'FaceColor',colors{c},'BinEdges',0:100:4000,'normalization','probability')
     hold on
-    %     plot([nanmedian(numOfinfoRec(:)) nanmedian(numOfinfoRec(:))], [0 .4],'color',colors{c})
-    plot(nanmedian(numOfinfoRec(:)),.2,'*','color',colors{c})
+    plot([nanmedian(numOfinfoRec(:)) nanmedian(numOfinfoRec(:))], [0 .5],'color',colors{c})
     xlabel('Number of informative receptors')
     
     
     subplot(2,numofSubPlot+1,numofSubPlot*2+2)
-    histogram(numOfinfoRec_rev(~isnan(numOfinfoRec_rev)),'FaceColor',colors{c},'BinEdges',0:200:4000,'normalization','probability')
+    histogram(numOfinfoRec_rev,'FaceColor',colors{c},'BinEdges',0:100:4000,'normalization','probability')
     hold on
-    %     plot([nanmedian(numOfinfoRec_rev(:)) nanmedian(numOfinfoRec_rev(:))], [0 .4],'color',colors{c})
-    plot(nanmedian(numOfinfoRec_rev(:)),.2,'*','color',colors{c})
+    plot([nanmedian(numOfinfoRec_rev(:)) nanmedian(numOfinfoRec_rev(:))], [0 .5],'color',colors{c})
     xlabel('Number of informative receptors')
-    
+    if c==numofSubPlot-1
+        legend(folders)
+    end
     
     
     figure(2) % mean rec activations
@@ -170,7 +171,7 @@ for c=1:size(class,1)
     infoPerRec(~((infoPerRec<= M+S)&(infoPerRec>= M-S)))=nan;
     plot(infoPerRec','.','color',colors{c})
     plot(nanmedian(infoPerRec),'color',colors{c})
-    
+
     subplot(2,numofSubPlot+1,c+numofSubPlot+1)
     hold on
     plot(infoPerRec_rev','.','color','k')
@@ -195,32 +196,32 @@ for c=1:size(class,1)
     xlabel('reversed fixation number from trial end')
     
     subplot(2,numofSubPlot+1,numofSubPlot+1)
-    histogram(infoPerRec(~isnan(infoPerRec)),'FaceColor',colors{c},'BinEdges',-15:3:15,'normalization','probability')
+    histogram(infoPerRec,'FaceColor',colors{c},'BinEdges',-15:3:15,'normalization','probability')
     hold on
-    %     plot([nanmean(infoPerRec(:)) nanmean(infoPerRec(:))], [0 .3],'color',colors{c})
-    plot(nanmean(infoPerRec(:)),.45,'*','color',colors{c})
+    plot([nanmean(infoPerRec(:)) nanmean(infoPerRec(:))], [0 .5],'color',colors{c})
     xlabel('Mean receptors activation')
-    
+   
     
     subplot(2,numofSubPlot+1,numofSubPlot*2+2)
-    histogram(infoPerRec_rev(~isnan(infoPerRec_rev)),'FaceColor',colors{c},'BinEdges',-15:3:15,'normalization','probability')
+    histogram(infoPerRec_rev,'FaceColor',colors{c},'BinEdges',-15:3:15,'normalization','probability')
     hold on
-    %     plot([nanmean(infoPerRec_rev(:)) nanmean(infoPerRec_rev(:))], [0 .3],'color',colors{c})
-    plot(nanmean(infoPerRec_rev(:)),.45,'*','color',colors{c})
+    plot([nanmean(infoPerRec_rev(:)) nanmean(infoPerRec_rev(:))], [0 .5],'color',colors{c})
     xlabel('Mean receptors activation')
+    if c==numofSubPlot-1
+        legend(folders)
+    end
     
-    
-    %     figure(20)
+%     figure(20)
     forStat_infoPerRec{c}=infoPerRec;
-    %     f=min(size(infoPerRec,2),8);
-    %     for i=1:f
-    %         subplot(2,ceil(f/2),i)
-    %         histogram(infoPerRec(:,i),'FaceColor',colors{c},'BinEdges',-8:2:8)
-    %         hold on
-    %         plot([nanmean(infoPerRec(:,i)) nanmean(infoPerRec(:,i))], [0 40],'color',colors{c})
-    %         xlabel('Mean receptors activation')
-    %         title(['Fixation ' num2str(i)])
-    %     end
+%     f=min(size(infoPerRec,2),8);
+%     for i=1:f
+%         subplot(2,ceil(f/2),i)
+%         histogram(infoPerRec(:,i),'FaceColor',colors{c},'BinEdges',-8:2:8)
+%         hold on
+%         plot([nanmean(infoPerRec(:,i)) nanmean(infoPerRec(:,i))], [0 40],'color',colors{c})
+%         xlabel('Mean receptors activation')
+%         title(['Fixation ' num2str(i)])
+%     end
     
     figure(3) %speed
     subplot(2,numofSubPlot,c)
@@ -246,8 +247,8 @@ for c=1:size(class,1)
     subplot(2,numofSubPlot,numofSubPlot)
     hold on
     errorbar(nanmean(targetSpeed),nanstd(targetSpeed)./sum(~isnan(targetSpeed),1),'color',colors{c})
-    %     [r,p]=corr(nanmean(targetSpeed)',nanmean(infoPerRec(:,1:size(targetSpeed,2)))');
-    %     text(10,c+2, ['corr: r=' num2str(round(r,2)) ',p=' num2str(round(p,2))],'color',colors{c})
+%     [r,p]=corr(nanmean(targetSpeed)',nanmean(infoPerRec(:,1:size(targetSpeed,2)))');
+%     text(10,c+2, ['corr: r=' num2str(round(r,2)) ',p=' num2str(round(p,2))],'color',colors{c})
     xlabel('fixation number from trial start')
     title('Target eye-Speed')
     if c==numofSubPlot-1
@@ -374,7 +375,7 @@ tilefigs;
 %         end
 %     end
 [h,p] = kstest2(nanmean(forStat_infoPerRec{1,1}),nanmean(forStat_infoPerRec{1,2}));
-if h==1
+if h==1 
     figure(2)
     subplot(2,4,3)
     text(4,-1,'* KS test','FontSize',15)
