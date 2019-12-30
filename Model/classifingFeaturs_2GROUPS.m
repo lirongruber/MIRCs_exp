@@ -133,10 +133,11 @@ for c=1:size(class,1)
     errorbar(nanmedian(numOfinfoRec),nanstd(numOfinfoRec)./sum(~isnan(numOfinfoRec),1),'color',colors{c})
     hold on
     xlabel('fixation number from trial start')
-    title(' median Number of informative receptors')
+    title(' Number of informative receptors')
     if c==numofSubPlot-1
         legend(folders)
     end
+    box off
     
     subplot(2,numofSubPlot+1,numofSubPlot*2+1)
     numOfinfoRec_rev(numOfinfoRec_rev==0)=nan;
@@ -188,6 +189,7 @@ for c=1:size(class,1)
     if c==numofSubPlot-1
         legend(folders)
     end
+    box off
     
     subplot(2,numofSubPlot+1,numofSubPlot*2+1)
     errorbar(nanmean(infoPerRec_rev),nanstd(infoPerRec_rev)./sum(~isnan(infoPerRec_rev),1),'color',colors{c})

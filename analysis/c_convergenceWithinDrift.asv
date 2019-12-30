@@ -102,22 +102,17 @@ for s=1:length(subjects)
         text(100,targetV+2,num2str(round(targetV,2)),'color',currcolor{1,group},'FontSize', 20)
         %         legend('subMIRCS','','MIRCs','')
         axis([0 200 0 9])
-        if s==8
         xlabel('T within pause [ms]','FontSize', 20)
-        end
-        if s==1 || s==6
         ylabel('speed [deg/sec]','FontSize', 20)
-        end
-        title([subjects{1,s} ])
-        box off
+%         title([subjects{1,s} ])
         %                 end
         all{group}=nanmean(MeanVel);
         end
          
     end
-%     [s,t]=kstest2(all{1}(15:50),all{2}(15:50));
+    [s,t]=kstest2(all{1}(15:50),all{2}(15:50));
     if s==1
-%         text(60,2.5,'* KS','Fontsize',22)
+        text(60,2.5,'* KS','Fontsize',22)
     end
 %     [s,t]=kstest2(all{2}(15:50),all{3}(15:50));
     

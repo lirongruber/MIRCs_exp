@@ -26,7 +26,7 @@ paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1M
 %                 'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full0Ref1_recBoth.mat',...
     };
 
-% % % All sessions for sub+mirc and RECOGNITION
+% % All sessions for sub+mirc and RECOGNITION
 % paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc0Full0Ref0_recBoth.mat',...
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc1Full0Ref0_recBoth.mat',...
 %     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
@@ -61,24 +61,27 @@ paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1M
 for i=1:size(paths,2)
     figure(1)
     load(paths{i});
-    %recognitions
-    subplot(2,2,2)
-    hold on
-    bar(i,mean(didRecog),'FaceColor',[220 220 220]./255,'EdgeColor',[0 .0 0]);
-    errorbar(i,mean(didRecog),ste(didRecog),'Color',currcolor{i},'LineWidth',2);
-    set(gca, 'XTick', 1:3, 'XTickLabel', methods,'Fontsize',12);title('Recognition Rates','Fontsize',20)
+%     %recognitions
+%     subplot(2,2,2)
+%     hold on
+%     bar(i,mean(didRecog),'FaceColor',currcolor{i},'FaceAlpha',0.5,'EdgeColor',[0 .0 0]);
+%     errorbar(i,mean(didRecog),ste(didRecog),'Color',currcolor{i},'LineWidth',2);
+%     set(gca, 'XTick', 1:3, 'XTickLabel', methods,'Fontsize',12);title('Recognition Rates','Fontsize',20)
     %numOfSacc
     subplot(2,2,1)
     hold on
-    bar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'FaceColor',[220 220 220]./255,'EdgeColor',[0 0 0]);
+    bar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'FaceColor',currcolor{i},'FaceAlpha',0.5,'EdgeColor',[0 0 0]);
     errorbar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),ste(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'.','Color',currcolor{i},'LineWidth',2);
     set(gca, 'XTick', 1:3, 'XTickLabel', methods,'Fontsize',12);title('Number of Saccades (per second)','Fontsize',20)
     %driftTime - ISI
     if i==1 || i==2
         subplot(4,4,9)
+        subplot(2,2,2)
         title('Drift Duration','Fontsize',20)
+        xlabel('Time [ms]','Fontsize',20)
     else
         subplot(4,4,13)
+        subplot(2,2,2)
         xlabel('Time [ms]','Fontsize',20)
     end
     hold on
@@ -95,6 +98,7 @@ for i=1:size(paths,2)
     if i==1 || i==2
         subplot(4,4,10)
         title('Drift Amplitude','Fontsize',20)
+        xlabel('amp [deg]','Fontsize',20)
     else
         subplot(4,4,14)
         xlabel('amp [deg]','Fontsize',20)
@@ -112,6 +116,7 @@ for i=1:size(paths,2)
     if i==1 || i==2
         subplot(4,4,11)
         title('Drift Speed','Fontsize',20)
+        xlabel('speed [deg/sec]','Fontsize',20)
     else
         subplot(4,4,15)
         xlabel('speed [deg/sec]','Fontsize',20)
@@ -129,6 +134,7 @@ for i=1:size(paths,2)
     if i==1 || i==2
         subplot(4,4,12)
         title('Drift Curvature','Fontsize',20)
+        xlabel('CI [AU]','Fontsize',20)
     else
         subplot(4,4,16)
         xlabel('CI [AU]','Fontsize',20)
@@ -153,25 +159,25 @@ end
 if s==1
     figure(1)
     subplot(4,4,9)
-    plot(5,0.2,'*g')
+    plot(5,0.2,'*k')
 end
 [s,t]=ttest2(curr_drifts_amp_degrees{1}(curr_drifts_amp_degrees{1}~=0),curr_drifts_amp_degrees{2}(curr_drifts_amp_degrees{2}~=0));
 if s==1
     figure(1)
     subplot(4,4,10)
-    plot(0.5,0.2,'*g')
+    plot(0.5,0.2,'*k')
 end
 [s,t]=ttest2(curr_drifts_vel_deg2sec{1}(curr_drifts_vel_deg2sec{1}~=0),curr_drifts_vel_deg2sec{2}(curr_drifts_vel_deg2sec{2}~=0));
 if s==1
     figure(1)
     subplot(4,4,11)
-    plot(0.5,0.2,'*g')
+    plot(0.5,0.2,'*k')
 end
 [s,t]=ttest2(curr_drifts_Cur_CI{1}(curr_drifts_Cur_CI{1}~=0),curr_drifts_Cur_CI{2}(curr_drifts_Cur_CI{2}~=0));
 if s==1
     figure(1)
     subplot(4,4,12)
-    plot(0.05,0.2,'*g')
+    plot(0.05,0.2,'*k')
 end
 
 

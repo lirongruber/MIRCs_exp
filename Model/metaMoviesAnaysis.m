@@ -8,7 +8,6 @@ class={};
 class_num=0;
 for folder=folders
     class_num=class_num+1;
-    class_num=4;
     movies = dir([movies_path '\' folder{1,1}]);
     mov_nom=0;
     for currMov = movies'

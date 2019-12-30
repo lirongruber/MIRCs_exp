@@ -50,12 +50,12 @@ t_filter=t_filter./max(t_filter);
 % h_r=(t.^n/T2^(n+1)).*exp(-t./T2)-R.*(t.^n/T1^(n+1)).*exp(-t./T1);
 % h_r=h_r./sum(h_r);
 
-% figure()
-% plot(t,flip(t_filter))
-% hold all
+%figure()
+%plot(t-100,flip(t_filter))
+%hold all
 % % plot(t,flip(h_r))
-% plot([0 100],[0 0])
-% xlabel('time [ms]')
+% plot([-100 0],[0 0])
+ %xlabel('time [ms]')
 paths={...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_yes';
     'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_no';

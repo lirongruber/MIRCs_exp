@@ -120,7 +120,7 @@ for var=1:5
         plot(ones(1,2).*avNumofD+steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group})
         plot([avNumofD-steNumofD avNumofD+steNumofD],[0.713*(rel_max-rel_min)+rel_min 0.713*(rel_max-rel_min)+rel_min],'Color',currcolor{group})
         axis([0 9 rel_min rel_max])
-        text(0.1,(rel_max-rel_min)*0.75+rel_min,'Trial end (mean+STE):','Fontsize',12)
+        text(1,(rel_max-rel_min)*0.85+rel_min,'Sacc per trial (STE):','Fontsize',12)
         title(rel_title,'Fontsize',20)
         xlabel('rank','Fontsize',18)
         ylabel(rel_y,'Fontsize',20)
@@ -133,7 +133,7 @@ for var=1:5
         [s(r),t(r)]=ttest2(currCol1,currCol2);
         if s(r)==1
             subplot(2,4,var)
-%             plot(r,(rel_max-rel_min)*0.6+rel_min,'*k')
+% %             plot(r,(rel_max-rel_min)*0.6+rel_min,'*k')
         end
     end
     [hh,pp] = kstest2(meansPerRank{2,1},meansPerRank{2,2});
