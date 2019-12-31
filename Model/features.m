@@ -95,6 +95,28 @@ for fixation_num=1:size(filt_movie,2)
             xlabel('time [ms]')
             ylabel('activations')
             
+            
+            figure(11)
+            subplot(1,2,1)
+            hold all
+            plot(time(1:L),rel_movie_act)
+            %mean
+            plot(time(1:L),rel_movie_act_MEAN,'rh')
+            text(10,2.5,['num of rec: ' num2str(size(rel_movie_act,1))],'FontSize',15)
+            xlabel('time [ms]')
+            ylabel('unique activations')
+            axis([0 1000 -1.5 3.5])
+            
+            subplot(1,2,2)
+            hold all
+            plot(time(1:L),activations)
+            %mean
+            plot(time(1:L),meanActivation,'rh')
+            text(10,2.5,['num of rec: ' num2str(size(activations,1))],'FontSize',15)
+            xlabel('time [ms]')
+            ylabel('informative activations')
+            axis([0 1000 -1.5 3.5])
+            
             %Speed
             figure(2)
             subplot(2,ceil(size(filt_movie,2)/2),fixation_num)
@@ -123,7 +145,7 @@ for fixation_num=1:size(filt_movie,2)
 %             end
 %             eva1 = evalclusters(score(:,1:c80),kmeans_options, 'silhouette'); %The silhouette value for each point is a measure of how similar that point is to points in its own cluster, when compared to points in other clusters.
 %             eva2 = evalclusters(score(:,1:c80),kmeans_options, 'DaviesBouldin'); %The Davies-Bouldin criterion is based on a ratio of within-cluster and between-cluster distances.
-            [no_opt,phi,FVE]=tryingFPCA(rel_movie_act,plotFlag);%plotFlag);
+            [no_opt,phi,FVE]=tryingFPCA(activations,plotFlag);%plotFlag);
             
 %             classfeatures.optNumClass_silhouette(fixation_num)=eva1.OptimalK;
 %             classfeatures.optNumClass_DaviesBouldin(fixation_num)=eva2.OptimalK;

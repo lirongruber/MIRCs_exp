@@ -130,18 +130,18 @@ for c=1:size(class,1)
     
     subplot(2,numofSubPlot+1,numofSubPlot)
     numOfinfoRec(numOfinfoRec==0)=nan;
-    errorbar(nanmedian(numOfinfoRec),nanstd(numOfinfoRec)./sum(~isnan(numOfinfoRec),1),'color',colors{c})
+    errorbar(nanmedian(numOfinfoRec),nanstd(numOfinfoRec)./sum(~isnan(numOfinfoRec),1),'color',colors{c},'lineWidth',2)
     hold on
-    xlabel('fixation number from trial start')
-    title(' Number of informative receptors')
+    xlabel('fixation #','Fontsize',18)
+    title(' Number of informative receptors','Fontsize',20)
     if c==numofSubPlot-1
-        legend(folders)
+%         legend(folders)
     end
     box off
     
     subplot(2,numofSubPlot+1,numofSubPlot*2+1)
     numOfinfoRec_rev(numOfinfoRec_rev==0)=nan;
-    errorbar(nanmedian(numOfinfoRec_rev),nanstd(numOfinfoRec_rev)./sum(~isnan(numOfinfoRec_rev),1),'color',colors{c})
+    errorbar(nanmedian(numOfinfoRec_rev),nanstd(numOfinfoRec_rev)./sum(~isnan(numOfinfoRec_rev),1),'color',colors{c},'lineWidth',2)
     hold on
     xlabel('reversed fixation number from trial end')
     
@@ -159,7 +159,7 @@ for c=1:size(class,1)
     %     plot([nanmedian(numOfinfoRec_rev(:)) nanmedian(numOfinfoRec_rev(:))], [0 .4],'color',colors{c})
     plot(nanmedian(numOfinfoRec_rev(:)),.2,'*','color',colors{c})
     xlabel('Number of informative receptors')
-    
+    forStat_numOfinfoRec{c}=numOfinfoRec;
     
     
     figure(2) % mean rec activations
@@ -182,17 +182,17 @@ for c=1:size(class,1)
     plot(nanmean(infoPerRec_rev),'color',colors{c})
     
     subplot(2,numofSubPlot+1,numofSubPlot)
-    errorbar(nanmean(infoPerRec),nanstd(infoPerRec)./sum(~isnan(infoPerRec),1),'color',colors{c})
+    errorbar(nanmean(infoPerRec),nanstd(infoPerRec)./sum(~isnan(infoPerRec),1),'color',colors{c},'lineWidth',2)
     hold on
-    xlabel('fixation number from trial start')
-    title('Mean receptors activation')
+    xlabel('fixation # ','Fontsize',18)
+    title('Mean retinal activation','Fontsize',20)
     if c==numofSubPlot-1
-        legend(folders)
+%         legend(folders)
     end
     box off
     
     subplot(2,numofSubPlot+1,numofSubPlot*2+1)
-    errorbar(nanmean(infoPerRec_rev),nanstd(infoPerRec_rev)./sum(~isnan(infoPerRec_rev),1),'color',colors{c})
+    errorbar(nanmean(infoPerRec_rev),nanstd(infoPerRec_rev)./sum(~isnan(infoPerRec_rev),1),'color',colors{c},'lineWidth',2)
     hold on
     xlabel('reversed fixation number from trial end')
     
@@ -210,10 +210,10 @@ for c=1:size(class,1)
     %     plot([nanmean(infoPerRec_rev(:)) nanmean(infoPerRec_rev(:))], [0 .3],'color',colors{c})
     plot(nanmean(infoPerRec_rev(:)),.45,'*','color',colors{c})
     xlabel('Mean receptors activation')
-    
+    forStat_infoPerRec{c}=infoPerRec;
     
     %     figure(20)
-    forStat_infoPerRec{c}=infoPerRec;
+    
     %     f=min(size(infoPerRec,2),8);
     %     for i=1:f
     %         subplot(2,ceil(f/2),i)
@@ -379,11 +379,24 @@ tilefigs;
 if h==1
     figure(2)
     subplot(2,4,3)
-    text(4,-1,'* KS test','FontSize',15)
+    text(3,-1.7,'* KS test','FontSize',22)
 else
     figure(2)
     subplot(2,4,3)
-    text(4,-1,'[NS] KS test','FontSize',15)
+    text(3,-1.7,'[NS] KS test','FontSize',22)
 end
+
+[h,p] = kstest2(nanmean(forStat_numOfinfoRec{1,1}),nanmean(forStat_numOfinfoRec{1,2}));
+if h==1
+    figure(1)
+    subplot(2,4,3)
+    text(3,100,'* KS','Fontsize',22)
+else
+    figure(1)
+    subplot(2,4,3)
+    text(3,100,'[NS]* KS','Fontsize',22)
+end
+
+
 
 

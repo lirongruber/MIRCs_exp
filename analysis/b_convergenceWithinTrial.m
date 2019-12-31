@@ -114,15 +114,15 @@ for var=1:5
             subplot(2,4,var)
         end
         hold all
-        h{group}=errorbar(relmeans,relstes,'Color',currcolor{group});
+        h{group}=errorbar(relmeans,relstes,'Color',currcolor{group},'lineWidth',2);
         
-        plot(ones(1,2).*avNumofD-steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group})
-        plot(ones(1,2).*avNumofD+steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group})
+        plot(ones(1,2).*avNumofD-steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
+        plot(ones(1,2).*avNumofD+steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
         plot([avNumofD-steNumofD avNumofD+steNumofD],[0.713*(rel_max-rel_min)+rel_min 0.713*(rel_max-rel_min)+rel_min],'Color',currcolor{group})
         axis([0 9 rel_min rel_max])
-        text(0.1,(rel_max-rel_min)*0.75+rel_min,'Trial end (mean+STE):','Fontsize',12)
+        text(0.1,(rel_max-rel_min)*0.75+rel_min,'Trial end (mean+STE):','Fontsize',14)
         title(rel_title,'Fontsize',20)
-        xlabel('rank','Fontsize',18)
+        xlabel('fixation #','Fontsize',18)
         ylabel(rel_y,'Fontsize',20)
     end
     for r=1:8

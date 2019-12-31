@@ -145,10 +145,10 @@ for c=1:size(class,1)
     xlabel('fixation number from trial start')
     subplot(2,4,3)
     hold on
-    errorbar(nanmean(optNum_fpca),nanstd(optNum_fpca)./sum(~isnan(optNum_fpca),1),'color',colors{c})
-    title('FPCA')
-    xlabel('fixation number from trial start')
-    ylabel('optNum of classes')
+    errorbar(nanmean(optNum_fpca),nanstd(optNum_fpca)./sum(~isnan(optNum_fpca),1),'color',colors{c},'lineWidth',2)
+    title('FPCA','Fontsize',20)
+    xlabel('fixation #','Fontsize',18)
+    ylabel('optNum of classes','Fontsize',18)
     axis([0 10 2 3])
     
     forSVM{c}=optNum_fpca;
@@ -164,14 +164,14 @@ for c=1:size(class,1)
     xlabel('reversed fixation number from trial end')
     subplot(2,4,7)
     hold on
-    errorbar(nanmean(optNum_fpca_rev),nanstd(optNum_fpca_rev)./sum(~isnan(optNum_fpca_rev),1),'color',colors{c})
+    errorbar(nanmean(optNum_fpca_rev),nanstd(optNum_fpca_rev)./sum(~isnan(optNum_fpca_rev),1),'color',colors{c},'lineWidth',2)
     
     subplot(2,4,4)
     hold on
     histogram(optNum_fpca(~isnan(optNum_fpca)),'FaceColor',colors{c},'normalization','probability')
     plot([nanmean(optNum_fpca(:)) nanmean(optNum_fpca(:))],[0,.8],'color',colors{c})
-    title('FPCA')
-    xlabel('optNum of classes')
+    title('FPCA','Fontsize',20)
+    xlabel('optNum of classes','Fontsize',18)
     
 %     figure(4)
 %     subplot(1,3,1)
