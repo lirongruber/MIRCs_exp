@@ -1,0 +1,44 @@
+% load mov##.mat
+close all
+%for saving .avi :
+v = VideoWriter('eagle_r.avi');
+open(v);
+%
+tic
+figure('units','normalized','outerposition',[0 0 1 1])
+
+for i=1:size(filt_movie,2)
+ 
+    for ii=1:size(rel_movie_notCorr{1,i},3)
+        subplot(1,2,1)
+           %         subplot(1,size(filt_movie,2),i)
+    %     figure('units','normalized','outerposition',[0 0 1 1])
+        imshow(filt_movie{1,i}(:,:,ii))
+        hold on
+        plot(201,201,'b*','MarkerSize',1)
+        hold off
+       
+        subplot(1,2,2)
+        %         subplot(1,size(filt_movie,2),i)
+        %     figure('units','normalized','outerposition',[0 0 1 1])
+        imshow(rel_movie_notCorr{1,i}(:,:,ii)+1)
+        hold on
+        plot(201,201,'b*','MarkerSize',1)
+        hold off
+        
+        % for saving .avi :
+        figure(1)
+         frame = getframe;
+          if size(frame.cdata,1)==202
+            break
+        end
+        writeVideo(v,frame);
+        %
+        
+        pause(0.01)
+     
+    end
+end
+close(v);
+
+toc

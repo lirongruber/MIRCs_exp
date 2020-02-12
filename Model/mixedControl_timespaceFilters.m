@@ -59,87 +59,94 @@ t_filter=t_filter./max(t_filter);
 % plot([0 100],[0 0])
 % xlabel('time [ms]')
 paths={...
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\MIRCs_yes';
-    'C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\subMIRCs_no';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_yes';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_no';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_yes';
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_no';
     };
 paths=paths';
 
 folders={...
     'MIRCs_yes';
+    'MIRCs_no';
+    'subMIRCs_yes';
     'subMIRCs_no';
     };
-for cond=1:2
+for cond=1:4
     currpath=paths{cond};
     movNum=0;
     files = dir(currpath);
     files=files(3:end);
     % no need for all movies...
     files=files(1:2:end);
-%     % change 'myimgfile' for control 1!
-%         control_path=paths{mod(cond,2)+1};
-%         control_files = dir(currpath);
-%         control_files=control_files(3:end);
-%         control_files=control_files';
-%         %
+    % change 'myimgfile' for control 2!
+    control_path=paths{mod(cond,2)+1};
+    control_files = dir(control_path);
+    control_files=control_files(3:end);
+    control_files=control_files';
+    %
     for file = files'
         load(file.name);
-%         % change 'myimgfile' for control 1!
-%         control_file=control_files(ceil(rand(1,1).*size(control_files,2))).name;
-%         % change 'myimgfile' for control 2!
+        % change 'myimgfile' for control 1!
 %         control_file=files(ceil(rand(1,1).*size(files,1))).name;
-%         load(control_file,'myimgfile');
-%         %
+        % change 'myimgfile' for control 2!
+        control_file=control_files(ceil(rand(1,1).*size(control_files,2))).name;
+        %         
+        load(control_file,'myimgfile');
+        %         %
         rel_im=imresize(myimgfile,[IMAGE_LENGTH_PIX IMAGE_LENGTH_PIX]);
         im=256.*ones(screenS);
         im(screenS(1)/2-IMAGE_LENGTH_PIX/2:screenS(1)/2+IMAGE_LENGTH_PIX/2-1,screenS(2)/2-IMAGE_LENGTH_PIX/2:screenS(2)/2+IMAGE_LENGTH_PIX/2-1)=...
             rel_im;
         im=im./256;
-% %         % 100 Hz filter
-% %          tempX_filtered = sgolayfilt(gazeX,1,11);
-% %          tempY_filtered = sgolayfilt(gazeY,1,11);
-         % sacc removel
-         rate=250;% 250 Hz
-         filterFlag=1; % !!!
-         plotFlag=0;
-         [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,im,[gazeX ; gazeY],rate,filterFlag);
-         tempX_filtered= chan_h_pix;
-         tempY_filtered=chan_v_pix;
-         for i=1:size(saccade_vec,2)
-             tempX_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
-             tempY_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
-         end
-         chan_h_deg(isnan(tempX_filtered))=nan;
-         chan_v_deg(isnan(tempY_filtered))=nan;
-         
-         final_rate=125;
-         ALLcurrXY_deg=[chan_h_deg(500:rate/final_rate:end) ; chan_v_deg(500:rate/final_rate:end)];
-         ALLcurrXY=[ tempX_filtered(500:rate/final_rate:end) ; tempY_filtered(500:rate/final_rate:end) ];
-%          % for random movement control 3 !!!
-%          firstPauseForShuffle=ALLcurrXY(:,1:find(isnan(ALLcurrXY(1,:)),1)-1);
-%          if size(firstPauseForShuffle,2)<=1
-%              firstPauseForShuffle=[0 0; 0 0];
-%          end
-%          diff_for_mixing=[ALLcurrXY(:,1) Shuffle((diff(firstPauseForShuffle')'),1)];
-%          ALLcurrXY1=cumsum(diff_for_mixing,2);
-%          ALLcurrXY=ALLcurrXY1(:,~isnan(ALLcurrXY1(1,:)));
-%          %
-         % disable two lines for control 4 !
-         DS_t_filter=[0 1 1 1 -1 -1 -1];
-         %
-         % disable two lines for control 5 !
-         DS_t_filter=[0 1 -1];
-         %
-%          DS_t_filter=t_filter(1:rate/final_rate:end);
-%          DS_t_filter=DS_t_filter./max(DS_t_filter);
-         movieFlag=0;
-         [movie,filt_movie]=retinalMovieCreator(im,ALLcurrXY,retinal_locations_Xpix,retinal_locations_Ypix,retinal_RFs_pix,DS_t_filter,movieFlag);
-         
-         movNum=movNum+1;
-         disp(movNum)
-         details.XY=ALLcurrXY;
-         details.XYdeg=ALLcurrXY_deg;
-         details.category=folders{cond};
-         details.imageName=PicName;
-         save(['C:\Users\bnapp\Documents\MIRCs_exp\data\modelData\control_videos5\' folders{cond} '\mov' num2str(movNum) ], 'movie','filt_movie','details');
+        % %         % 100 Hz filter
+        % %          tempX_filtered = sgolayfilt(gazeX,1,11);
+        % %          tempY_filtered = sgolayfilt(gazeY,1,11);
+        
+        % sacc removel
+        rate=250;% 250 Hz
+        filterFlag=1; % !!!
+        plotFlag=0;
+        [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,im,[gazeX ; gazeY],rate,filterFlag);
+        tempX_filtered= chan_h_pix;
+        tempY_filtered=chan_v_pix;
+        for i=1:size(saccade_vec,2)
+            tempX_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
+            tempY_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
+        end
+        chan_h_deg(isnan(tempX_filtered))=nan;
+        chan_v_deg(isnan(tempY_filtered))=nan;
+        
+        final_rate=125;
+        ALLcurrXY_deg=[chan_h_deg(500:rate/final_rate:end) ; chan_v_deg(500:rate/final_rate:end)];
+        ALLcurrXY=[ tempX_filtered(500:rate/final_rate:end) ; tempY_filtered(500:rate/final_rate:end) ];
+        %          % for random movement control 3 !!!
+        %          firstPauseForShuffle=ALLcurrXY(:,1:find(isnan(ALLcurrXY(1,:)),1)-1);
+        %          if size(firstPauseForShuffle,2)<=1
+        %              firstPauseForShuffle=[0 0; 0 0];
+        %          end
+        %          diff_for_mixing=[ALLcurrXY(:,1) Shuffle((diff(firstPauseForShuffle')'),1)];
+        %          ALLcurrXY1=cumsum(diff_for_mixing,2);
+        %          ALLcurrXY=ALLcurrXY1(:,~isnan(ALLcurrXY1(1,:)));
+        %          %
+        % disable two lines for control 4 !
+        %          DS_t_filter=[0 1 1 1 -1 -1 -1];
+        %
+        % disable two lines for control 5 !
+        %          DS_t_filter=[0 1 -1];
+        %
+        DS_t_filter=t_filter(1:1000/rate:end);
+        DS_t_filter=DS_t_filter(1:rate/final_rate:end);
+        DS_t_filter=DS_t_filter./max(DS_t_filter);
+        movieFlag=0;
+        [movie,filt_movie]=retinalMovieCreator(im,ALLcurrXY,retinal_locations_Xpix,retinal_locations_Ypix,retinal_RFs_pix,DS_t_filter,movieFlag);
+        
+        movNum=movNum+1;
+        disp(movNum)
+        details.XY=ALLcurrXY;
+        details.XYdeg=ALLcurrXY_deg;
+        details.category=folders{cond};
+        details.imageName=PicName;
+        save(['C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_videos2\' folders{cond} '\mov' num2str(movNum) ], 'movie','filt_movie','details');
     end
 end

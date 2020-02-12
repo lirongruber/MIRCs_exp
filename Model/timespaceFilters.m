@@ -81,6 +81,13 @@ for cond=4%1:4
         im=256.*ones(screenS);
         im(screenS(1)/2-IMAGE_LENGTH_PIX/2:screenS(1)/2+IMAGE_LENGTH_PIX/2-1,screenS(2)/2-IMAGE_LENGTH_PIX/2:screenS(2)/2+IMAGE_LENGTH_PIX/2-1)=...
             rel_im;
+% %         %Ehud's 3D (colored image) 
+% %         rel_im=imresize(tree(:,65:end,:),[IMAGE_LENGTH_PIX IMAGE_LENGTH_PIX]);
+% %         im=256.*ones([screenS 3]);
+% %         im(screenS(1)/2-IMAGE_LENGTH_PIX/2:screenS(1)/2+IMAGE_LENGTH_PIX/2-1,screenS(2)/2-IMAGE_LENGTH_PIX/2:screenS(2)/2+IMAGE_LENGTH_PIX/2-1,:)=...
+% %             rel_im;
+% %         %
+        
         im=im./256;
         % %         % 100 Hz filter
         % %          tempX_filtered = sgolayfilt(gazeX,1,11);
@@ -106,8 +113,9 @@ for cond=4%1:4
         DS_t_filter=DS_t_filter(1:rate/final_rate:end);
         DS_t_filter=DS_t_filter./max(DS_t_filter);
         movieFlag=0;
-        [movie,filt_movie]=retinalMovieCreator(im,ALLcurrXY,retinal_locations_Xpix,retinal_locations_Ypix,retinal_RFs_pix,DS_t_filter,movieFlag);
-        
+      [movie,filt_movie]=retinalMovieCreator(im,ALLcurrXY,retinal_locations_Xpix,retinal_locations_Ypix,retinal_RFs_pix,DS_t_filter,movieFlag);
+%         [movie,filt_movie]=retinalMovieCreator_3D(im,ALLcurrXY,retinal_locations_Xpix,retinal_locations_Ypix,retinal_RFs_pix,DS_t_filter,movieFlag);
+
         movNum=movNum+1;
         disp(movNum)
         details.XY=ALLcurrXY;

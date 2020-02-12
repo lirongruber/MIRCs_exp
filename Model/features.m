@@ -7,7 +7,7 @@ for fixation_num=1:size(filt_movie,2)
     tic
     
     %Parameters for fft analysis
-    Fs=100;
+    Fs=125;
     T=1/Fs;
     L=size(filt_movie{2,fixation_num}(1):filt_movie{2,fixation_num}(2),2);
     time=(0:L-1).*T.*1000;%ms
