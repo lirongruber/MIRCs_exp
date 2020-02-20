@@ -80,7 +80,12 @@ for cond=1:4
     % no need for all movies...
     files=files(1:2:end);
     % change 'myimgfile' for control 2!
-    control_path=paths{mod(cond,2)+1};
+    if cond==1 || cond==2
+        controlCond=3;
+    else
+        controlCond=1;
+    end
+    control_path=paths{controlCond};
     control_files = dir(control_path);
     control_files=control_files(3:end);
     control_files=control_files';

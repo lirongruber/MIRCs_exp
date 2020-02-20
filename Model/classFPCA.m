@@ -1,4 +1,4 @@
-% close all
+close all
 
 % class={ class{1,:} class{3,:} ; class{2,:}  class{4,:} };
 
@@ -12,7 +12,6 @@ colors={[74,77,255]./255,[246,75,75]./255};
 STDforOutL=5; %number of std from mean to include
 perNonNan2include=0.9;
 
-forSVM={};
 for c=1:size(class,1)
 %     optNum_dav=nan(size(class,2),30);
 %     optNum_dav_rev=nan(size(class,2),30);
@@ -147,11 +146,11 @@ for c=1:size(class,1)
     hold on
     errorbar(nanmean(optNum_fpca),nanstd(optNum_fpca)./sum(~isnan(optNum_fpca),1),'color',colors{c},'lineWidth',2)
     title('FPCA','Fontsize',20)
-    xlabel('fixation #','Fontsize',18)
+    xlabel('fixation number','Fontsize',18)
     ylabel('optNum of classes','Fontsize',18)
     axis([0 10 2 3])
     
-    forSVM{c}=optNum_fpca;
+ 
     
     subplot(2,4,c+4)
     hold on

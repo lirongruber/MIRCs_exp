@@ -132,7 +132,7 @@ for c=1:size(class,1)
     numOfinfoRec(numOfinfoRec==0)=nan;
     errorbar(nanmedian(numOfinfoRec),nanstd(numOfinfoRec)./sum(~isnan(numOfinfoRec),1),'color',colors{c},'lineWidth',2)
     hold on
-    xlabel('fixation #','Fontsize',18)
+    xlabel('fixation number','Fontsize',18)
     title(' Number of informative receptors','Fontsize',20)
     if c==numofSubPlot-1
 %         legend(folders)
@@ -184,7 +184,7 @@ for c=1:size(class,1)
     subplot(2,numofSubPlot+1,numofSubPlot)
     errorbar(nanmean(infoPerRec),nanstd(infoPerRec)./sum(~isnan(infoPerRec),1),'color',colors{c},'lineWidth',2)
     hold on
-    xlabel('fixation # ','Fontsize',18)
+    xlabel('fixation number ','Fontsize',18)
     title('Mean retinal activation','Fontsize',20)
     if c==numofSubPlot-1
 %         legend(folders)
