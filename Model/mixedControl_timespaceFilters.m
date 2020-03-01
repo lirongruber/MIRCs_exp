@@ -78,7 +78,6 @@ for cond=1:4
     files = dir(currpath);
     files=files(3:end);
     % no need for all movies...
-    files=files(1:2:end);
     % change 'myimgfile' for control 2!
     if cond==1 || cond==2
         controlCond=3;

@@ -1,23 +1,44 @@
+% Training SVMs per frame/s
 % close all
 clear
-
 colors={[74,77,255]./255,[246,75,75]./255};
 folders={'Recognized','Not Recognized'};
 
-% folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
-% class=control_class;
 
-load('control_class1.mat')
-classFull=control_class;
 
-% load('class.mat')
-% classFull=class;
+movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos';
+folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes','subMIRCs_no'};
 
+class_num=0;
+for folder=folders
+    class_num=class_num+1;
+    movies = dir([movies_path '\' folder{1,1}]);
+    mov_nom=0;
+    for currMov = movies'
+        if ~strcmp(currMov.name,'.') && ~strcmp(currMov.name,'..') && ~strcmp(currMov.name(end-4),'r')
+            mov_nom=mov_nom+1;
+            load([movies_path '\' folder{1,1} '\' currMov.name]);
+            
+            functions=nan(402,402);
+            rel=1;
+            for t=1:size(movie,3)
+                currT=movies(:,:,t);
+                if sum(currT(:))~=0
+                    functions(rel,size(currT(:),2))=currT(:);
+                    rel=rel+1;
+                end
+            end
+            
+            forSVM{class_num}=functions;
+                    
+        end
+    end
+end
+
+clearvars -except class
 for FixationNumToUse=1:7
-    for repetition=1:10
-        s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
-        class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
-        clearvars -except classFull class FixationNumToUse repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f
+    for repetition=1:2
+        clearvars -except class FixationNumToUse repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f
         singleFixation=1;
         forSVM={};
         for c=1:size(class,1)

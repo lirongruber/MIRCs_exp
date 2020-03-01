@@ -15,7 +15,7 @@ for c=1:size(class,1)
         if ~isempty(currT)
             % mean rec activations
             meanRecAct=currT.meanRecActivation;
-            figure(10) % mean rec activations
+            figure(20) % mean rec activations
             subplot(2,numofSubPlot+1,c)
             hold all
             for fixNum=1:size(meanRecAct,2)

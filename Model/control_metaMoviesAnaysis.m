@@ -2,7 +2,8 @@
 clear
 
 movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_videos2';
-folders={'MIRCs_yes','subMIRCs_no','subMIRCs_yes', 'subMIRCs_no'};
+folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes', 'subMIRCs_no'};
+
 
 control_class={};
 class_num=0;
