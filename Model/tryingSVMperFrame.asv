@@ -9,40 +9,36 @@ folders={'Recognized','Not Recognized'};
 movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos';
 folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes','subMIRCs_no'};
 
-class_num=0;
+for FixationNumToUse=1:7
+    for repetition=1:2
+       clearvars -except movies_path folders FixationNumToUse repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f
+forSVM={};
+folder_num=0;
 for folder=folders
-    class_num=class_num+1;
+    folder_num=folder_num+1;
     movies = dir([movies_path '\' folder{1,1}]);
-    mov_nom=0;
+    rel=1;
+    functions=nan(1,402*402);
     for currMov = movies'
         if ~strcmp(currMov.name,'.') && ~strcmp(currMov.name,'..') && ~strcmp(currMov.name(end-4),'r')
-            mov_nom=mov_nom+1;
             load([movies_path '\' folder{1,1} '\' currMov.name]);
-            
-            functions=nan(402,402);
-            rel=1;
-            for t=1:size(movie,3)
-                currT=movies(:,:,t);
-                if sum(currT(:))~=0
-                    functions(rel,size(currT(:),2))=currT(:);
-                    rel=rel+1;
-                end
+            relFixation=min(FixationNumToUse,size(filt_movie,2));
+            currT=filt_movie{1,relFixation}(402,402,1);
+            if sum(currT(:))~=0
+                functions(rel,size(currT(:),2))=currT(:);
+                rel=rel+1;
             end
-            functions(functions==0)=nan;
-            n_time=sum(isnan(functions));
-            n_time=find(n_time<size(functions,1)/2);
-            n_last(c)=n_time(end);
             
-            functions=functions(:,1:n_last(c));
-            n_sample=sum(isnan(functions),2);
-            n_sample=n_sample<size(functions,2)/2;
-            functions=functions(n_sample==1,:);
-            
-            forSVM{c}=functions;
-                    
         end
     end
+    forSVM{folder_num}=functions;
 end
+ forSVM{1}=Shuffle(forSVM{1},2);
+        forSVM{2}=Shuffle(forSVM{2},2);
+        
+         l=min(size(forSVM{1}(:,5:end),2),size(forSVM{2}(:,5:end),2));% after 50 ms - cutting the begining for class
+            trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));% making sure same group sizes
+            X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];
 
 clearvars -except class
 for FixationNumToUse=1:7
@@ -100,6 +96,8 @@ for FixationNumToUse=1:7
             
             forSVM{c}=functions;
         end
+        
+    
         
         forSVM{1}=Shuffle(forSVM{1},2);
         forSVM{2}=Shuffle(forSVM{2},2);
@@ -166,7 +164,7 @@ for test={perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
     hold on
     plot(0:8, 0.5*ones(1,9),'--')
     ylabel('percent correct')
-    xlabel('fixation number')
+    xlabel('reversed fixation number')
     axis([0 10 0 1])
     title(titles{s})
 end

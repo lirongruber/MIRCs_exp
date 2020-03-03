@@ -7,18 +7,19 @@ folders={'Recognized','Not Recognized'};
 % folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
 % class=control_class;
 
-load('control_class1.mat')
-classFull=control_class;
+% load('control_class2.mat')
+% classFull=control_class;
 
-% load('class.mat')
-% classFull=class;
+load('class.mat')
+classFull=class;
 
 for FixationNumToUse=1:7
     for repetition=1:10
-        s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
-        class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
+%         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
+%         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
+        class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
         clearvars -except classFull class FixationNumToUse repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f
-        singleFixation=1;
+        singleFixation=0;
         forSVM={};
         for c=1:size(class,1)
             functions=nan(1,100);
@@ -29,10 +30,10 @@ for FixationNumToUse=1:7
                 currT=currT{1,1};
                 if ~isempty(currT)
 %                     curr=currT.FPCA_functions;
-                    curr=currT.meanRecActivation;
-%                     curr=currT.Speed;
+%                     curr=currT.meanRecActivation;
+                    curr=currT.Speed;
                     if singleFixation==1
-                        relFixation=min(FixationNumToUse,size(curr,2));%max(1,size(curr,2)-FixationNumToUse+1); %% which fixation to take
+                        relFixation=min(FixationNumToUse,size(curr,2));%%max(1,size(curr,2)-FixationNumToUse+1); %% which fixation to take
                     else
                         concat=[];
                         relFixation=1:min(FixationNumToUse,size(curr,2));%max(1,size(curr,2)-FixationNumToUse+1):size(curr,2); %
