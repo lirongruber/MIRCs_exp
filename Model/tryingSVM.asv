@@ -75,7 +75,7 @@ for FixationNumToUse=1:7
         forSVM{1}=Shuffle(forSVM{1},2);
         forSVM{2}=Shuffle(forSVM{2},2);
         if singleFixation==1
-            l=min(size(forSVM{1}(:,5:end),2),size(forSVM{2}(:,5:end),2));% after 50 ms - cutting the begining for class
+%             l=min(size(forSVM{1}(:,5:end),2),size(forSVM{2}(:,5:end),2));% after 50 ms - cutting the begining for class
 %             l=min(size(forSVM{1}(:,1:end),2),size(forSVM{2}(:,1:end),2));% after 50 ms - cutting the begining for class
             trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));% making sure same group sizes
             X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];
@@ -104,8 +104,8 @@ for FixationNumToUse=1:7
             X_train=XX(leaveOut,:);
             Y_train=YY(leaveOut);
             x_test=[XX(idx_1(i),:);  XX(idx_0(i),:)];
-%             y_test(totalNlabels,:)=[YY(idx_1(i)) YY(idx_0(i))];
-            y_test(totalNlabels,:)=[randi(2)-1 randi(2)-1];
+            y_test(totalNlabels,:)=[YY(idx_1(i)) YY(idx_0(i))];
+%             y_test(totalNlabels,:)=[randi(2)-1 randi(2)-1];
             % SVM
             SVMModel_f = fitcsvm(X_train,Y_train,'KernelFunction','myFourierKernel','Standardize',true);
             SVMModel_g = fitcsvm(X_train,Y_train,'KernelFunction','rbf','Standardize',true);
@@ -139,7 +139,7 @@ for test={perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
     plot(0:8, 0.5*ones(1,9),'--')
     ylabel('percent correct')
     xlabel('fixation number')
-    axis([0 10 0.2 0.8])
+    axis([0 10 0 1])
     title(titles{s})
 end
 
