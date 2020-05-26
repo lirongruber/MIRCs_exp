@@ -129,6 +129,7 @@ for fixation_num=1:size(filt_movie,2)
         
         classfeatures.numOfinfoRec(fixation_num)=infoRec;
         classfeatures.meanInfoPerRec(fixation_num)=sum(meanActivation);
+        classfeatures.meanActivationBeforeCorr{fixation_num}=rel_movie_act_MEAN;
         classfeatures.meanRecActivation{fixation_num}=meanActivation;
         classfeatures.varInfoPerRec(fixation_num)=varRec;
         classfeatures.movvarmeanInfoPerRec{fixation_num}=movvar(meanActivation,10);

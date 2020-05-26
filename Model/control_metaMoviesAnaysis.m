@@ -1,7 +1,7 @@
 % retinal movies meta-analysis - saves "control_class" for later analysis
 clear
 
-movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_videos2';
+movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_videos3';
 folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes', 'subMIRCs_no'};
 
 
@@ -21,4 +21,4 @@ for folder=folders
         end
     end
 end
-save('C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_class2','control_class')
+save('C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_class3','control_class')

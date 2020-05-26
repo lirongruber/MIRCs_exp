@@ -7,14 +7,17 @@ folders={'Recognized','Not Recognized'};
 % folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
 % class=control_class;
 
-% load('control_class2.mat')
+% load('control_class3.mat')
 % classFull=control_class;
 
-load('class.mat')
+load('classEntropy.mat')
 classFull=class;
 
+% load('class.mat')
+% classFull=class;
+
 for FixationNumToUse=1:7
-    for repetition=1:5
+    for repetition=1:2
 %         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
 %         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
         class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
@@ -28,10 +31,11 @@ for FixationNumToUse=1:7
             for t=1:size(class,2)%trialsToTake(1:163) %
                 currT=class(c,t);
                 currT=currT{1,1};
-                if ~isempty(currT)
-%                     curr=currT.FPCA_functions;
-                    curr=currT.meanRecActivation;
-%                     curr=currT.Speed;
+                if isfield(currT, 'meanRecActivation') || isfield(currT, 'perFrameEntropy')%~isempty(currT.meanRecActivation)
+                    %                     curr=currT.FPCA_functions;
+                    %                     curr=currT.meanRecActivation;
+                    curr=currT.perFrameEntropy;
+                    %                     curr=currT.Speed;
                     if singleFixation==1
                         relFixation=min(FixationNumToUse,size(curr,2));%%max(1,size(curr,2)-FixationNumToUse+1); %% which fixation to take
                     else
@@ -41,11 +45,19 @@ for FixationNumToUse=1:7
                     for fixationNum=relFixation % which fixation to take - 1:size(curr,2)
                         if ~isempty(curr{1,fixationNum})
                             if singleFixation==1
-                                %mean activation:
+                                %mean activation or speed:
                                 functions(rel,1:size(curr{1,fixationNum},2))=curr{1,fixationNum};
+                                %Entropy
+                                functions(rel,1:size(curr{1,fixationNum},2)-7)=curr{1,fixationNum}(8:end);
+%                                 figure; plot(curr{1,fixationNum});
+%                                 close all
                                 %fpca:
-%                                 PCAfunctionNum=1; % which PCA# function to take
-%                                 functions(rel,1:size(curr{1,fixationNum},1))=curr{1,fixationNum}(:,PCAfunctionNum)';
+                                %                                 PCAfunctionNum=1; % which PCA# function to take
+                                %                                 PCArel=curr{1,fixationNum};
+                                %                                 functions(rel,1:size(curr{1,fixationNum},1))=PCArel(:,min(PCAfunctionNum,size(PCArel,2)))';
+                                %                                 functions(rel,1:size(curr{1,fixationNum},1))=mean(PCArel,2)';
+%                                 functions(rel,1:size(curr{1,fixationNum},1))=sum(PCArel,2)';
+
                                 rel=rel+1;
                             else
                                 concat=[concat curr{1,fixationNum}(5:end)]; % after 50 ms
@@ -104,34 +116,34 @@ for FixationNumToUse=1:7
             X_train=XX(leaveOut,:);
             Y_train=YY(leaveOut);
             x_test=[XX(idx_1(i),:);  XX(idx_0(i),:)];
-%             y_test(totalNlabels,:)=[YY(idx_1(i)) YY(idx_0(i))];
-            y_test(totalNlabels,:)=[randi(2)-1 randi(2)-1];
+            y_test(totalNlabels,:)=[YY(idx_1(i)) YY(idx_0(i))];
+%             y_test(totalNlabels,:)=[randi(2)-1 randi(2)-1];
             % SVM
-            SVMModel_f = fitcsvm(X_train,Y_train,'KernelFunction','myFourierKernel','Standardize',true);
-            SVMModel_g = fitcsvm(X_train,Y_train,'KernelFunction','rbf','Standardize',true);
+%             SVMModel_f = fitcsvm(X_train,Y_train,'KernelFunction','myFourierKernel','Standardize',true);
+%             SVMModel_g = fitcsvm(X_train,Y_train,'KernelFunction','rbf','Standardize',true);
             SVMModel_l = fitcsvm(X_train,Y_train,'KernelFunction','linear','Standardize',true);
-            %         SVMModel = fitcsvm(X_train,Y_train,'OptimizeHyperparameters','all');
+% %             %         SVMModel = fitcsvm(X_train,Y_train,'OptimizeHyperparameters','all');
             % %     Agreement between few models:majority vote
-            [label_f(totalNlabels,:),score_f] = predict(SVMModel_f,x_test);
-            [label_g(totalNlabels,:),score_g] = predict(SVMModel_g,x_test);
+%             [label_f(totalNlabels,:),score_f] = predict(SVMModel_f,x_test);
+%             [label_g(totalNlabels,:),score_g] = predict(SVMModel_g,x_test);
             [label_l(totalNlabels,:),score_l] = predict(SVMModel_l,x_test);
             
           
         end
-        label_final=zeros(size(label_f));
-        label_final(label_f+label_g+label_l>=2)=1;
-        perCorrect_final(FixationNumToUse,repetition)=sum(label_final(:)==y_test(:))/(2*totalNlabels);
-        perCorrect_f(FixationNumToUse,repetition)=sum(label_f(:)==y_test(:))/(2*totalNlabels);
-        perCorrect_g(FixationNumToUse,repetition)=sum(label_g(:)==y_test(:))/(2*totalNlabels);
+%         label_final=zeros(size(label_f));
+%         label_final(label_f+label_g+label_l>=2)=1;
+%         perCorrect_final(FixationNumToUse,repetition)=sum(label_final(:)==y_test(:))/(2*totalNlabels);
+%         perCorrect_f(FixationNumToUse,repetition)=sum(label_f(:)==y_test(:))/(2*totalNlabels);
+%         perCorrect_g(FixationNumToUse,repetition)=sum(label_g(:)==y_test(:))/(2*totalNlabels);
         perCorrect_l(FixationNumToUse,repetition)=sum(label_l(:)==y_test(:))/(2*totalNlabels);
         disp(['Fixation: ' num2str(FixationNumToUse) ' repitition: ' num2str(repetition)])
     end
 end
 
-figure(1)
+figure(2)
 s=0;
-titles={'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
-for test={perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
+titles={'Linear kernel'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
+for test={perCorrect_l} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
     s=s+1;
     subplot(1,4,s)
     errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1))
@@ -142,6 +154,8 @@ for test={perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
     axis([0 10 0.2 0.8])
     title(titles{s})
 end
+
+
 
 % figure
 % plot(XX(1:size(forSVM{1}(:,1:rel),1),:)')

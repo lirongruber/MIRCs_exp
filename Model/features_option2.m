@@ -1,4 +1,5 @@
 % features for classifing recognise vs non-recognise retinal videos:
+%option2= dynamic corr threshold.  threshold=prctile(r,5). same number of info rec
 
 function [classfeatures]=features_option2(filt_movie,details,plotFlag)
 classfeatures=struct;

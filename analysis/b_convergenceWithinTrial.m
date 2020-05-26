@@ -124,6 +124,10 @@ for var=1:5
         title(rel_title,'Fontsize',20)
         xlabel('fixation #','Fontsize',18)
         ylabel(rel_y,'Fontsize',20)
+        
+        %save for phase-plane
+        vars{var,group}=relmeans;
+        %
     end
     for r=1:8
         currCol1=meansPerRank{1,1}(:,r);
@@ -142,6 +146,53 @@ for var=1:5
         text(4,(rel_max-rel_min)*0.2+rel_min,'* KS','Fontsize',22)
     end
 end
+
+%% draw phase-planes
+figure(22)
+subplot(2,3,1)
+hold on
+plot(vars{1,1},vars{2,1},'Color',currcolor{1})
+plot(vars{1,1}(1),vars{2,1}(1),'*k','MarkerSize',8)
+plot(vars{1,2},vars{2,2},'Color',currcolor{2})
+plot(vars{1,2}(1),vars{2,2}(1),'*k','MarkerSize',8)
+xlabel('duration')
+ylabel('velocity')
+
+subplot(2,3,4)
+hold on
+plot(-6:6,xcorr(vars{1,1},vars{2,1}))
+xlabel('lag')
+ylabel('xcorr')
+
+subplot(2,3,2)
+hold on
+plot(vars{1,1},vars{3,1},'Color',currcolor{1})
+plot(vars{1,1}(1),vars{3,1}(1),'*k','MarkerSize',8)
+plot(vars{1,2},vars{3,2},'Color',currcolor{2})
+plot(vars{1,2}(1),vars{3,2}(1),'*k','MarkerSize',8)
+xlabel('duration')
+ylabel('amplitude')
+
+subplot(2,3,5)
+hold on
+plot(-6:6,xcorr(vars{1,1},vars{3,1}))
+xlabel('lag')
+ylabel('xcorr')
+
+subplot(2,3,3)
+hold on
+plot(vars{2,1},vars{3,1},'Color',currcolor{1})
+plot(vars{2,1}(1),vars{3,1}(1),'*k','MarkerSize',8)
+plot(vars{2,2},vars{3,2},'Color',currcolor{2})
+plot(vars{2,2}(1),vars{3,2}(1),'*k','MarkerSize',8)
+xlabel('velocity')
+ylabel('amplitude')
+
+subplot(2,3,6)
+hold on
+plot(-6:6,xcorr(vars{2,1},vars{3,1}))
+xlabel('lag')
+ylabel('xcorr')
 
 
 % tilefigs;

@@ -77,24 +77,24 @@ for cond=1:4
     movNum=0;
     files = dir(currpath);
     files=files(3:end);
-    % no need for all movies...
-    % change 'myimgfile' for control 2!
-    if cond==1 || cond==2
-        controlCond=3;
-    else
-        controlCond=1;
-    end
-    control_path=paths{controlCond};
-    control_files = dir(control_path);
-    control_files=control_files(3:end);
-    control_files=control_files';
+%     % change 'myimgfile' for control 2!
+%     if cond==1 || cond==2
+%         controlCond=3;
+%     else
+%         controlCond=1;
+%     end
+%     control_path=paths{controlCond};
+%     control_files = dir(control_path);
+%     control_files=control_files(3:end);
+%     control_files=control_files';
     %
     for file = files'
         load(file.name);
+        control_file=file.name;
         % change 'myimgfile' for control 1!
 %         control_file=files(ceil(rand(1,1).*size(files,1))).name;
         % change 'myimgfile' for control 2!
-        control_file=control_files(ceil(rand(1,1).*size(control_files,2))).name;
+%         control_file=control_files(ceil(rand(1,1).*size(control_files,2))).name;
         %         
         load(control_file,'myimgfile');
         %         %
@@ -124,15 +124,15 @@ for cond=1:4
         final_rate=125;
         ALLcurrXY_deg=[chan_h_deg(500:rate/final_rate:end) ; chan_v_deg(500:rate/final_rate:end)];
         ALLcurrXY=[ tempX_filtered(500:rate/final_rate:end) ; tempY_filtered(500:rate/final_rate:end) ];
-        %          % for random movement control 3 !!!
-        %          firstPauseForShuffle=ALLcurrXY(:,1:find(isnan(ALLcurrXY(1,:)),1)-1);
-        %          if size(firstPauseForShuffle,2)<=1
-        %              firstPauseForShuffle=[0 0; 0 0];
-        %          end
-        %          diff_for_mixing=[ALLcurrXY(:,1) Shuffle((diff(firstPauseForShuffle')'),1)];
-        %          ALLcurrXY1=cumsum(diff_for_mixing,2);
-        %          ALLcurrXY=ALLcurrXY1(:,~isnan(ALLcurrXY1(1,:)));
-        %          %
+                 % for random movement control 3 !!!
+                 firstPauseForShuffle=ALLcurrXY(:,1:find(isnan(ALLcurrXY(1,:)),1)-1);
+                 if size(firstPauseForShuffle,2)<=1
+                     firstPauseForShuffle=[0 0; 0 0];
+                 end
+                 diff_for_mixing=[ALLcurrXY(:,1) Shuffle((diff(firstPauseForShuffle')'),1)];
+                 ALLcurrXY1=cumsum(diff_for_mixing,2);
+                 ALLcurrXY=ALLcurrXY1(:,~isnan(ALLcurrXY1(1,:)));
+                 %
         % disable two lines for control 4 !
         %          DS_t_filter=[0 1 1 1 -1 -1 -1];
         %
@@ -151,6 +151,6 @@ for cond=1:4
         details.XYdeg=ALLcurrXY_deg;
         details.category=folders{cond};
         details.imageName=PicName;
-        save(['C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_videos2\' folders{cond} '\mov' num2str(movNum) ], 'movie','filt_movie','details');
+        save(['C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\control_videos3\' folders{cond} '\mov' num2str(movNum) ], 'movie','filt_movie','details');
     end
 end
