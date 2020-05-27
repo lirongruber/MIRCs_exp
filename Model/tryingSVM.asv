@@ -32,12 +32,12 @@ for FixationNumToUse=1:7
                 currT=class(c,t);
                 currT=currT{1,1};
                 if isfield(currT, 'meanRecActivation') || isfield(currT, 'perFrameEntropy')%~isempty(currT.meanRecActivation)
-%                     curr=currT.FPCA_functions;
-%                     curr=currT.meanRecActivation;
+                    %                     curr=currT.FPCA_functions;
+%                       curr=currT.meanRecActivation;
                     curr=currT.perFrameEntropy;
-%                     curr=currT.Speed;
+                    %                     curr=currT.Speed;
                     if singleFixation==1
-                        relFixation=min(FixationNumToUse,size(curr,2));%%max(1,size(curr,2)-FixationNumToUse+1); %% which fixation to take
+                        relFixation=min(FixationNumToUse,size(curr,2));%%relFixation=max(1,size(curr,2)-FixationNumToUse+1); %% which fixation to take
                     else
                         concat=[];
                         relFixation=1:min(FixationNumToUse,size(curr,2));%max(1,size(curr,2)-FixationNumToUse+1):size(curr,2); %
@@ -45,18 +45,20 @@ for FixationNumToUse=1:7
                     for fixationNum=relFixation % which fixation to take - 1:size(curr,2)
                         if ~isempty(curr{1,fixationNum})
                             if singleFixation==1
-                                %mean activation:
+                                %mean activation or speed:
+%                                 functions(rel,1:size(curr{1,fixationNum},2))=curr{1,fixationNum};
+                                %Entropy
                                 functions(rel,1:size(curr{1,fixationNum},2))=curr{1,fixationNum};
                                 %fpca:
-%                                 PCAfunctionNum=1; % which PCA# function to take
-%                                 PCArel=curr{1,fixationNum};
-%                                 functions(rel,1:size(curr{1,fixationNum},1))=PCArel(:,min(PCAfunctionNum,size(PCArel,2)))';
-%                                 functions(rel,1:size(curr{1,fixationNum},1))=mean(PCArel,2)';
+                                %                                 PCAfunctionNum=1; % which PCA# function to take
+                                %                                 PCArel=curr{1,fixationNum};
+                                %                                 functions(rel,1:size(curr{1,fixationNum},1))=PCArel(:,min(PCAfunctionNum,size(PCArel,2)))';
+                                %                                 functions(rel,1:size(curr{1,fixationNum},1))=mean(PCArel,2)';
 %                                 functions(rel,1:size(curr{1,fixationNum},1))=sum(PCArel,2)';
 
                                 rel=rel+1;
                             else
-                                concat=[concat curr{1,fixationNum}(5:end)]; % after 50 ms
+                                concat=[concat curr{1,fixationNum}(7:end)]; % after 50 ms
                                 %concat=[concat curr{1,fixationNum}(:,PCAfunctionNum)'];
                             end
                         end
@@ -83,7 +85,7 @@ for FixationNumToUse=1:7
         forSVM{1}=Shuffle(forSVM{1},2);
         forSVM{2}=Shuffle(forSVM{2},2);
         if singleFixation==1
-            l=min(size(forSVM{1}(:,5:end),2),size(forSVM{2}(:,5:end),2));% after 50 ms - cutting the begining for class
+            l=min(size(forSVM{1}(:,7:end),2),size(forSVM{2}(:,7:end),2));% after 50 ms - cutting the begining for class
 %             l=min(size(forSVM{1}(:,1:end),2),size(forSVM{2}(:,1:end),2));% after 50 ms - cutting the begining for class
             trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));% making sure same group sizes
             X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];

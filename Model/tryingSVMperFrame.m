@@ -26,9 +26,9 @@ for FixationNumToUse=1:7
 %                     %fixation start frame
 %                     currT=filt_movie{1,relFixation}(:,:,2);
 %                     %fixation mean frame
-                    currT=mean(filt_movie{1,relFixation}(:,:,:),3);
+%                     currT=mean(filt_movie{1,relFixation}(:,:,:),3);
 %                     %fixation end frame
-%                     currT=filt_movie{1,relFixation}(:,:,end-1);
+                    currT=filt_movie{1,relFixation}(:,:,end-1);
                     
                     functions(rel,1:size(currT(currT~=0)',2))=currT(currT~=0)';
                     rel=rel+1;

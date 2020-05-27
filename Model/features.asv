@@ -34,7 +34,10 @@ for fixation_num=1:size(filt_movie,2)
     activations=rel_movie_act_notCorr;
     activations=activations-rel_movie_act_MEAN;
 %     activations=abs(activations-rel_movie_act_MEAN);
-
+figure()
+plot(time(1:L),activations)
+            %mean
+            plot(time(1:L),meanActivation,'rh')
     %speed
     vx=diff(details.XYdeg(1,filt_movie{2,fixation_num}(1):filt_movie{2,fixation_num}(2))).*Fs;
     vy=diff(details.XYdeg(2,filt_movie{2,fixation_num}(1):filt_movie{2,fixation_num}(2))).*Fs;
@@ -83,7 +86,7 @@ for fixation_num=1:size(filt_movie,2)
         infoRec=size(activations,1);
         varRec=sum(var(activations))/size(activations,2);
         %mean movvar act
-            
+        
         if plotFlag==1
             figure(1)
             subplot(2,ceil(size(filt_movie,2)/2),fixation_num)

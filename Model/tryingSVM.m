@@ -17,7 +17,7 @@ classFull=class;
 % classFull=class;
 
 for FixationNumToUse=1:7
-    for repetition=1:2
+    for repetition=1:10
 %         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
 %         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
         class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
@@ -33,11 +33,11 @@ for FixationNumToUse=1:7
                 currT=currT{1,1};
                 if isfield(currT, 'meanRecActivation') || isfield(currT, 'perFrameEntropy')%~isempty(currT.meanRecActivation)
                     %                     curr=currT.FPCA_functions;
-                    %                     curr=currT.meanRecActivation;
+%                       curr=currT.meanRecActivation;
                     curr=currT.perFrameEntropy;
                     %                     curr=currT.Speed;
                     if singleFixation==1
-                        relFixation=min(FixationNumToUse,size(curr,2));%%max(1,size(curr,2)-FixationNumToUse+1); %% which fixation to take
+                        relFixation=min(FixationNumToUse,size(curr,2));%%relFixation=max(1,size(curr,2)-FixationNumToUse+1); %% which fixation to take
                     else
                         concat=[];
                         relFixation=1:min(FixationNumToUse,size(curr,2));%max(1,size(curr,2)-FixationNumToUse+1):size(curr,2); %
@@ -46,11 +46,9 @@ for FixationNumToUse=1:7
                         if ~isempty(curr{1,fixationNum})
                             if singleFixation==1
                                 %mean activation or speed:
-                                functions(rel,1:size(curr{1,fixationNum},2))=curr{1,fixationNum};
+%                                 functions(rel,1:size(curr{1,fixationNum},2))=curr{1,fixationNum};
                                 %Entropy
-                                functions(rel,1:size(curr{1,fixationNum},2)-7)=curr{1,fixationNum}(8:end);
-%                                 figure; plot(curr{1,fixationNum});
-%                                 close all
+                                functions(rel,1:size(curr{1,fixationNum},2))=curr{1,fixationNum};
                                 %fpca:
                                 %                                 PCAfunctionNum=1; % which PCA# function to take
                                 %                                 PCArel=curr{1,fixationNum};
@@ -60,7 +58,7 @@ for FixationNumToUse=1:7
 
                                 rel=rel+1;
                             else
-                                concat=[concat curr{1,fixationNum}(5:end)]; % after 50 ms
+                                concat=[concat curr{1,fixationNum}(7:end)]; % after 50 ms
                                 %concat=[concat curr{1,fixationNum}(:,PCAfunctionNum)'];
                             end
                         end
@@ -87,7 +85,7 @@ for FixationNumToUse=1:7
         forSVM{1}=Shuffle(forSVM{1},2);
         forSVM{2}=Shuffle(forSVM{2},2);
         if singleFixation==1
-            l=min(size(forSVM{1}(:,5:end),2),size(forSVM{2}(:,5:end),2));% after 50 ms - cutting the begining for class
+            l=min(size(forSVM{1}(:,7:end),2),size(forSVM{2}(:,7:end),2));% after 50 ms - cutting the begining for class
 %             l=min(size(forSVM{1}(:,1:end),2),size(forSVM{2}(:,1:end),2));% after 50 ms - cutting the begining for class
             trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));% making sure same group sizes
             X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];
@@ -140,7 +138,7 @@ for FixationNumToUse=1:7
     end
 end
 
-figure(2)
+figure(1)
 s=0;
 titles={'Linear kernel'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
 for test={perCorrect_l} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
