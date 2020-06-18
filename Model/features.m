@@ -64,6 +64,7 @@ for fixation_num=1:size(filt_movie,2)
     % init more savings
     classfeatures.numOfinfoRec(fixation_num)=0;
     classfeatures.meanInfoPerRec(fixation_num)=0;
+    classfeatures.meanActivationBeforeCorr{fixation_num}=[];
     classfeatures.meanRecActivation{fixation_num}=0;
     classfeatures.varInfoPerRec(fixation_num)=0;
     classfeatures.movvarmeanInfoPerRec{fixation_num}=[];
