@@ -86,8 +86,8 @@ for var=1:3
                 for i=1:length(drifts_time_ms)
                     meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0) zeros(1,25-length(drifts_time_ms{1,i}(drifts_time_ms{1,i}~=0)))]];
                 end
-                rel_title='ISI';
-                rel_y='Drift duration [ms]';
+                rel_title='Fixation Duration';
+                rel_y='ISI [ms]';
                 rel_min=100;
                 rel_max=600;
                 subFigLetter='b';
@@ -95,7 +95,7 @@ for var=1:3
                 for i=1:length(drifts_vel_deg2sec)
                     meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0) zeros(1,25-length(drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0)))]];
                 end
-                rel_title='Mean Drift Speed';
+                rel_title='Mean Fixation Speed';
                 rel_y='speed [deg/sec]';
                 rel_min=2.5;
                 rel_max=5;
@@ -104,7 +104,7 @@ for var=1:3
                 for i=1:length(drifts_amp_degrees)
                     meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0) zeros(1,25-length(drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0)))]];
                 end
-                rel_title='Drift Amplitudes';
+                rel_title='Fixation Amplitudes';
                 rel_y='amplitude[deg]';
                 rel_min=0.5;
                 rel_max=2.5;
@@ -229,7 +229,7 @@ for group=1:length(paths)
         
 %         xlabel('time within pause [ms] ','Fontsize',18)
         ylabel('speed [deg/sec]','FontSize', 20)
-        title('Drift Instantaneous Speed','Fontsize',20)
+        title('Fixation Instantaneous Speed','Fontsize',20)
         text(-30,10,'b','Fontsize',30)
         box off
         all{group}=nanmean(MeanVel);

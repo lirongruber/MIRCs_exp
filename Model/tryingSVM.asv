@@ -164,22 +164,19 @@ end
 
 figure(1)
 s=0;
-colors={[32,178,170]./255,[178,32,40]./255};
+colors={[74,200,78]./255,[246,75,75]./255};
 titles={'Linear kernel'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
-titles={'SVM classification'};
-
 for test={perCorrect_l} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
     s=s+1;
     %     subplot(1,4,s)
-    errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1),'color',colors{1},'LineWidth',2)
+    errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1),'color',colors{1})
     hold on
     plot(0:8, 0.5*ones(1,9),'k--')
     ylabel('percent correct')
     xlabel('fixation number')
-    axis([0 8 0.2 0.8])
+    axis([0 10 0.2 0.8])
     title(titles{s})
 end
-box off
 
 
 
