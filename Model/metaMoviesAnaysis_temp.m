@@ -2,8 +2,9 @@
 % clear
 
 movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos';
-movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos_FullTrials';
 folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes','subMIRCs_no'};
+folders={'fullImages'};
+
 figNum=10;
 % folders={'MIRCs_yes'};
 
@@ -19,7 +20,7 @@ for folder=folders
             load([movies_path '\' folder{1,1} '\' currMov.name]);
             plotFlag=0;
             
-            [classfeatures]=features(filt_movie,details,plotFlag);
+            [classfeatures]=features_temp(filt_movie,details,plotFlag);
             %with different corr threshold
 %             [classfeatures]=features_option2(filt_movie,details,plotFlag);
             %Entropy
@@ -30,6 +31,6 @@ for folder=folders
         end
     end
 end
-save('C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\classFullTrials','class')
+save('C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\classFullImages','class')
 % save('C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\classPlosMEAN','class')
 % save('C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\class_option2','class')

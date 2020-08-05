@@ -43,6 +43,7 @@ if movieFlag==1
 end
 % time filtering
 curr=[0 sacc_t size(movie,3)+1];
+
 rel_m=0;
 for num_m=1:size(curr,2)-1
     rel_m=rel_m+1;
@@ -76,6 +77,7 @@ if movieFlag==1
         end
     end
     toc
+       
 end
 
 end

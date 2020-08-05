@@ -50,12 +50,12 @@ t_filter=t_filter./max(t_filter);
 % h_r=(t.^n/T2^(n+1)).*exp(-t./T2)-R.*(t.^n/T1^(n+1)).*exp(-t./T1);
 % h_r=h_r./sum(h_r);
 
-%figure()
-%plot(t-100,flip(t_filter))
-%hold all
+% figure()
+% plot(t-100,flip(t_filter))
+% hold all
 % % plot(t,flip(h_r))
 % plot([-100 0],[0 0])
- %xlabel('time [ms]')
+%  xlabel('time [ms]')
 paths={...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_yes';
     'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_no';
@@ -70,7 +70,14 @@ folders={...
     'subMIRCs_yes';
     'subMIRCs_no';
     };
-for cond=4%1:4
+
+paths={...
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\fullImages';
+    };
+folders={...
+    'fullImages';
+    };
+for cond=1%:4
     currpath=paths{cond};
     movNum=0;
     files = dir(currpath);
@@ -99,12 +106,14 @@ for cond=4%1:4
         [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,im,[gazeX ; gazeY],rate,filterFlag);
         tempX_filtered= chan_h_pix;
         tempY_filtered=chan_v_pix;
+        % FOR FULL TRIAL - % ON NEXT 6 LINES
         for i=1:size(saccade_vec,2)
             tempX_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
             tempY_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
         end
         chan_h_deg(isnan(tempX_filtered))=nan;
         chan_v_deg(isnan(tempY_filtered))=nan;
+        %
         
         final_rate=125;
         ALLcurrXY_deg=[chan_h_deg(500:rate/final_rate:end) ; chan_v_deg(500:rate/final_rate:end)];

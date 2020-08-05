@@ -2,9 +2,6 @@
 clear
 
 
-folders={'Recognized','Not Recognized'};
-
-% folders={'MIRCs Yes','MIRCs No','subMIRCs Yes','subMIRCs No'};
 % class=control_class;
 
 % load('control_class2.mat')
@@ -28,16 +25,22 @@ folders={'Recognized','Not Recognized'};
 %     end
 % end
 
-
-
+load('classFullImages.mat')
+temp=cell(1,126);
+fullImages={class{1,:} , temp{1,:} };
 load('class.mat')
-classFull=class;
+nonRecog={class{1,:}  class{3,:}};
+classFull={fullImages{1,:}  ;  nonRecog{1,:} };
+
+% load('class.mat')
+% classFull=class;
 
 for FixationNumToUse=1:7
-    for repetition=1:2
+    for repetition=1:5
         %         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
         %         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
-        class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
+%         class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
+        class=classFull;
         clearvars -except classFull class FixationNumToUse repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f
         singleFixation=1;
         forSVM={};

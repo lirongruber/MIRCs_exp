@@ -3,14 +3,21 @@ clear
 
 folders={'Recognized','Not Recognized'};
 
-
+load('classFullImages.mat')
+temp=cell(1,126);
+fullImages={class{1,:} , temp{1,:} };
 load('class.mat')
-classFull=class;
+nonRecog={class{2,:}  class{4,:}};
+classFull={fullImages{1,:}  ;  nonRecog{1,:} };
+
+% load('class.mat')
+% classFull=class;
 for options=1:2
     for repetition=1:5
         %         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
         %         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
-        class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
+%         class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
+        class=classFull;
         clearvars -except classFull class repetition perCorrect_final perCorrect_l options 
         forSVM={};
         for c=1:size(class,1)

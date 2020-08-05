@@ -78,7 +78,7 @@ for fixation_num=1:size(filt_movie,2)
     classfeatures.PCA_Cnumber(fixation_num)=0;
     classfeatures.FPCA_functions{fixation_num}=[];
     
-    if ~isempty(activations) && size(activations,1)<30000
+    if ~isempty(activations) && size(activations,1)<7000
         %activations
         meanActivation=mean(activations,1);
         infoRec=size(activations,1);

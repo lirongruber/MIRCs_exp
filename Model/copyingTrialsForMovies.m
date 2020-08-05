@@ -43,3 +43,30 @@ for sub={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
         end
     end
 end
+%fullImages
+for sub={'AK','FS','GG','GH','IN','LS','NG','TT','UK','YM'}
+    rel_folder=[from sub{1,1}];
+    rel_files=dir(rel_folder );
+    for trial_i=3:length(rel_files)
+        t=rel_files(trial_i).name;
+        if strcmp(t(4),'3')
+            load([rel_folder '\' t]);
+            if ~strcmp(PicName(1:5),'house') && ~strcmp(PicName(1:4),'nose') && ~strcmp(PicName(1:5),'mouth') 
+                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\fullImages');
+            end
+        end
+    end
+end
+for sub={'EM','GS','HL','NA','RB','SE','SG','SS','YB','YS'}
+    rel_folder=[from sub{1,1}];
+    rel_files=dir(rel_folder );
+    for trial_i=3:length(rel_files)
+        t=rel_files(trial_i).name;
+        if strcmp(t(4),'4')
+            load([rel_folder '\' t]);
+            if ~strcmp(PicName(1:5),'house') && ~strcmp(PicName(1:4),'nose') && ~strcmp(PicName(1:5),'mouth') 
+                    [~]=copyfile( [rel_folder '\' t] , 'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\fullImages');
+            end
+        end
+    end
+end

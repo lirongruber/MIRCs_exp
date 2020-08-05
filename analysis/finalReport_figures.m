@@ -1,7 +1,7 @@
 %final figures
 
 clear
-close all
+% close all
 
 %% figure 2
 
@@ -156,6 +156,7 @@ end
 paths={...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...
+    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
     };
 type=1;
 s=11;
@@ -222,9 +223,9 @@ for group=1:length(paths)
         hold on
         plot((1:size(MeanVel,2)).*4,nanmean(MeanVel),'k')
         targetV1=nanmean(MeanVel);
-        targetV=mean(targetV1(15:50)); %targetV=mean(targetV(100/4:200/4));
-        targetV_STE=ste(targetV1(15:50));
-        text(50,targetV*2-1,['Target speed (t >60ms) = ' num2str(round(targetV,2)) char(177)  num2str(round(targetV_STE,2))],'color',currcolor{1,group},'FontSize', 15)
+        targetV=mean(targetV1(25:50)); %targetV=mean(targetV(100/4:200/4));
+        targetV_STE=ste(targetV1(25:50));
+        text(50,targetV*2-1,['Target speed (t >100ms) = ' num2str(round(targetV,2)) char(177)  num2str(round(targetV_STE,2))],'color',currcolor{1,group},'FontSize', 15)
         axis([0 200 0 9])
         
 %         xlabel('time within pause [ms] ','Fontsize',18)
@@ -236,15 +237,21 @@ for group=1:length(paths)
     end
     
 end
-[s,t]=kstest2(all{1}(15:50),all{2}(15:50));
+[s,t]=kstest2(all{1}(25:50),all{2}(25:50));
 if s==1
-    text(60,2.5,'* KS','Fontsize',22)
+    text(100,2.5,'* KS','Fontsize',22)
 end
 
-load('class')
-class={ class{1,:} class{3,:} ; class{2,:}  class{4,:} };
-colors={[74,77,255]./255,[246,75,75]./255};
-folders={'Recognized','Not Recognized'};
+load('classFullImages.mat')
+temp=cell(1,126);
+fullImages={class{1,:} , temp{1,:} };
+load('class.mat')
+nonRecog={class{2,:}  class{4,:}};
+recog={class{1,:}  class{3,:}};
+class={fullImages{1,:}  ;  recog{1,:} ; nonRecog{1,:} };
+
+colors={[0,0,0],[74,77,255]./255,[246,75,75]./255};
+folders={'fullImage','Recognized','Not Recognized'};
 
 STDforOutL=2; %number of std from mean to include
 perNonNan2include=0.9;
@@ -315,16 +322,16 @@ for c=1:size(class,1)
     figure(3)
     subplot(2,2,4)
     relSize=size(nanmean(Inst_infoPerRec),2);
-    errorbar(0:4:4*relSize-1,nanmean(Inst_infoPerRec),nanstd(Inst_infoPerRec)./sum(~isnan(Inst_infoPerRec),1),'color',colors{c},'lineWidth',2)
+    errorbar(0:8:8*relSize-1,nanmean(Inst_infoPerRec),nanstd(Inst_infoPerRec)./sum(~isnan(Inst_infoPerRec),1),'color',colors{c},'lineWidth',2)
     hold on
     xlabel('time within pause [ms] ','Fontsize',18)
     title('Retinal Instantaneous Activation','Fontsize',20)
     text(-35,.3,'d','Fontsize',30)
     box off
     forStat_Inst_infoPerRec{c}=Inst_infoPerRec;
-    axis([0 200 -0.45 0.2])
+    axis([0 200 -0.45 0.25])
 end
-[h,p] = kstest2(nanmean(forStat_infoPerRec{1,1}),nanmean(forStat_infoPerRec{1,2}));
+[h,p] = kstest2(nanmean(forStat_infoPerRec{1,2}),nanmean(forStat_infoPerRec{1,3}));
 if h==1
     figure(3)
     subplot(2,2,3)
@@ -334,7 +341,7 @@ else
     subplot(2,4,3)
     text(3,-1.7,'[NS] KS','FontSize',22)
 end
-[h,p] = kstest2(nanmean(forStat_numOfinfoRec{1,1}),nanmean(forStat_numOfinfoRec{1,2}));
+[h,p] = kstest2(nanmean(forStat_numOfinfoRec{1,2}),nanmean(forStat_numOfinfoRec{1,3}));
 if h==1
     figure(30)
     subplot(2,2,3)
@@ -344,21 +351,21 @@ else
     subplot(2,2,3)
     text(3,100,'[NS]* KS','Fontsize',22)
 end
-[h,p] = kstest2(nanmean(forStat_Inst_infoPerRec{1,1}(:,15:50)),nanmean(forStat_Inst_infoPerRec{1,2}(:,15:50)));
+[h,p] = kstest2(nanmean(forStat_Inst_infoPerRec{1,2}(:,15:50)),nanmean(forStat_Inst_infoPerRec{1,3}(:,15:50)));
 if h==1
     figure(3)
     subplot(2,2,4)
-    text(60,-0.1,'* KS','Fontsize',22)
-    M(1)=mean(nanmean(forStat_Inst_infoPerRec{1,1}(:,15:50)));
-    M(2)=mean(nanmean(forStat_Inst_infoPerRec{1,2}(:,15:50)));
-    S(1)=ste(nanmean(forStat_Inst_infoPerRec{1,1}(:,15:50)));
-    S(2)=ste(nanmean(forStat_Inst_infoPerRec{1,2}(:,15:50)));
-    text(50,0,['Target activation (t >60ms) = ' num2str(round(M(1),3)) char(177)  num2str(round(S(1),3))],'color',currcolor{1,2},'FontSize', 12)
-    text(50,-0.05,['Target activation (t >60ms) = ' num2str(round(M(2),3)) char(177)  num2str(round(S(2),3))],'color',currcolor{1,1},'FontSize', 12)
+    text(100,0,'* KS','Fontsize',22)
+    M(1)=mean(nanmean(forStat_Inst_infoPerRec{1,1}(:,13:50)));
+    M(2)=mean(nanmean(forStat_Inst_infoPerRec{1,2}(:,13:50)));
+    S(1)=ste(nanmean(forStat_Inst_infoPerRec{1,1}(:,13:50)));
+    S(2)=ste(nanmean(forStat_Inst_infoPerRec{1,2}(:,13:50)));
+    text(50,0.2,['Target activation (t >100ms) = ' num2str(round(M(1),3)) char(177)  num2str(round(S(1),3))],'color',currcolor{1,2},'FontSize', 12)
+    text(50,0.15,['Target activation (t >100ms) = ' num2str(round(M(2),3)) char(177)  num2str(round(S(2),3))],'color',currcolor{1,1},'FontSize', 12)
 
 else
     figure(3)
     subplot(2,2,4)
-        text(60,-0.1,'[NS]* KS','Fontsize',22)
+        text(100,-0.1,'[NS]* KS','Fontsize',22)
 end
 

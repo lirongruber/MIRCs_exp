@@ -2,8 +2,17 @@
 
 % close all
 % class={ class{1,:} class{3,:} ; class{2,:}  class{4,:} };
-colors={[74,77,255]./255,[246,75,75]./255};
-folders={'Recognized','Not Recognized'};
+
+load('classFullImages.mat')
+temp=cell(1,126);
+fullImages={class{1,:} , temp{1,:} };
+load('class.mat')
+nonRecog={class{2,:}  class{4,:}};
+recog={class{1,:}  class{3,:}};
+class={fullImages{1,:}  ;  nonRecog{1,:} ; recog{1,:}};
+
+colors={[0 0 0],[74,77,255]./255,[246,75,75]./255};
+folders={'fullImage','Recognized','Not Recognized'};
 
 numofSubPlot=size(folders,2)+1;
 for c=1:size(class,1)
@@ -26,7 +35,7 @@ for c=1:size(class,1)
     end
     meanPerFix(meanPerFix==0)=nan;
    plot(nanmean(meanPerFix),'color',colors{c})
-   subplot(2,numofSubPlot+1,3)
+   subplot(2,numofSubPlot+1,4)
    plot(nanmean(meanPerFix),'color',colors{c})
    hold on
     
