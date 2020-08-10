@@ -25,23 +25,27 @@ clear
 %     end
 % end
 
-load('classFullImages.mat')
-temp=cell(1,126);
-fullImages={class{1,:} , temp{1,:} };
-load('class.mat')
-nonRecog={class{1,:}  class{3,:}};
-classFull={fullImages{1,:}  ;  nonRecog{1,:} };
-
+% load('classFullImages.mat')
+% temp=cell(1,126);
+% fullImages={class{1,:} , temp{1,:} };
 % load('class.mat')
-% classFull=class;
+% nonRecog={class{1,:}  class{3,:}};
+% classFull={fullImages{1,:}  ;  nonRecog{1,:} };
+
+load('class.mat')
+classFull=class;
+
 
 for FixationNumToUse=1:7
-    for repetition=1:5
+    for repetition=1:2
         %         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
         %         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
-%         class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
-        class=classFull;
-        clearvars -except classFull class FixationNumToUse repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f
+        class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
+        func_flag=ones(size(class));
+        func_flag(1,size(class,2)/2+1:end)=2;
+        func_flag(2,size(class,2)/2+1:end)=2;
+%         class=classFull;
+        clearvars -except classFull class func_flag FixationNumToUse repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f perCorrect_MIRCs perCorrect_subMIRCs
         singleFixation=1;
         forSVM={};
         for c=1:size(class,1)
@@ -50,6 +54,7 @@ for FixationNumToUse=1:7
             %             trialsToTake=Shuffle(1:size(class,2));
             for t=1:size(class,2)%trialsToTake(1:163) %
                 currT=class(c,t);
+                currFlag=func_flag(c,t);
                 currT=currT{1,1};
                 if isfield(currT, 'meanRecActivation') || isfield(currT, 'perFrameEntropy')%~isempty(currT.meanRecActivation)
                     %                                         curr=currT.FPCA_functions;
@@ -73,6 +78,7 @@ for FixationNumToUse=1:7
                             if singleFixation==1
                                 %mean activation or speed or Entropy:
                                 functions(rel,1:size(curr{1,fixationNum},2))=curr{1,fixationNum};
+                                end_flags(rel)=currFlag;
                                 %fpca:
                                 %                                 PCAfunctionNum=1; % which PCA# function to take
                                 %                                 PCArel=curr{1,fixationNum};
@@ -103,16 +109,22 @@ for FixationNumToUse=1:7
             n_sample=sum(isnan(functions),2);
             n_sample=n_sample<size(functions,2)/howToCut;
             functions=functions(n_sample==1,:);
+            end_flags=end_flags(n_sample==1);
             
             forSVM{c}=functions;
+            flags_forSVM{c}=end_flags;
         end
         
-        forSVM{1}=Shuffle(forSVM{1},2);
-        forSVM{2}=Shuffle(forSVM{2},2);
+        [forSVM{1},  order1]=Shuffle(forSVM{1},2);
+        flags_forSVM{1}=flags_forSVM{1}(order1(:,1));
+        [forSVM{2}, order2]=Shuffle(forSVM{2},2);
+        flags_forSVM{2}=flags_forSVM{2}(order2(:,1));
+
         if singleFixation==1
             l=min(size(forSVM{1}(:,7:end),2),size(forSVM{2}(:,7:end),2));% after 50 ms - cutting the begining for class
             trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));% making sure same group sizes
             X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];
+            X_flags=[flags_forSVM{1}(1:trialPerGroup) , flags_forSVM{2}(1:trialPerGroup)];
             %             X=[forSVM{1}(1:trialPerGroup,7:6+l) ; forSVM{2}(1:trialPerGroup,7:6+l)];
             
         else
@@ -135,12 +147,14 @@ for FixationNumToUse=1:7
         %     idx=randi([2 size(XX,1)],1,100);
         idx_1=1:size(XX,1)/2;
         idx_0=size(XX,1)/2+1:size(XX,1);
+        test_flags=[];
         for i=1:idx_1(end)
             totalNlabels=totalNlabels+1;
             leaveOut=setdiff(1:size(XX,1),[idx_1(i) idx_0(i)]);
             X_train=XX(leaveOut,:);
             Y_train=YY(leaveOut);
             x_test=[XX(idx_1(i),:);  XX(idx_0(i),:)];
+            test_flags=[test_flags ; X_flags(idx_1(i)); X_flags(idx_0(i))];
             y_test(totalNlabels,:)=[YY(idx_1(i)) YY(idx_0(i))];
 %             y_test(totalNlabels,:)=[randi(2)-1 randi(2)-1];
             % SVM
@@ -161,6 +175,15 @@ for FixationNumToUse=1:7
         %         perCorrect_f(FixationNumToUse,repetition)=sum(label_f(:)==y_test(:))/(2*totalNlabels);
         %         perCorrect_g(FixationNumToUse,repetition)=sum(label_g(:)==y_test(:))/(2*totalNlabels);
         perCorrect_l(FixationNumToUse,repetition)=sum(label_l(:)==y_test(:))/(2*totalNlabels);
+        
+        m_labels=label_l(test_flags==1);
+        m_test=y_test(test_flags==1);
+        perCorrect_MIRCs(FixationNumToUse,repetition)=sum(m_labels(:)==m_test(:))/(totalNlabels);
+        
+        s_labels=label_l(test_flags==2);
+        s_test=y_test(test_flags==2);
+        perCorrect_subMIRCs(FixationNumToUse,repetition)=sum(s_labels(:)==s_test(:))/(totalNlabels);
+        
         disp(['Fixation: ' num2str(FixationNumToUse) ' repitition: ' num2str(repetition)])
     end
 end
@@ -185,7 +208,25 @@ end
 box off
 
 
+figure(2)
+s=0;
+colors={[32,178,170]./255,[178,32,40]./255};
+titles={'SVM classification'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
+leg={'MIRCs','', 'subMIRCs'};
 
+for test={perCorrect_MIRCs,perCorrect_subMIRCs} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
+    s=s+1;
+    %     subplot(1,4,s)
+    errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1),'color',colors{s},'LineWidth',2)
+    hold on
+    plot(0:8, 0.5*ones(1,9),'k--')
+    ylabel('percent correct')
+    xlabel('fixation number')
+    axis([0 8 0.2 0.8])
+    title(titles{1})
+end
+legend(leg)
+box off
 % figure
 % plot(XX(1:size(forSVM{1}(:,1:rel),1),:)')
 % hold on
