@@ -33,14 +33,14 @@ clear
 % classFull={fullImages{1,:}  ;  nonRecog{1,:} };
 
 
-load('class.mat')
+load('classFullTrials.mat')
 classFull=class;
 
-for FixationNumToUse=1:7
+for FixationNumToUse=1:2
     for repetition=1:2
         %         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
         %         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
-        class={ classFull{1,:} classFull{2,:} ; classFull{3,:}  classFull{4,:} };
+        class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
         func_flag=ones(size(class));
         func_flag(1,size(class,2)/2+1:end)=2;
         func_flag(2,size(class,2)/2+1:end)=2;

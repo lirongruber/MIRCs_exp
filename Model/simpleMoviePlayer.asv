@@ -10,11 +10,11 @@ figure('units','normalized','outerposition',[0 0 1 1])
 tic
 for i=1:size(filt_movie,2)
     
-    for ii=1:size(filt_movie{1,i},3)
+    for ii=1:size(rel_movie_notCorr{1,i},3)
         %         subplot(1,size(filt_movie,2),i)
         %     figure('units','normalized','outerposition',[0 0 1 1])
 %         imshow([filt_movie{1,i}(:,:,ii) rel_movie_notCorr{1,i}(:,:,ii)+1])
-       imshow(filt_movie{1,i}(:,:,ii) )
+       imshow(filt_movie{1,i})
 
         hold on
         plot(201,201,'b*','MarkerSize',1)
@@ -28,7 +28,7 @@ for i=1:size(filt_movie,2)
         
         pause(0.01)
         
-    end
+%     end
 end
 %         % for saving .avi :
 % close(v);
