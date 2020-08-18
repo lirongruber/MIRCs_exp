@@ -204,18 +204,18 @@ for i=1:size(paths,2)
     for ii=1:length(saccs_vel_deg2sec)
         curr_saccs_vel_deg2sec{i}=[curr_saccs_vel_deg2sec{i} saccs_vel_deg2sec{1,ii}];
     end
-    currmean=nanmean(curr_saccs_vel_deg2sec{i}(curr_saccs_vel_deg2sec{i}~=0));
-    h=histogram(curr_saccs_vel_deg2sec{i}(curr_saccs_vel_deg2sec{i}~=0),0:50:1200,'Normalization','probability','FaceColor',currcolor{i});
+    currmean=mean(curr_saccs_vel_deg2sec{i}(curr_saccs_vel_deg2sec{i}~=0));
+    h=histogram(curr_saccs_vel_deg2sec{i}(curr_saccs_vel_deg2sec{i}~=0),0:1:100,'Normalization','probability','FaceColor',currcolor{i});
     plot([currmean currmean],[0 0.2],'--','Color',currcolor{i})
-    axis([0 1200 0 0.2])
+    axis([0 10 0 0.2])
     %sacc maxvel
     if i==1 || i==2
         subplot(4,4,12)
         title('Saccades max speed','Fontsize',20)
-        xlabel('max speed [deg/sec]','Fontsize',20)
+        xlabel('CI [AU]','Fontsize',20)
     else
         subplot(4,4,16)
-        xlabel('max speed [deg/sec]','Fontsize',20)
+        xlabel('CI [AU]','Fontsize',20)
     end
     hold on
     curr_saccs_maxvel_deg2sec{i}=[];
@@ -223,9 +223,9 @@ for i=1:size(paths,2)
         curr_saccs_maxvel_deg2sec{i}=[curr_saccs_maxvel_deg2sec{i} saccs_maxvel_deg2sec{1,ii}];
     end
     currmean=mean(curr_saccs_maxvel_deg2sec{i}(curr_saccs_maxvel_deg2sec{i}~=0));
-    h=histogram(curr_saccs_maxvel_deg2sec{i}(curr_saccs_maxvel_deg2sec{i}~=0),0:10:300,'Normalization','probability','FaceColor',currcolor{i});
+    h=histogram(curr_saccs_maxvel_deg2sec{i}(curr_saccs_maxvel_deg2sec{i}~=0),0:0.05:1,'Normalization','probability','FaceColor',currcolor{i});
     plot([currmean currmean],[0 0.2],'--','Color',currcolor{i})
-    axis([0 300 0 0.2])
+    axis([0 1 0 0.2])
 end
 
 

@@ -5,7 +5,7 @@ clear
 load('classFullTrials.mat')
 classFull=class;
 
-slidingWindowSize=50;
+slidingWindowSize=25;
 slidingJumps=10;
 i=1;
 row=1;
@@ -24,7 +24,6 @@ for numberOfWindows=1:size(windows,1)
         func_flag(2,size(class,2)/2+1:end)=2;
 
         clearvars -except classFull class windows slidingWindowSize func_flag numberOfWindows currWindow repetition perCorrect_final perCorrect_l perCorrect_g perCorrect_f perCorrect_MIRCs perCorrect_subMIRCs
-        singleFixation=1;
         forSVM={};
         for c=1:size(class,1)
             functions=nan(1,100);
@@ -72,20 +71,13 @@ for numberOfWindows=1:size(windows,1)
         flags_forSVM{1}=flags_forSVM{1}(order1(:,1));
         [forSVM{2}, order2]=Shuffle(forSVM{2},2);
         flags_forSVM{2}=flags_forSVM{2}(order2(:,1));
-
-        if singleFixation==1
-            l=min(size(forSVM{1}(:,7:end),2),size(forSVM{2}(:,7:end),2));% after 50 ms - cutting the begining for class
-            trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));% making sure same group sizes
-            X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];
-            X_flags=[flags_forSVM{1}(1:trialPerGroup) , flags_forSVM{2}(1:trialPerGroup)];
-            %             X=[forSVM{1}(1:trialPerGroup,7:6+l) ; forSVM{2}(1:trialPerGroup,7:6+l)];
-            
-        else
-            l=min(size(forSVM{1},2),size(forSVM{2},2));
-            trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));
-            %             X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];
-            X=[forSVM{1}(1:trialPerGroup,7:6+l) ; forSVM{2}(1:trialPerGroup,7:6+l)];
-        end
+        
+        l=min(size(forSVM{1}(:,1:end),2),size(forSVM{2}(:,1:end),2));
+        trialPerGroup=min(size(forSVM{1},1),size(forSVM{2},1));% making sure same group sizes
+        X=[forSVM{1}(1:trialPerGroup,end-l+1:end) ; forSVM{2}(1:trialPerGroup,end-l+1:end)];
+        X_flags=[flags_forSVM{1}(1:trialPerGroup) , flags_forSVM{2}(1:trialPerGroup)];
+        
+        
         
         Y=zeros(size(X,1),1);
         Y(1:size(X,1)/2)=1;
@@ -109,22 +101,22 @@ for numberOfWindows=1:size(windows,1)
             x_test=[XX(idx_1(i),:);  XX(idx_0(i),:)];
             test_flags=[test_flags ; X_flags(idx_1(i)); X_flags(idx_0(i))];
             y_test(totalNlabels,:)=[YY(idx_1(i)) YY(idx_0(i))];
-%             y_test(totalNlabels,:)=[randi(2)-1 randi(2)-1];
+            %             y_test(totalNlabels,:)=[randi(2)-1 randi(2)-1];
             % SVM
-            %             SVMModel_f = fitcsvm(X_train,Y_train,'KernelFunction','myFourierKernel','Standardize',true);
-            %             SVMModel_g = fitcsvm(X_train,Y_train,'KernelFunction','rbf','Standardize',true);
+            SVMModel_f = fitcsvm(X_train,Y_train,'KernelFunction','myFourierKernel','Standardize',true);
+            SVMModel_g = fitcsvm(X_train,Y_train,'KernelFunction','rbf','Standardize',true);
             SVMModel_l = fitcsvm(X_train,Y_train,'KernelFunction','linear','Standardize',true);
             % %             %         SVMModel = fitcsvm(X_train,Y_train,'OptimizeHyperparameters','all');
             % %     Agreement between few models:majority vote
-            %             [label_f(totalNlabels,:),score_f] = predict(SVMModel_f,x_test);
-            %             [label_g(totalNlabels,:),score_g] = predict(SVMModel_g,x_test);
+            [label_f(totalNlabels,:),score_f] = predict(SVMModel_f,x_test);
+            [label_g(totalNlabels,:),score_g] = predict(SVMModel_g,x_test);
             [label_l(totalNlabels,:),score_l] = predict(SVMModel_l,x_test);
         end
-        %         label_final=zeros(size(label_f));
-        %         label_final(label_f+label_g+label_l>=2)=1;
-        %         perCorrect_final(numberOfWindows,repetition)=sum(label_final(:)==y_test(:))/(2*totalNlabels);
-        %         perCorrect_f(numberOfWindows,repetition)=sum(label_f(:)==y_test(:))/(2*totalNlabels);
-        %         perCorrect_g(numberOfWindows,repetition)=sum(label_g(:)==y_test(:))/(2*totalNlabels);
+        label_final=zeros(size(label_f));
+        label_final(label_f+label_g+label_l>=2)=1;
+        perCorrect_final(numberOfWindows,repetition)=sum(label_final(:)==y_test(:))/(2*totalNlabels);
+        perCorrect_f(numberOfWindows,repetition)=sum(label_f(:)==y_test(:))/(2*totalNlabels);
+        perCorrect_g(numberOfWindows,repetition)=sum(label_g(:)==y_test(:))/(2*totalNlabels);
         perCorrect_l(numberOfWindows,repetition)=sum(label_l(:)==y_test(:))/(2*totalNlabels);
         
         m_labels=label_l(test_flags==1);
@@ -135,19 +127,19 @@ for numberOfWindows=1:size(windows,1)
         s_test=y_test(test_flags==2);
         perCorrect_subMIRCs(numberOfWindows,repetition)=sum(s_labels(:)==s_test(:))/(totalNlabels);
         
-        disp(['Fixation: ' num2str(numberOfWindows) ' repitition: ' num2str(repetition)])
+        disp(['Window number: ' num2str(numberOfWindows) ' repitition: ' num2str(repetition)])
     end
 end
 
 figure(1)
 s=0;
 colors={[32,178,170]./255,[178,32,40]./255};
-titles={'Linear kernel'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
-titles={'SVM classification'};
+titles={'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
+% titles={'SVM classification'};
 
-for test={perCorrect_l} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
+for test={perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
     s=s+1;
-    %     subplot(1,4,s)
+        subplot(1,4,s)
     errorbar(windows(:,1)',mean(test{1}',1),std(test{1}',1),'color',colors{1},'LineWidth',2)
     hold on
     plot(0:375, 0.5*ones(1,376),'k--')
