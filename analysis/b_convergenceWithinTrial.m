@@ -64,7 +64,7 @@ for var=1:8
                 rel_y='amplitude[deg]';
                 rel_min=0.5;
                 rel_max=2.5;
-            case 4
+            case 5
                 for i=1:length(saccs_amp_degrees)
                     meansPerRank{1,group}=[meansPerRank{1,group} ; [saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0) zeros(1,26-length(saccs_amp_degrees{1,i}(saccs_amp_degrees{1,i}~=0)))]];
                 end
@@ -72,7 +72,7 @@ for var=1:8
                 rel_y='amplitude[deg]';
                 rel_min=0;
                 rel_max=2;
-            case 5
+            case 4
                 for i=1:length(drifts_curve_CI)
                     meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_curve_CI{1,i}(drifts_curve_CI{1,i}~=0) zeros(1,26-length(drifts_curve_CI{1,i}(drifts_curve_CI{1,i}~=0)))]];
                 end
