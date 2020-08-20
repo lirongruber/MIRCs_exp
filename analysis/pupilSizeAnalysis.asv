@@ -152,6 +152,8 @@ pupil_paths= {['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\Pupil_On
 ['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\Pupil_OnlyFirst0_Sub0Mirc0Full1Ref0_rec Yes.mat']
 };
 
+currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
+
 for group=1:3
     load(pupil_paths{group})
     pupil={};
@@ -171,14 +173,35 @@ for group=1:3
         end
     end
     
-    figure(1)
-    for f=1:size(pupil,1)
+%     figure(group)
+%     for f=1:size(pupil,1)
+%         for d=1:7
+%             subplot(2,4,d)
+%             plot(pupil{f,d})
+%             hold on
+%         end
+%     end
+    
+    figure(2)
         for d=1:7
+            p=[];
+            for f=1:size(pupil,1)
+                p(f,1:size(pupil{f,d},2))=pupil{f,d};
+            end
+            p(p==0)=nan;
+            mean_p(d,1:size(nanmean(p,1),2))=nanmean(p,1);
             subplot(2,4,d)
-            plot(pupil{f,d})
+            plot(1:4:size(mean_p(d,:),2)*4,mean_p(d,:),'Color',currcolor{group})
             hold on
+            plot([0,800],[mean(mean_p(d,1:175)) mean(mean_p(d,1:175))],'Color',currcolor{group})
+%             text(200,1200+group*100, ['mean=' num2str(round(mean(mean_p(d,1:200)))) '+-' num2str(round(std(mean_p(d,1:200))))],'Color',currcolor{group})
+            axis([0 700 1000 1700])
+           title(['fixation ' num2str(d)])
+           means_stds(d,:)=
         end
-    end
+    subplot(2,4,8)
+    plot()
+
 end
         
         
