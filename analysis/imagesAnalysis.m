@@ -1,7 +1,7 @@
 %images analysis
 
 clear
-close all
+% close all
 
 % expType=0; %subMIRCS -> MIRCs ->  full images
 % expType=10; %  MIRCs ->  full images -> subMIRCS
@@ -9,14 +9,14 @@ close all
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition='Both'; % ' Yes' ' No' 'Both'
+Recognition=' No'; % ' Yes' ' No' 'Both'
 OnlyFirstSession=0;
 Sub=0;
 Mirc=1;
 Full=0;
 Ref=0;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
-onlyImage=nan; % to specify certain image [nan 'eagle' 'bike'  'horse'...]
+onlyImage='eagle'; % to specify certain image [nan 'eagle' 'bike'  'horse'...] nan
 blinksParameter=0; %number of maximum blinks per trial
 
 if isnan(onlySession)
@@ -123,7 +123,8 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SG','
                                             'edgecol','interp',...
                                             'linew',1);
                                         zoomcenter(961,541,6)
-                                        plot(screenS(2)/2,screenS(1)/2,'+m','LineWidth',1)
+                                        hold on
+%                                         plot(screenS(2)/2,screenS(1)/2,'+m','LineWidth',1)
                                         
                                         if ~isnan(x(1))
                                             plot(x(1),y(1),'+r','LineWidth',1)
@@ -134,8 +135,8 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SG','
                                         
                                         %                             title(NamePic)
                                         colorbar
-                                        saveppt('examples.ppt',[subjects{1} '_' currFile.answer])
-                                        close all
+%                                         saveppt('examples.ppt',[subjects{1} '_' currFile.answer])
+%                                         close all
                                     end
                                     
                                     %                             [imdata,chan_h_pix,chan_v_pix,chan_h, chan_v,saccade_vec, n] =sacDiffAmosPHD(NamePic,currFile.gazeX,currFile.gazeY,image,doPlot);
@@ -212,7 +213,7 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SG','
 %         notRecog=zeros(1,1000);
 %         t=0;
 %     end
-%     %%%
+%     %%%zoom reset;
     
 end
 numberOfRelevantTrials=t;

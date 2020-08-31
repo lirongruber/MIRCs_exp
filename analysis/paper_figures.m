@@ -3,10 +3,11 @@
 clear
 % close all
 
-%% figure 2
+%% figure 1
 
 methods={'subMirc', 'Mirc' ,'Full'};
 currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
+% currcolor={[180	5	26]./255,[	5	26	180]./255,'k'};
 
 % First session for sub+mirc and full
 paths1={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat',...
@@ -45,23 +46,33 @@ text(3.7,0.32, '10x10', 'FontSize', 15)
 text(4.7,0.87, '10x10', 'FontSize', 15)
 text(5.7,0.95, '20x10', 'FontSize', 15)
 text(-1,1.05,'a', 'FontSize', 30)
+text(8,1.05,'b', 'FontSize', 30)
 
+methods={ 'Recog','Unrecog' };
+base=0;
+baseNot=0;
 for i=1:size(paths2,2)-1
-    figure(1)
     load(paths2{i});
-    %recognitions
-    subplot(1,2,2)
-    hold on
-    bar(i,mean(didRecog),'FaceColor',currcolor{i},'FaceAlpha',0.5,'EdgeColor',[0 .0 0]);
-    errorbar(i,mean(didRecog),ste(didRecog),'Color',currcolor{i},'LineWidth',2);
-    set(gca, 'XTick', 1:3, 'XTickLabel', methods,'Fontsize',15);title('All trials','Fontsize',20);
-    means(i)
+    recog(i,1)=sum(didRecog);
+    recog(i,2)=size(didRecog,2)-sum(didRecog);
 end
-text(0.6,0.6, '20x10', 'FontSize', 15)
-text(1.6,0.78, '20x10', 'FontSize', 15)
-text(-1,1.05,'b', 'FontSize', 30)
+figure(1)
+subplot(1,2,2)
+hold on
+edgecolor={[74,77,255]./255,[246,75,75]./255};
+for i=1:2
+ba=bar(i,recog(:,i)','BarLayout','stacked', 'FaceColor','flat','FaceAlpha',0.5,'EdgeColor',edgecolor{i},'LineWidth',3);
+ba(1).CData = currcolor{1};
+text(i-0.1,recog(1,i)-10, num2str(recog(1,i)), 'FontSize', 15)
+ba(2).CData = currcolor{2};
+text(i-0.1,recog(1,i)+recog(2,i)-10, num2str(recog(2,i)), 'FontSize', 15)
+end
+set(gca, 'XTick', 1:2, 'XTickLabel', methods,'Fontsize',15);
+title('All trials','Fontsize',20);
+ylabel('Total number of trials','Fontsize',20);
+axis([-1 4 0 300])
 
-%% figure 3
+%% figure 2
 
 methods={'Unrecog', 'Recog' };
 currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
@@ -75,10 +86,10 @@ for i=1:size(paths,2)
     subplot(2,2,1)
     hold on
     bar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'FaceColor',currcolor{i},'FaceAlpha',0.5,'EdgeColor',[0 0 0]);
-    errorbar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),ste(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'.','Color',currcolor{i},'LineWidth',2);
+    errorbar(i,mean(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),ste(num_of_sacc_per_sec(num_of_sacc_per_sec~=0)),'.','Color',currcolor{i},'LineWidth',3);
     set(gca, 'XTick', 1:2, 'XTickLabel', methods,'Fontsize',15);title('Number of Saccades (per sec)','Fontsize',20)
 end
-text(-1,3.3,'a', 'FontSize', 30)
+text(-1,3.3,'c', 'FontSize', 30)
 
 
 path='C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\';
@@ -104,7 +115,7 @@ for var=1:3
                 rel_y='ISI [ms]';
                 rel_min=100;
                 rel_max=600;
-                subFigLetter='b';
+                subFigLetter='d';
             case 2
                 for i=1:length(drifts_vel_deg2sec)
                     meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0) zeros(1,25-length(drifts_vel_deg2sec{1,i}(drifts_vel_deg2sec{1,i}~=0)))]];
@@ -113,7 +124,7 @@ for var=1:3
                 rel_y='speed [deg/sec]';
                 rel_min=2.5;
                 rel_max=5;
-                subFigLetter='c';
+                subFigLetter='e';
             case 3
                 for i=1:length(drifts_amp_degrees)
                     meansPerRank{1,group}=[meansPerRank{1,group} ; [drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0) zeros(1,25-length(drifts_amp_degrees{1,i}(drifts_amp_degrees{1,i}~=0)))]];
@@ -122,7 +133,7 @@ for var=1:3
                 rel_y='amplitude[deg]';
                 rel_min=0.5;
                 rel_max=2.5;
-                subFigLetter='d';
+                subFigLetter='f';
         end
         for d=1:size(meansPerRank{1,group},1)
             currd=meansPerRank{1,group}(d,:);

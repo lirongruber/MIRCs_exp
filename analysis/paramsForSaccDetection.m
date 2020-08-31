@@ -8,7 +8,7 @@
 %                                                               second row (length of saccades in samples)
 %                                                               third row (saccades intrusion in samples)
 function [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(doPlot,imdata,gaze,rate,filterFlag)
-
+ doPlot=1;
 if nargin<1
     doPlot=1;
 end
@@ -63,8 +63,9 @@ sacc_parameters.intrusion_angle_threshold = 90.0; % mimimum change in direction 
 %ploting:
 if doPlot==1
     figure()
+%     subplot(1,2,2)
     imshow(imdata)
-    zoomcenter(961,541,4)
+    zoomcenter(961,541,6)
     hold on
     for i=1:n-1
         % drift 
