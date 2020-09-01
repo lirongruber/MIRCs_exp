@@ -35,18 +35,19 @@ pilotTitles={'Stabilized', 'Fixated'};
 bar(1:2,pilotResults(1:2),'FaceColor',currcolor{2}.*0.5,'FaceAlpha',0.5,'EdgeColor',[0 .0 0]);
 errorbar(1,pilotResults(1),pilotResults(3),'Color',currcolor{2}.*0.5,'LineWidth',2);
 errorbar(2,pilotResults(2),pilotResults(4),'Color',currcolor{2}.*0.5,'LineWidth',2);
-set(gca, 'XTick', [1:2 4:6], 'XTickLabel', [pilotTitles methods],'Fontsize',15);
-title('First trials of each image','Fontsize',20);
-ylabel('Recognition Rates','Fontsize',20)
+set(gca, 'XTick', [1:2 4:6], 'XTickLabel', [pilotTitles methods],'Fontsize',25);
+xtickangle(45)
+title('First trials of each image','Fontsize',40);
+ylabel('Recognition Rates','Fontsize',40)
 
-text(0.8,0.41, '5x10', 'FontSize', 15)
-text(1.8,0.41, '5x10', 'FontSize', 15)
-text(0.85,0.5, 'Pilot MIRCs', 'FontSize', 15)
-text(3.7,0.32, '10x10', 'FontSize', 15)
-text(4.7,0.87, '10x10', 'FontSize', 15)
-text(5.7,0.95, '20x10', 'FontSize', 15)
-text(-1,1.05,'a', 'FontSize', 30)
-text(8,1.05,'b', 'FontSize', 30)
+text(0.8,0.41, '5x10', 'FontSize', 20)
+text(1.8,0.41, '5x10', 'FontSize', 20)
+text(0.85,0.5, 'Pilot MIRCs', 'FontSize', 20)
+text(3.7,0.32, '10x10', 'FontSize', 20)
+text(4.7,0.87, '10x10', 'FontSize', 20)
+text(5.7,0.95, '20x10', 'FontSize', 20)
+text(-1,1.05,'a', 'FontSize', 40)
+text(8,1.05,'b', 'FontSize', 40)
 
 methods={ 'Recog','Unrecog' };
 base=0;
@@ -63,13 +64,14 @@ edgecolor={[74,77,255]./255,[246,75,75]./255};
 for i=1:2
 ba=bar(i,recog(:,i)','BarLayout','stacked', 'FaceColor','flat','FaceAlpha',0.5,'EdgeColor',edgecolor{i},'LineWidth',3);
 ba(1).CData = currcolor{1};
-text(i-0.1,recog(1,i)-10, num2str(recog(1,i)), 'FontSize', 15)
+text(i-0.1,recog(1,i)-10, num2str(recog(1,i)), 'FontSize', 25)
 ba(2).CData = currcolor{2};
-text(i-0.1,recog(1,i)+recog(2,i)-10, num2str(recog(2,i)), 'FontSize', 15)
+text(i-0.1,recog(1,i)+recog(2,i)-10, num2str(recog(2,i)), 'FontSize', 25)
 end
-set(gca, 'XTick', 1:2, 'XTickLabel', methods,'Fontsize',15);
-title('All trials','Fontsize',20);
-ylabel('Total number of trials','Fontsize',20);
+set(gca, 'XTick', 1:2, 'XTickLabel', methods,'Fontsize',25);
+xtickangle(45)
+title('All trials','Fontsize',40);
+ylabel('Total number of trials','Fontsize',40);
 axis([-1 4 0 300])
 
 %% figure 2
@@ -177,7 +179,7 @@ for var=1:3
     text(-2,rel_max+(rel_max-rel_min)*0.1,subFigLetter, 'FontSize', 30)
 end
 
-%% figure 4
+%% figure 3
 paths={...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...

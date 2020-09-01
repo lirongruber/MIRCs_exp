@@ -2,7 +2,7 @@
 % clear
 
 movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos';
-movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos_FullTrials';
+% movies_path='C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\videos_FullTrials';
 folders={'MIRCs_yes','MIRCs_no','subMIRCs_yes','subMIRCs_no'};
 figNum=10;
 % folders={'MIRCs_yes'};

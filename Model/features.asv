@@ -103,24 +103,24 @@ for fixation_num=1:size(filt_movie,2)
              0.47 0.25 0.80
              0.25 0.80 0.54];
             colororder(newcolors)
-            subplot(4,3,3)
+            subplot(4,3,2)
             hold all
             plot(time(1:L),rel_movie_act)
             %mean
             plot(time(1:L),rel_movie_act_MEAN,'k','LineWidth',4)
-            text(10,3,['total number: ' num2str(size(rel_movie_act,1))],'FontSize',20)
-           title('Activations','Fontsize',25)
-            ylabel('unique','Fontsize',25)
-            axis([0 800 -1.5 4])
+            text(10,3,['num of rec: ' num2str(size(rel_movie_act,1))],'FontSize',20)
+%             xlabel('time [ms]','Fontsize',20)
+            ylabel('unique activations','Fontsize',15)
+            axis([0 1000 -1.5 4])
             
-            subplot(4,3,6)
+            subplot(4,3,4)
             hold all
             plot(time(1:L),activations)
             %mean
             plot(time(1:L),meanActivation,'k','LineWidth',4)
-            text(10,3,['toatl number: ' num2str(size(activations,1))],'FontSize',20)
-            xlabel('time [ms]','Fontsize',25)
-            ylabel('uncorrelated','Fontsize',25)
+            text(10,3,['num of rec: ' num2str(size(activations,1))],'FontSize',20)
+            xlabel('time [ms]','Fontsize',30)
+            ylabel('informative activations','Fontsize',15)
             axis([0 800 -1.5 4])
             
 %             %Speed
