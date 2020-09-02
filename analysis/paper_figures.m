@@ -183,7 +183,7 @@ end
 paths={...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+%     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
     };
 type=1;
 s=11;
@@ -258,7 +258,7 @@ for group=1:length(paths)
 %         xlabel('time within pause [ms] ','Fontsize',18)
         ylabel('speed [deg/sec]','FontSize', 20)
         title('Fixation Instantaneous Speed','Fontsize',20)
-        text(-30,10,'b','Fontsize',30)
+        text(-45,10,'d','Fontsize',30)
         box off
         all{group}=nanmean(MeanVel);
     end
@@ -269,16 +269,20 @@ if s==1
     text(100,2.5,'* KS','Fontsize',22)
 end
 
-load('classFullImages.mat')
-temp=cell(1,126);
-fullImages={class{1,:} , temp{1,:} };
+% load('classFullImages.mat')
+% temp=cell(1,126);
+% fullImages={class{1,:} , temp{1,:} };
 load('class.mat')
 nonRecog={class{2,:}  class{4,:}};
 recog={class{1,:}  class{3,:}};
-class={fullImages{1,:}  ;  recog{1,:} ; nonRecog{1,:} };
+% class={fullImages{1,:}  ;  recog{1,:} ; nonRecog{1,:} };
+class={ recog{1,:} ; nonRecog{1,:} };
 
-colors={[0,0,0],[74,77,255]./255,[246,75,75]./255};
-folders={'fullImage','Recognized','Not Recognized'};
+
+% colors={[0,0,0],[74,77,255]./255,[246,75,75]./255};
+colors={[74,77,255]./255,[246,75,75]./255};
+% folders={'fullImage','Recognized','Not Recognized'};
+folders={'Recognized','Not Recognized'};
 
 STDforOutL=2; %number of std from mean to include
 perNonNan2include=0.9;
@@ -341,8 +345,10 @@ for c=1:size(class,1)
     errorbar(nanmean(infoPerRec),nanstd(infoPerRec)./sum(~isnan(infoPerRec),1),'color',colors{c},'lineWidth',2)
     hold on
     xlabel('fixation \# ','Fontsize',18)
+    ylabel('activation [NA]','Fontsize',20)
     title('Mean Retinal Activation','Fontsize',20)
-    text(-2,1.5,'c','Fontsize',30)
+    text(-2,1.5,'e','Fontsize',30)
+    text(9,1.5,'f','Fontsize',30)
     box off
     forStat_infoPerRec{c}=infoPerRec;
     
@@ -353,22 +359,22 @@ for c=1:size(class,1)
     hold on
     xlabel('time within pause [ms] ','Fontsize',18)
     title('Retinal Instantaneous Activation','Fontsize',20)
-    text(-35,.3,'d','Fontsize',30)
+    
     box off
     forStat_Inst_infoPerRec{c}=Inst_infoPerRec;
     axis([0 200 -0.45 0.25])
 end
-[h,p] = kstest2(nanmean(forStat_infoPerRec{1,2}),nanmean(forStat_infoPerRec{1,3}));
+[h,p] = kstest2(nanmean(forStat_infoPerRec{1,1}),nanmean(forStat_infoPerRec{1,2}));
 if h==1
     figure(3)
     subplot(2,2,3)
     text(3,-1.7,'* KS','FontSize',22)
 else
     figure(3)
-    subplot(2,4,3)
+    subplot(2,2,3)
     text(3,-1.7,'[NS] KS','FontSize',22)
 end
-[h,p] = kstest2(nanmean(forStat_numOfinfoRec{1,2}),nanmean(forStat_numOfinfoRec{1,3}));
+[h,p] = kstest2(nanmean(forStat_numOfinfoRec{1,1}),nanmean(forStat_numOfinfoRec{1,2}));
 if h==1
     figure(30)
     subplot(2,2,3)
@@ -378,7 +384,7 @@ else
     subplot(2,2,3)
     text(3,100,'[NS]* KS','Fontsize',22)
 end
-[h,p] = kstest2(nanmean(forStat_Inst_infoPerRec{1,2}(:,15:50)),nanmean(forStat_Inst_infoPerRec{1,3}(:,15:50)));
+[h,p] = kstest2(nanmean(forStat_Inst_infoPerRec{1,1}(:,15:50)),nanmean(forStat_Inst_infoPerRec{1,2}(:,15:50)));
 if h==1
     figure(3)
     subplot(2,2,4)
