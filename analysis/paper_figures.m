@@ -28,7 +28,6 @@ for i=1:size(paths1,2)
     hold on
     bar(i+3,mean(didRecog),'FaceColor',currcolor{i},'FaceAlpha',0.5,'EdgeColor',[0 .0 0]);
     errorbar(i+3,mean(didRecog),ste(didRecog),'Color',currcolor{i},'LineWidth',2);
-    
 end
 pilotResults=[0.3 0.32 0.085  0.05];
 pilotTitles={'Stabilized', 'Fixated'};
@@ -180,6 +179,13 @@ for var=1:3
 end
 
 %% figure 3
+%for filter figure
+xlabel('time [ms]','Fontsize',40)
+xticks([-100 -50 0])
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',20)
+ylabel('filter','Fontsize',40)
+
 paths={...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...
@@ -402,3 +408,155 @@ else
         text(100,-0.1,'[NS]* KS','Fontsize',22)
 end
 
+%% figure 4
+%subplot 1
+load('instSpeed.mat')
+instAct=perCorrect_l;
+load('instActivation.mat')
+instSpeed=perCorrect_l;
+
+figure(4)
+subplot(2,1,1)
+hold on
+s=0;
+colors={[178,32,40]./255,[32,178,170]./255};
+titles={'SVM - instanteneus Speed vs. Activation'};
+
+for test={instAct, instSpeed} 
+    s=s+1;
+    errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1),'color',colors{s},'LineWidth',4)
+end
+plot(0:8, 0.5*ones(1,9),'k--')
+ylabel('percent correct','Fontsize',20)
+xlabel('fixation number','Fontsize',20)
+axis([0 8 0.3 0.85])
+text(-0.5,0.9,'a','Fontsize',30)
+title(titles{1},'Fontsize',20)
+legend('activation','speed','')
+legend boxoff
+box off
+
+
+figure(5)
+%subplot 2
+load('meanSpeedandAct.mat')
+meanSpeedAct=perCorrect_l;
+subplot(3,2,3)
+hold on
+
+errorbar(1,mean(meanSpeedAct(1,:)),std(meanSpeedAct(1,:)),'color',colors{1},'LineWidth',4)
+errorbar(2,mean(meanSpeedAct(2,:)),std(meanSpeedAct(2,:)),'color',colors{2},'LineWidth',4)
+xticks([1 2])
+xticklabels({'Speed' ,'Activation'})
+% xtickangle(20)
+%yticks([0.4 0.5 0.6])
+title('SVM - Mean values','Fontsize',20)
+plot(0:3, 0.5*ones(1,4),'k--')
+ylabel('percent correct','Fontsize',20)
+axis([0 3 0.3 0.85])
+box off
+text(-0.5,0.95,'b','Fontsize',30)
+text(3.5,0.95,'c','Fontsize',30)
+text(-0.5,0.13,'d','Fontsize',30)
+text(3.5,0.13,'e','Fontsize',30)
+
+%subplot 3
+load('fullTrial_800ms.mat')
+full_800=perCorrect_l;
+load('windows_800ms.mat')
+windows_800=windows;
+
+load('fullTrial_400ms.mat')
+full_400=perCorrect_l;
+load('windows_400ms.mat')
+windows_400=windows;
+
+load('fullTrial_200ms.mat')
+full_200=perCorrect_l;
+load('windows_200ms.mat')
+windows_200=windows;
+
+subplot(3,2,5)
+hold on
+s=0;
+
+newcolors = {[1.00 0.54 0.00],[0.47 0.25 0.80],[0.25 0.80 0.54]};
+% colororder(newcolors)
+titles={'SVM - Full trials'};
+windows={windows_200(:,1)',windows_400(:,1)',windows_800(:,1)'};
+for test={full_200,full_400,full_800}
+    s=s+1;
+    errorbar(windows{s},mean(test{1}',1),std(test{1}',1),'color',newcolors{s},'LineWidth',2)
+end
+axis([0 375 0.3 0.85])
+legend boxoff 
+plot(0:375, 0.5*ones(1,376),'k--')
+legend('window=200 ms','window=400 ms','window=800 ms','')
+ylabel('percent correct','Fontsize',20)
+xlabel('starting time','Fontsize',20)
+title(titles{1},'Fontsize',20)
+box off
+
+%subplot 4-
+load('control1_withinGroups.mat')
+control1=perCorrect_l;
+
+load('control2_betweenGroups.mat')
+control2=perCorrect_l;
+
+load('control3_withinTrial.mat')
+control3=perCorrect_l;
+
+subplot(3,2,4)
+hold on
+s=0;
+
+newcolors = {[1.00 0.54 0.00],[0.47 0.25 0.80],[0.25 0.80 0.54]};
+% colororder(newcolors)
+titles={'SVM - Mixed controls'};
+for test={control1,control2,control3}
+    s=s+1;
+    errorbar(1:7,mean(test{1}',1),std(test{1}',1),'color',newcolors{s},'LineWidth',2)
+end
+axis([0 8 0.3 0.85])
+legend boxoff 
+plot(0:375, 0.5*ones(1,376),'k--')
+legend('Mixing within groups','Mixing between groups','Mixing within trials','')
+% ylabel('percent correct','Fontsize',20)
+xlabel('fixation number','Fontsize',20)
+title(titles{1},'Fontsize',20)
+box off
+
+%subplot 5-
+load('firstFrame.mat')
+firstFrame=perCorrect_l;
+
+load('lastFrame.mat')
+lastFrame=perCorrect_l;
+
+load('meanFrame.mat')
+meanFrame=perCorrect_l;
+
+subplot(3,2,6)
+hold on
+s=0;
+
+newcolors = {[1.00 0.54 0.00],[0.47 0.25 0.80],[0.25 0.80 0.54]};
+newcolors = [...
+             1.00 0.54 0.00
+             0.47 0.25 0.80
+             0.25 0.80 0.54];
+colororder(newcolors)
+titles={'SVM - Saccadic based controls'};
+for test={firstFrame,lastFrame,meanFrame}
+    s=s+1;
+    errorbar(1:7,mean(test{1}',1),std(test{1}',1),'color',newcolors{s},'LineWidth',2)
+end
+axis([0 8 0.3 0.85])
+plot(0:8, 0.5*ones(1,9),'k--')
+legend('begining frame','end frame','mean frame','')
+legend boxoff 
+% ylabel('percent correct','Fontsize',20)
+xlabel('fixation number','Fontsize',20)
+title(titles{1},'Fontsize',20)
+box off

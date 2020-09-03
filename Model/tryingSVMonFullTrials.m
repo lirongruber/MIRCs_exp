@@ -131,7 +131,7 @@ for numberOfWindows=1:size(windows,1)
     end
 end
 
-figure(1)
+figure(2)
 s=0;
 colors={[32,178,170]./255,[178,32,40]./255};
 titles={'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};

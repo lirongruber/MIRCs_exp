@@ -4,8 +4,8 @@ clear
 
 % class=control_class;
 
-% load('control_class2.mat')
-% classFull=control_class;
+load('control_class1.mat')
+classFull=control_class;
 
 % load('classEntropy.mat')
 % classFull=class;
@@ -33,14 +33,14 @@ clear
 % classFull={fullImages{1,:}  ;  nonRecog{1,:} };
 
 
-load('class.mat')
-classFull=class;
+% load('class.mat')
+% classFull=class;
 
 for FixationNumToUse=1:7
     for repetition=1:2
         %         s1=Shuffle(1:144); s2=Shuffle(1:56); s3=Shuffle(1:107); s4=Shuffle(1:93);
         %         class={ classFull{1,s1(1:56)} classFull{3,s3(1:56)} ; classFull{2,s2(1:56)}  classFull{4,s4(1:56)} };
-        class={ classFull{1,:} classFull{2,:} ; classFull{3,:}  classFull{4,:} };
+        class={ classFull{1,:} classFull{3,:} ; classFull{2,:}  classFull{4,:} };
         func_flag=ones(size(class));
         func_flag(1,size(class,2)/2+1:end)=2;
         func_flag(2,size(class,2)/2+1:end)=2;
@@ -189,10 +189,11 @@ for FixationNumToUse=1:7
 end
 
 figure(1)
+subplot(3,1,1)
 s=0;
 colors={[32,178,170]./255,[178,32,40]./255};
 titles={'Linear kernel'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
-titles={'SVM classification'};
+titles={'SVM - instanteneus Speed vs. Activation'};
 
 for test={perCorrect_l} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
     s=s+1;
@@ -208,25 +209,26 @@ end
 box off
 
 
-figure(2)
-s=0;
-colors={[32,178,170]./255,[178,32,40]./255};
-titles={'SVM classification'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
-leg={'MIRCs','', 'subMIRCs'};
+% figure(2)
+% s=0;
+% colors={[32,178,170]./255,[178,32,40]./255};
+% titles={'SVM classification'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
+% leg={'MIRCs','', 'subMIRCs'};
+% 
+% for test={perCorrect_MIRCs,perCorrect_subMIRCs} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
+%     s=s+1;
+%     %     subplot(1,4,s)
+%     errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1),'color',colors{s},'LineWidth',2)
+%     hold on
+%     plot(0:8, 0.5*ones(1,9),'k--')
+%     ylabel('percent correct')
+%     xlabel('fixation number')
+%     axis([0 8 0.2 0.8])
+%     title(titles{1})
+% end
+% legend(leg)
+% box off
 
-for test={perCorrect_MIRCs,perCorrect_subMIRCs} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
-    s=s+1;
-    %     subplot(1,4,s)
-    errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1),'color',colors{s},'LineWidth',2)
-    hold on
-    plot(0:8, 0.5*ones(1,9),'k--')
-    ylabel('percent correct')
-    xlabel('fixation number')
-    axis([0 8 0.2 0.8])
-    title(titles{1})
-end
-legend(leg)
-box off
 % figure
 % plot(XX(1:size(forSVM{1}(:,1:rel),1),:)')
 % hold on

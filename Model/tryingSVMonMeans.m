@@ -96,7 +96,7 @@ for options=1:2
 end
 
 colors={[178,32,40]./255,[32,178,170]./255};
-figure(1)
+figure(2)
 axes('Position',[.6 .18 .26 .23])
 errorbar(1,mean(perCorrect_l(1,:)),std(perCorrect_l(1,:)),'color',colors{1},'LineWidth',2)
 hold on
