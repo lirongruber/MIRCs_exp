@@ -158,7 +158,7 @@ for var=1:3
         figure(2)
         subplot(2,2,var+1)
         hold all
-        h{group}=errorbar(relmeans,relstes,'Color',currcolor{group},'lineWidth',2);
+        h=errorbar(relmeans,relstes,'Color',currcolor{group},'lineWidth',2);
         
         plot(ones(1,2).*avNumofD-steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
         plot(ones(1,2).*avNumofD+steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
@@ -180,6 +180,7 @@ end
 
 %% figure 3
 %for filter figure
+
 xlabel('time [ms]','Fontsize',40)
 xticks([-100 -50 0])
 a = get(gca,'XTickLabel');
@@ -258,13 +259,13 @@ for group=1:length(paths)
         targetV1=nanmean(MeanVel);
         targetV=mean(targetV1(25:50)); %targetV=mean(targetV(100/4:200/4));
         targetV_STE=ste(targetV1(25:50));
-        text(50,targetV*2-1,['Target speed (t >100ms) = ' num2str(round(targetV,2)) char(177)  num2str(round(targetV_STE,2))],'color',currcolor{1,group},'FontSize', 15)
-        axis([0 200 0 9])
+        text(40,targetV*2-1,['Target speed (t >100ms) = ' num2str(round(targetV,2)) char(177)  num2str(round(targetV_STE,2))],'color',currcolor{1,group},'FontSize', 15)
+        axis([0 200 2.5 7.2])
+%         axis([0 8 2.5 7.2])
         
 %         xlabel('time within pause [ms] ','Fontsize',18)
         ylabel('speed [deg/sec]','FontSize', 20)
         title('Fixation Instantaneous Speed','Fontsize',20)
-        text(-45,10,'d','Fontsize',30)
         box off
         all{group}=nanmean(MeanVel);
     end
@@ -272,7 +273,7 @@ for group=1:length(paths)
 end
 [s,t]=kstest2(all{1}(25:50),all{2}(25:50));
 if s==1
-    text(100,2.5,'* KS','Fontsize',22)
+    text(100,2.8,'* KS','Fontsize',22)
 end
 
 % load('classFullImages.mat')
@@ -353,6 +354,8 @@ for c=1:size(class,1)
     xlabel('fixation \# ','Fontsize',18)
     ylabel('activation [NA]','Fontsize',20)
     title('Mean Retinal Activation','Fontsize',20)
+    text(-2,5.5,'c','Fontsize',30)
+    text(9,5.5,'d','Fontsize',30)
     text(-2,1.5,'e','Fontsize',30)
     text(9,1.5,'f','Fontsize',30)
     box off
@@ -399,8 +402,8 @@ if h==1
     M(2)=mean(nanmean(forStat_Inst_infoPerRec{1,2}(:,13:50)));
     S(1)=ste(nanmean(forStat_Inst_infoPerRec{1,1}(:,13:50)));
     S(2)=ste(nanmean(forStat_Inst_infoPerRec{1,2}(:,13:50)));
-    text(50,0.2,['Target activation (t >100ms) = ' num2str(round(M(1),3)) char(177)  num2str(round(S(1),3))],'color',currcolor{1,2},'FontSize', 12)
-    text(50,0.15,['Target activation (t >100ms) = ' num2str(round(M(2),3)) char(177)  num2str(round(S(2),3))],'color',currcolor{1,1},'FontSize', 12)
+    text(10,0.2,['Target activation (t >100ms) = ' num2str(round(M(1),3)) char(177)  num2str(round(S(1),3))],'color',currcolor{1,2},'FontSize', 15)
+    text(10,0.15,['Target activation (t >100ms) = ' num2str(round(M(2),3)) char(177)  num2str(round(S(2),3))],'color',currcolor{1,1},'FontSize', 15)
 
 else
     figure(3)
@@ -486,12 +489,12 @@ titles={'SVM - Full trials'};
 windows={windows_200(:,1)',windows_400(:,1)',windows_800(:,1)'};
 for test={full_200,full_400,full_800}
     s=s+1;
-    errorbar(windows{s},mean(test{1}',1),std(test{1}',1),'color',newcolors{s},'LineWidth',2)
+    errorbar(windows{s}.*8,mean(test{1}',1),std(test{1}',1),'color',newcolors{s},'LineWidth',2)
 end
-axis([0 375 0.3 0.85])
+axis([0 3000 0.3 0.85])
 legend boxoff 
 plot(0:375, 0.5*ones(1,376),'k--')
-legend('window=200 ms','window=400 ms','window=800 ms','')
+legend('window=200 ms','window=400 ms','window=800 ms')
 ylabel('percent correct','Fontsize',20)
 xlabel('starting time','Fontsize',20)
 title(titles{1},'Fontsize',20)
@@ -521,20 +524,20 @@ end
 axis([0 8 0.3 0.85])
 legend boxoff 
 plot(0:375, 0.5*ones(1,376),'k--')
-legend('Mixing within groups','Mixing between groups','Mixing within trials','')
+legend('Mixing within groups','Mixing between groups','Mixing within trials')
 % ylabel('percent correct','Fontsize',20)
 xlabel('fixation number','Fontsize',20)
 title(titles{1},'Fontsize',20)
 box off
 
 %subplot 5-
-load('firstFrame.mat')
+load('frameStart.mat')
 firstFrame=perCorrect_l;
 
-load('lastFrame.mat')
+load('FrameEnd.mat')
 lastFrame=perCorrect_l;
 
-load('meanFrame.mat')
+load('FrameMean.mat')
 meanFrame=perCorrect_l;
 
 subplot(3,2,6)
@@ -542,20 +545,20 @@ hold on
 s=0;
 
 newcolors = {[1.00 0.54 0.00],[0.47 0.25 0.80],[0.25 0.80 0.54]};
-newcolors = [...
-             1.00 0.54 0.00
-             0.47 0.25 0.80
-             0.25 0.80 0.54];
-colororder(newcolors)
+% newcolors = [...
+%              1.00 0.54 0.00
+%              0.47 0.25 0.80
+%              0.25 0.80 0.54];
+% colororder(newcolors)
 titles={'SVM - Saccadic based controls'};
-for test={firstFrame,lastFrame,meanFrame}
+for test={firstFrame,lastFrame,meanFrame} %
     s=s+1;
-    errorbar(1:7,mean(test{1}',1),std(test{1}',1),'color',newcolors{s},'LineWidth',2)
+    errorbar(1:7,mean(test{1}(1:7,:)',1),std(test{1}(1:7,:)',1),'color',newcolors{s},'LineWidth',2)
 end
 axis([0 8 0.3 0.85])
 plot(0:8, 0.5*ones(1,9),'k--')
-legend('begining frame','end frame','mean frame','')
-legend boxoff 
+legend('begining frame','end frame','mean frame')
+legend boxoff
 % ylabel('percent correct','Fontsize',20)
 xlabel('fixation number','Fontsize',20)
 title(titles{1},'Fontsize',20)

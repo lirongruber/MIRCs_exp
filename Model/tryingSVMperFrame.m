@@ -24,11 +24,11 @@ for FixationNumToUse=1:7
                     load([movies_path '\' folder{1,1} '\' currMov.name], 'filt_movie');
                     relFixation=min(FixationNumToUse,size(filt_movie,2));
 %                     %fixation start frame
-                    currT=filt_movie{1,relFixation}(:,:,2);
+%                     currT=filt_movie{1,relFixation}(:,:,2);
 %                     %fixation mean frame
 %                     currT=mean(filt_movie{1,relFixation}(:,:,:),3);
 %                     %fixation end frame
-%                     currT=filt_movie{1,relFixation}(:,:,end-1);
+                    currT=filt_movie{1,relFixation}(:,:,end-1);
                     
                     functions(rel,1:size(currT(currT~=0)',2))=currT(currT~=0)';
                     rel=rel+1;
@@ -88,7 +88,7 @@ for FixationNumToUse=1:7
     end
 end
 
-figure(1)
+figure(3)
 s=0;
 titles={'Linear kernel'};%{'Majority vote', 'Fourier kernel', 'Gaussian kernel', 'Linear kernel'};
 for test={ perCorrect_l} %{perCorrect_final, perCorrect_f, perCorrect_g, perCorrect_l}
