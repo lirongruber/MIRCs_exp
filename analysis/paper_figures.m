@@ -251,7 +251,9 @@ for group=1:length(paths)
         end
         
         figure(3)
-        subplot(2,2,2)
+%         subplot(2,2,2)
+        subplot(2,3,4)
+                
         
         errorbar((1:size(MeanVel,2)).*4,nanmean(MeanVel),nanstd(MeanVel)./sqrt(size(MeanVel,1)-sum(isnan(MeanVel))),'color',currcolor{1,group},'LineWidth',3)
         hold on
@@ -263,9 +265,9 @@ for group=1:length(paths)
         axis([0 200 2.5 7.2])
 %         axis([0 8 2.5 7.2])
         
-%         xlabel('time within pause [ms] ','Fontsize',18)
-        ylabel('speed [deg/sec]','FontSize', 20)
-        title('Fixation Instantaneous Speed','Fontsize',20)
+        ylabel('speed [deg/sec]','FontSize', 30)
+        xlabel('time within pause [ms] ','Fontsize',30)
+        title('Fixation Instantaneous Speed','Fontsize',30)
         box off
         all{group}=nanmean(MeanVel);
     end
@@ -342,32 +344,40 @@ for c=1:size(class,1)
     numOfinfoRec(numOfinfoRec==0)=nan;
     errorbar(nanmedian(numOfinfoRec),nanstd(numOfinfoRec)./sum(~isnan(numOfinfoRec),1),'color',colors{c},'lineWidth',2)
     hold on
-    xlabel('fixation \#','Fontsize',18)
-    title(' Number of informative receptors','Fontsize',20)
+    xlabel('fixation \#','Fontsize',30)
+    title(' Number of informative receptors','Fontsize',30)
     box off
     forStat_numOfinfoRec{c}=numOfinfoRec;
     
     figure(3)
-    subplot(2,2,3)
+%     subplot(2,2,3)
+    subplot(2,3,5)
+
     errorbar(nanmean(infoPerRec),nanstd(infoPerRec)./sum(~isnan(infoPerRec),1),'color',colors{c},'lineWidth',2)
     hold on
-    xlabel('fixation \# ','Fontsize',18)
-    ylabel('activation [NA]','Fontsize',20)
-    title('Mean Retinal Activation','Fontsize',20)
-    text(-2,5.5,'c','Fontsize',30)
-    text(9,5.5,'d','Fontsize',30)
-    text(-2,1.5,'e','Fontsize',30)
-    text(9,1.5,'f','Fontsize',30)
+    xlabel('fixation \# ','Fontsize',30)
+    ylabel('activation [NA]','Fontsize',30)
+    title('Mean Retinal Activation','Fontsize',30)
+%     text(-2,5.5,'c','Fontsize',30)
+%     text(9,5.5,'d','Fontsize',30)
+%     text(-2,1.5,'e','Fontsize',30)
+%     text(9,1.5,'f','Fontsize',30)
+    text(-11.3,1.7,'c','Fontsize',40)
+    text(-1,1.7,'d','Fontsize',40)
+    text(9.5,1.7,'e','Fontsize',40)
     box off
     forStat_infoPerRec{c}=infoPerRec;
     
     figure(3)
-    subplot(2,2,4)
+%     subplot(2,2,4)
+    subplot(2,3,6)
+
     relSize=size(nanmean(Inst_infoPerRec),2);
     errorbar(0:8:8*relSize-1,nanmean(Inst_infoPerRec),nanstd(Inst_infoPerRec)./sum(~isnan(Inst_infoPerRec),1),'color',colors{c},'lineWidth',2)
     hold on
-    xlabel('time within pause [ms] ','Fontsize',18)
-    title('Retinal Instantaneous Activation','Fontsize',20)
+    xlabel('time within pause [ms] ','Fontsize',30)
+    ylabel('activation [NA]','Fontsize',30)
+    title('Retinal Instantaneous Activation','Fontsize',30)
     
     box off
     forStat_Inst_infoPerRec{c}=Inst_infoPerRec;
@@ -376,11 +386,13 @@ end
 [h,p] = kstest2(nanmean(forStat_infoPerRec{1,1}),nanmean(forStat_infoPerRec{1,2}));
 if h==1
     figure(3)
-    subplot(2,2,3)
+%     subplot(2,2,3)
+     subplot(2,3,5)
     text(3,-1.7,'* KS','FontSize',22)
 else
     figure(3)
-    subplot(2,2,3)
+%     subplot(2,2,3)
+     subplot(2,3,5)
     text(3,-1.7,'[NS] KS','FontSize',22)
 end
 [h,p] = kstest2(nanmean(forStat_numOfinfoRec{1,1}),nanmean(forStat_numOfinfoRec{1,2}));
@@ -396,7 +408,8 @@ end
 [h,p] = kstest2(nanmean(forStat_Inst_infoPerRec{1,1}(:,15:50)),nanmean(forStat_Inst_infoPerRec{1,2}(:,15:50)));
 if h==1
     figure(3)
-    subplot(2,2,4)
+%     subplot(2,2,4)
+     subplot(2,3,6)
     text(100,0,'* KS','Fontsize',22)
     M(1)=mean(nanmean(forStat_Inst_infoPerRec{1,1}(:,13:50)));
     M(2)=mean(nanmean(forStat_Inst_infoPerRec{1,2}(:,13:50)));
@@ -407,7 +420,8 @@ if h==1
 
 else
     figure(3)
-    subplot(2,2,4)
+%     subplot(2,2,4)
+     subplot(2,3,6)
         text(100,-0.1,'[NS]* KS','Fontsize',22)
 end
 
