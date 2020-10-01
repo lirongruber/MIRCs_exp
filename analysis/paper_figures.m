@@ -159,12 +159,17 @@ for var=1:3
         subplot(2,2,var+1)
         hold all
         h=errorbar(relmeans,relstes,'Color',currcolor{group},'lineWidth',2);
-        
-        plot(ones(1,2).*avNumofD-steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
-        plot(ones(1,2).*avNumofD+steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
-        plot([avNumofD-steNumofD avNumofD+steNumofD],[0.713*(rel_max-rel_min)+rel_min 0.713*(rel_max-rel_min)+rel_min],'Color',currcolor{group})
+        if var==0
+            plot(ones(1,2).*avNumofD-steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
+            plot(ones(1,2).*avNumofD+steNumofD,[(rel_max-rel_min)*0.7+rel_min (rel_max-rel_min)*0.73+rel_min],'Color',currcolor{group},'lineWidth',2)
+            plot([avNumofD-steNumofD avNumofD+steNumofD],[0.713*(rel_max-rel_min)+rel_min 0.713*(rel_max-rel_min)+rel_min],'Color',currcolor{group})
+        else
+            plot(ones(1,2).*avNumofD-steNumofD,[(rel_max-rel_min)*0.8+rel_min (rel_max-rel_min)*0.83+rel_min],'Color',currcolor{group},'lineWidth',2)
+            plot(ones(1,2).*avNumofD+steNumofD,[(rel_max-rel_min)*0.8+rel_min (rel_max-rel_min)*0.83+rel_min],'Color',currcolor{group},'lineWidth',2)
+            plot([avNumofD-steNumofD avNumofD+steNumofD],[0.813*(rel_max-rel_min)+rel_min 0.813*(rel_max-rel_min)+rel_min],'Color',currcolor{group})
+        end
         axis([0 9 rel_min rel_max])
-        text(0.1,(rel_max-rel_min)*0.75+rel_min,'Trial end (mean+STE):','Fontsize',14)
+%         text(0.1,(rel_max-rel_min)*0.75+rel_min,'Trial end (mean+STE):','Fontsize',14)
         title(rel_title,'Fontsize',20)
         xlabel(['fixation ' '\#'],'Fontsize',18)
         ylabel(rel_y,'Fontsize',20)
