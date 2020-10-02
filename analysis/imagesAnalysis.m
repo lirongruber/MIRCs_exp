@@ -9,14 +9,14 @@ clear
 % expType=11; % (with fixation) MIRCs ->  full images -> subMIRCS
 % expType=12; % (with stabilization) MIRCs ->  full images -> subMIRCS
 
-Recognition=' No'; % ' Yes' ' No' 'Both'
-OnlyFirstSession=0;
-Sub=0;
-Mirc=1;
+Recognition='Both'; % ' Yes' ' No' 'Both'
+OnlyFirstSession=1;
+Sub=1;
+Mirc=0;
 Full=0;
 Ref=0;
 onlySession=nan; % to control for order effects [nan 1 2 3 4]%-- 7/22/2019 5:08 PM --%
-onlyImage='eagle'; % to specify certain image [nan 'eagle' 'bike'  'horse'...] nan
+onlyImage='plane'; % to specify certain image [nan 'eagle' 'bike'  'horse'...] nan
 blinksParameter=0; %number of maximum blinks per trial
 
 if isnan(onlySession)
@@ -140,7 +140,7 @@ for subjects={'EM','AK','FS','GG','GH','GS','HL','IN','LS','NA','NG','RB','SG','
                                     end
                                     
                                     %                             [imdata,chan_h_pix,chan_v_pix,chan_h, chan_v,saccade_vec, n] =sacDiffAmosPHD(NamePic,currFile.gazeX,currFile.gazeY,image,doPlot);
-                                    filterFlag=1;
+                                    filterFlag=0;
                                     plotFlag=0;
                                     [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,imdata,[x ; y],rate,filterFlag);
                                     

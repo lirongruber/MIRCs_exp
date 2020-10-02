@@ -71,12 +71,12 @@ folders={...
     'subMIRCs_no';
     };
 
-paths={...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\fullImages';
-    };
-folders={...
-    'fullImages';
-    };
+% paths={...
+%     'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\fullImages';
+%     };
+% folders={...
+%     'fullImages';
+%     };
 for cond=1%:4
     currpath=paths{cond};
     movNum=0;
@@ -101,18 +101,18 @@ for cond=1%:4
         % %          tempY_filtered = sgolayfilt(gazeY,1,11);
         % sacc removel
         rate=250;% 250 Hz
-        filterFlag=1; % !!!
+        filterFlag=0; % !!!
         plotFlag=0;
         [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(plotFlag,im,[gazeX ; gazeY],rate,filterFlag);
         tempX_filtered= chan_h_pix;
         tempY_filtered=chan_v_pix;
-        % FOR FULL TRIAL - % ON NEXT 6 LINES
-        for i=1:size(saccade_vec,2)
-            tempX_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
-            tempY_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
-        end
-        chan_h_deg(isnan(tempX_filtered))=nan;
-        chan_v_deg(isnan(tempY_filtered))=nan;
+%         % FOR FULL TRIAL - % ON NEXT 6 LINES
+%         for i=1:size(saccade_vec,2)
+%             tempX_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
+%             tempY_filtered(saccade_vec(1,i):saccade_vec(1,i)+saccade_vec(2,i)-1)=nan;
+%         end
+%         chan_h_deg(isnan(tempX_filtered))=nan;
+%         chan_v_deg(isnan(tempY_filtered))=nan;
         %
         
         final_rate=125;
