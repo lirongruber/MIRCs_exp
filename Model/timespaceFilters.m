@@ -39,6 +39,7 @@ retinal_vec=[-flip(final_y) final_y];
 retinal_RFs = sqrt(XX.^2+YY.^2);
 
 
+%degress to pixels
 retinal_locations_Xpix=ceil(PixelsInDeg.*retinal_Xlocations);
 retinal_locations_Ypix=ceil(PixelsInDeg.*retinal_Ylocations);
 retinal_RFs_pix=ceil(PixelsInDeg.*retinal_RFs);
