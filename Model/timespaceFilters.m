@@ -3,6 +3,8 @@
 % distance between receptors at 4deg eccentricity (roorda 2002)
 % time filter from Sompolinsky Meiser Plos 2007
 
+[SavingPath]=CompStartUpMIRCs ;
+
 IMAGE_SIZE_DEG=3;
 PIXEL2METER=0.000264583;
 screenS=[1020,1980];
@@ -58,11 +60,19 @@ t_filter=t_filter./max(t_filter);
 % plot([-100 0],[0 0])
 %  xlabel('time [ms]')
 paths={...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_yes';
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\MIRCs_no';
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_yes';
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\subMIRCs_no';
+    [SavingPath '\data\modelData\MIRCs_yes'];
+    [SavingPath '\data\modelData\MIRCs_no'];
+    [SavingPath '\data\modelData\subMIRCs_yes'];
+    [SavingPath '\data\modelData\subMIRCs_no'];
     };
+
+paths={...
+    [ 'D:\LIRON_MIRCs_exp\data\modelData\MIRCs_yes'];
+    [ 'D:\LIRON_MIRCs_ex\data\modelData\MIRCs_no'];
+    [ 'D:\LIRON_MIRCs_ex\data\modelData\subMIRCs_yes'];
+    [ 'D:\LIRON_MIRCs_ex\data\modelData\subMIRCs_no'];
+    };
+
 paths=paths';
 
 folders={...
@@ -73,7 +83,7 @@ folders={...
     };
 
 % paths={...
-%     'C:\Users\lirongr\Documents\MIRCs_exp\data\modelData\fullImages';
+%     [SavingPath '\data\modelData\fullImages'];
 %     };
 % folders={...
 %     'fullImages';

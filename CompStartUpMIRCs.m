@@ -20,6 +20,7 @@ if exist('C:\Users\KOKO\Documents\GitHub\MIRCs_exp\','dir')
     cd C:\Users\KOKO\Documents\GitHub\MIRCs_exp
     addpath (genpath('C:\Users\KOKO\Documents\GitHub\MIRCs_exp\'))
     addpath (genpath('C:\Users\KOKO\Documents\MATLAB\'))
+    addpath (genpath('D:\LIRON_MIRCs_exp\data\modelData\'))
 end
 
 set(0,'DefaultAxesFontName', 'Arial')
