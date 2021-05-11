@@ -8,7 +8,7 @@
 %                                                               second row (length of saccades in samples)
 %                                                               third row (saccades intrusion in samples)
 function [chan_h_pix,chan_v_pix,chan_h_deg, chan_v_deg,saccade_vec, n] =paramsForSaccDetection(doPlot,imdata,gaze,rate,filterFlag)
- doPlot=1;
+ doPlot=0;
 if nargin<1
     doPlot=1;
 end

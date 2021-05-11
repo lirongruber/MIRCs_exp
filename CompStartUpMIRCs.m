@@ -9,17 +9,18 @@ function [SavingPath]=CompStartUpMIRCs
 %ADD FOR EACH COMPUTER!!!
 
 if exist('C:\Users\aslab\Documents\Liron\MIRCs_exp\','dir')
-    SavingPath='C:\Users\aslab\Documents\Liron\MIRCs_raw_data\';
+    SavingPath='C:\Users\aslab\Documents\Liron\MIRCs_exp';
     cd C:\Users\aslab\Documents\Liron\MIRCs_exp\
 %     addpath (genpath('C:\toolbox\'))
     addpath (genpath('C:\Users\aslab\Documents\Liron\MIRCs_exp\'))
 end
 
-if exist('C:\Users\lirongr\Documents\MIRCs_exp\','dir')
-    SavingPath='C:\Users\lirongr\Documents\MIRCs_exp\data\';
-    cd C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo
-    addpath (genpath('C:\Users\lirongr\Documents\MIRCs_exp\'))
-    addpath (genpath('C:\Users\lirongr\Documents\MATLAB\'))
+if exist('C:\Users\KOKO\Documents\GitHub\MIRCs_exp\','dir')
+    SavingPath='C:\Users\KOKO\Documents\GitHub\MIRCs_exp\';
+    cd C:\Users\KOKO\Documents\GitHub\MIRCs_exp
+    addpath (genpath('C:\Users\KOKO\Documents\GitHub\MIRCs_exp\'))
+    addpath (genpath('C:\Users\KOKO\Documents\MATLAB\'))
+    addpath (genpath('D:\LIRON_MIRCs_exp\data\modelData\'))
 end
 
 set(0,'DefaultAxesFontName', 'Arial')
