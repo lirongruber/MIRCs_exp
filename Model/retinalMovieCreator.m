@@ -4,7 +4,14 @@ function [movie,filt_movie]=retinalMovieCreator(im,ALLcurrXY,retinal_locations_X
 retinal_RFs_pix=ceil(retinal_RFs_pix);
 N=unique(retinal_RFs_pix);
 for numMean=N'
-    M{numMean}=conv2(im,ones(numMean,numMean)./numMean^2,'same');
+%     M{numMean}=conv2(im,ones(numMean,numMean)./numMean^2,'same');
+  % add lateral inhibition 
+    surround=-0.5*ones(numMean,numMean);
+    center=ones(numMean,numMean);
+    relMat=[surround surround surround ; surround center surround; surround surround surround];
+    how2norm=sum((relMat(:)));
+    M{numMean}=conv2(im,relMat./how2norm,'same');
+    %
 end
 movie=zeros([size(retinal_locations_Xpix),size(ALLcurrXY,2)]);
 sacc_t=[];

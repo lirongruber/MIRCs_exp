@@ -1,12 +1,15 @@
 
 clear
 close all
+
+[SavingPath]=CompStartUpMIRCs ;
+
 paramNames = {'luminance - mean(im)','global contrast - std(im)','local contrast - mean(localStd)','gradient - mean(diff(im)))','gradient X/1000','gradient Y/1000'};
 groupTitle={'MIRCs', 'subMIRCs'};
 % paramNames2 ={'lower freq','high freq'};
 
-mircsIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs');
-subIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs');
+mircsIm=dir([SavingPath '\ImagesForExp\MIRCs']);
+subIm=dir([SavingPath '\ImagesForExp\subMIRCs']);
 for group=1:2
     for i=1:size(mircsIm,1)-2
         if group==1

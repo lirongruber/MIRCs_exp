@@ -1,4 +1,4 @@
-clear
+% clear
 close all
 
 currcolor={'m','b','c','k'};
@@ -8,16 +8,16 @@ currcolor={'m','b','c','k'};
 methods={'subMirc' 'Mirc'};
 % methods={'No' ,'Yes','both' };
 
-orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane'};
-mircsIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\MIRCs');
-subIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\subMIRCs');
+orderPicsNames={'eagle', 'bike' , 'horse' , 'fly' , 'cardoor' , 'suit','eyeglasses','ship','eye','plane','house','mouth','nose'};
+mircsIm=dir([ SavingPath '\ImagesForExp\MIRCs']);
+subIm=dir([ SavingPath '\ImagesForExp\subMIRCs']);
 
 % sub mircs
 for i=1:length(orderPicsNames)
-    sub_paths{1,i}=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat'];
+    sub_paths{1,i}=[SavingPath '\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat'];
 end
 for i=1:length(orderPicsNames)
-    mirc_paths{1,i}=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat'];
+    mirc_paths{1,i}=[SavingPath '\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat'];
 end
 
 for image=1:10
