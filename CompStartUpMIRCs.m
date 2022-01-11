@@ -22,6 +22,13 @@ if exist('C:\Users\lirongr\Documents\MIRCs_exp\','dir')
     addpath (genpath('C:\Users\lirongr\Documents\MATLAB\'))
 end
 
+if exist('/Users/lirongruber/Documents/GitHub/MIRCs_exp','dir')
+%     SavingPath='C:\Users\lirongr\Documents\MIRCs_exp\data\';
+    cd /Users/lirongruber/Documents/GitHub/MIRCs_exp
+    addpath (genpath('/Users/lirongruber/Documents/GitHub/MIRCs_exp'))
+    addpath (genpath('/Users/lirongruber/Documents/GitHub/UTILS_lirongr/'))
+end
+
 set(0,'DefaultAxesFontName', 'Arial')
 set(0,'defaultTextFontName', 'Arial')
 set(0,'DefaultAxesFontSize',18)

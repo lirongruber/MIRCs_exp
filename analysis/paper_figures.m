@@ -2,6 +2,8 @@
 
 clear
 % close all
+compPath='/Users/lirongruber/Documents/GitHub/MIRCS_processedData/processedData/';
+% compPath='C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\';
 
 %% figure 1
 
@@ -10,14 +12,14 @@ currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
 % currcolor={[180	5	26]./255,[	5	26	180]./255,'k'};
 
 % First session for sub+mirc and full
-paths1={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+paths1={[compPath 'OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat'],...
+    [compPath 'OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat'],...
+    [compPath 'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat'],...
     };
 % All sessions for sub+mirc and RECOGNITION
-paths2={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc0Full0Ref0_recBoth.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc1Full0Ref0_recBoth.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+paths2={[compPath 'OnlyFirst0_Sub1Mirc0Full0Ref0_recBoth.mat'],...
+    [compPath 'OnlyFirst0_Sub0Mirc1Full0Ref0_recBoth.mat'],...
+    [compPath 'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat'],...
     };
 
 for i=1:size(paths1,2)
@@ -77,8 +79,8 @@ axis([-1 4 0 300])
 
 methods={'Unrecog', 'Recog' };
 currcolor={[246,75,75]./255,[74,77,255]./255,'k'};
-paths={'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...
+paths={[ compPath 'OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat'],...
+    [compPath 'OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat'],...
     };
 for i=1:size(paths,2)
     figure(2)
@@ -93,7 +95,7 @@ end
 text(-1,3.3,'c', 'FontSize', 30)
 
 
-path='C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\';
+path=compPath;
 paths={
     [path ...
     'OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat']
@@ -193,9 +195,9 @@ set(gca,'XTickLabel',a,'fontsize',20)
 ylabel('filter','Fontsize',40)
 
 paths={...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat',...
-    'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat',...
-%     'C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat',...
+    [compPath 'OnlyFirst0_Sub1Mirc1Full0Ref0_rec No.mat'],...
+    [compPath 'OnlyFirst0_Sub1Mirc1Full0Ref0_rec Yes.mat'],...
+%     [ compPath 'OnlyFirst0_Sub0Mirc0Full1Ref0_recBoth.mat'],...
     };
 type=1;
 s=11;
@@ -449,12 +451,12 @@ for test={instAct, instSpeed}
     errorbar(1:size(test{1},1),mean(test{1}',1),std(test{1}',1),'color',colors{s},'LineWidth',4)
 end
 plot(0:8, 0.5*ones(1,9),'k--')
-ylabel('percent correct','Fontsize',20)
+ylabel('fraction','Fontsize',20)
 xlabel('fixation number','Fontsize',20)
 axis([0 8 0.3 0.85])
 text(-0.5,0.9,'a','Fontsize',30)
 title(titles{1},'Fontsize',20)
-legend('activation','speed','')
+legend('speed','activation','')
 legend boxoff
 box off
 
@@ -474,7 +476,7 @@ xticklabels({'Speed' ,'Activation'})
 %yticks([0.4 0.5 0.6])
 title('SVM - Mean values','Fontsize',20)
 plot(0:3, 0.5*ones(1,4),'k--')
-ylabel('percent correct','Fontsize',20)
+ylabel('fraction correct','Fontsize',20)
 axis([0 3 0.3 0.85])
 box off
 text(-0.5,0.95,'b','Fontsize',30)
@@ -514,7 +516,7 @@ axis([0 3000 0.3 0.85])
 legend boxoff 
 plot(0:375, 0.5*ones(1,376),'k--')
 legend('window=200 ms','window=400 ms','window=800 ms')
-ylabel('percent correct','Fontsize',20)
+ylabel('fraction correct','Fontsize',20)
 xlabel('starting time','Fontsize',20)
 title(titles{1},'Fontsize',20)
 box off
@@ -544,7 +546,7 @@ axis([0 8 0.3 0.85])
 legend boxoff 
 plot(0:375, 0.5*ones(1,376),'k--')
 legend('Mixing within groups','Mixing between groups','Mixing within trials')
-% ylabel('percent correct','Fontsize',20)
+% ylabel('fraction correct','Fontsize',20)
 xlabel('fixation number','Fontsize',20)
 title(titles{1},'Fontsize',20)
 box off
@@ -578,7 +580,7 @@ axis([0 8 0.3 0.85])
 plot(0:8, 0.5*ones(1,9),'k--')
 legend('begining frame','end frame','mean frame')
 legend boxoff
-% ylabel('percent correct','Fontsize',20)
+% ylabel('fraction correct','Fontsize',20)
 xlabel('fixation number','Fontsize',20)
 title(titles{1},'Fontsize',20)
 box off
@@ -596,10 +598,10 @@ subIm=dir('C:\Users\lirongr\Documents\MIRCs_exp\codes_only_repo\ImagesForExp\sub
 
 % sub mircs
 for i=1:length(orderPicsNames)
-    sub_paths{1,i}=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat'];
+    sub_paths{1,i}=[compPath orderPicsNames{1,i} '_OnlyFirst1_Sub1Mirc0Full0Ref0_recBoth.mat'];
 end
 for i=1:length(orderPicsNames)
-    mirc_paths{1,i}=['C:\Users\lirongr\Documents\MIRCs_exp\data\processedData\' orderPicsNames{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat'];
+    mirc_paths{1,i}=[compPath orderPicsNames{1,i} '_OnlyFirst1_Sub0Mirc1Full0Ref0_recBoth.mat'];
 end
 
 for image=1:10
