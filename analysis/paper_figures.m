@@ -456,7 +456,7 @@ xlabel('fixation number','Fontsize',20)
 axis([0 8 0.3 0.85])
 text(-0.5,0.9,'a','Fontsize',30)
 title(titles{1},'Fontsize',20)
-legend('speed','activation','')
+legend('speed','activation','chance level')
 legend boxoff
 box off
 
